@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\\core;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CatalogoItem extends Model
+class Entidad extends Model
 {
     //
 }
