@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Catalogo extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['nombre', 'descripcion', 'orden', 'eliminado'];
+    protected $table = 'core_catalogo';
+
+    protected $primaryKey = 'id';
+    protected $fillable   = ['nombre', 'descripcion', 'orden', 'eliminado'];
 
     public function items()
     {

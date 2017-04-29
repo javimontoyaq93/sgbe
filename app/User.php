@@ -25,9 +25,17 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password', 'remember_token',
-    ];
+    ]
     public function grupos()
     {
-        return $this->belongsToMany('App\Seguridad\GrupoUsuario');
+        return $this->belongsToMany('App\Seguridad\GrupoUsuario', 'role_user', 'user_id', 'grupo_id');
+    }
+    function menus()
+    {
+        return $this->belongsToMany('App\Seguridad\Menu', 'menu_user', 'user_id', 'menu_id');
+    }
+    function permisos()
+    {
+        return $this->belongsToMany('App\Seguridad\Permiso', 'seguridad_users_permiso', 'user_id', 'permiso_id');
     }
 }
