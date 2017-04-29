@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableCoreCatalogo extends Migration
+class CreateTableCoreDirecciones extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,14 @@ class CreateTableCoreCatalogo extends Migration
      */
     public function up()
     {
-        Schema::create('core_catalogos', function (Blueprint $table) {
+        Schema::create('core_direcciones', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nombre')->unique();
-            $table->string('descripcion')->nullable();
-            $table->integer('orden')->nullable();
+            $table->string('referencia', 500);
+            $table->string('calles', 250);
+            $table->string('telefono', 50)->nullable();
+            $table->integer('tipo_direccion')->unsigned()->index();
+            $table->integer('pais')->unsigned()->index();
+            $table->integer('ciudad')->unsigned()->index();
             $table->boolean('eliminado')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -31,6 +34,6 @@ class CreateTableCoreCatalogo extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('core_catalogos');
+        Schema::dropIfExists('core_direcciones');
     }
 }

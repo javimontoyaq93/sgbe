@@ -13,7 +13,7 @@ class CreateTableSeguridadGrupoUsuario extends Migration
      */
     public function up()
     {
-        Schema::create('seguridad_grupo_usuario', function (Blueprint $table) {
+        Schema::create('seguridad_grupos_usuarios', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre', 50)->unique();
             $table->string('descripcion', 500)->nullable();
@@ -21,12 +21,11 @@ class CreateTableSeguridadGrupoUsuario extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-        Schema::create('seguridad_users_grupo_usuario', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned()->index();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        Schema::create('seguridad_usuarios_grupos_usuarios', function (Blueprint $table) {
+            $table->integer('usuario_id')->unsigned()->index();
+            $table->foreign('usuario_id')->references('id')->on('seguridad_usuarios')->onDelete('cascade');
             $table->integer('grupo_id')->unsigned()->index();
-            $table->foreign('grupo_id')->references('id')->on('seguridad_grupo_usuario')->onDelete('cascade');
-
+            $table->foreign('grupo_id')->references('id')->on('seguridad_grupos_usuarios')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -39,8 +38,8 @@ class CreateTableSeguridadGrupoUsuario extends Migration
     public function down()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
-        Schema::drop('seguridad_grupo_usuario');
+        Schema::drop('seguridad_grupos_usuarios');
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
-        Schema::dropIfExists('seguridad_users_grupo_usuario');
+        Schema::dropIfExists('seguridad_usuarios_grupos_usuarios');
     }
 }

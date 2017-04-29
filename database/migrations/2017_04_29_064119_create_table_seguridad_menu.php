@@ -13,7 +13,7 @@ class CreateTableSeguridadMenu extends Migration
      */
     public function up()
     {
-        Schema::create('seguridad_menu', function (Blueprint $table) {
+        Schema::create('seguridad_menus', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre', 50)->unique();
             $table->string('descripcion', 500)->nullable();
@@ -24,19 +24,19 @@ class CreateTableSeguridadMenu extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-        Schema::create('seguridad_grupo_usuario_menu', function (Blueprint $table) {
+        Schema::create('seguridad_grupos_usuarios_menus', function (Blueprint $table) {
             $table->integer('grupo_id')->unsigned()->index();
-            $table->foreign('grupo_id')->references('id')->on('seguridad_grupo_usuario')->onDelete('cascade');
+            $table->foreign('grupo_id')->references('id')->on('seguridad_grupos_usuarios')->onDelete('cascade');
             $table->integer('menu_id')->unsigned()->index();
-            $table->foreign('menu_id')->references('id')->on('seguridad_menu')->onDelete('cascade');
+            $table->foreign('menu_id')->references('id')->on('seguridad_menus')->onDelete('cascade');
 
             $table->timestamps();
         });
-        Schema::create('seguridad_users_menu', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned()->index();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        Schema::create('seguridad_usuarios_menus', function (Blueprint $table) {
+            $table->integer('usuario_id')->unsigned()->index();
+            $table->foreign('usuario_id')->references('id')->on('seguridad_usuarios')->onDelete('cascade');
             $table->integer('menu_id')->unsigned()->index();
-            $table->foreign('menu_id')->references('id')->on('seguridad_menu')->onDelete('cascade');
+            $table->foreign('menu_id')->references('id')->on('seguridad_menus')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -49,9 +49,11 @@ class CreateTableSeguridadMenu extends Migration
     public function down()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
-        Schema::drop('seguridad_menu');
+        Schema::drop('seguridad_menus');
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
-        Schema::dropIfExists('seguridad_grupo_usuario_menu');
-        Schema::dropIfExists('seguridad_users_menu');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        Schema::drop('seguridad_grupos_usuarios_menus');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
+        Schema::dropIfExists('seguridad_usuarios_menus');
     }
 }

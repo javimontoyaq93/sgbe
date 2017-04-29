@@ -13,7 +13,7 @@ class CreateTableCoreCatalogoItem extends Migration
      */
     public function up()
     {
-        Schema::create('core_catalogo_item', function (Blueprint $table) {
+        Schema::create('core_catalogos_items', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre')->unique();
             $table->string('descripcion')->nullable();
@@ -23,8 +23,8 @@ class CreateTableCoreCatalogoItem extends Migration
             $table->integer('padre_id')->unsigned()->index()->nullable();
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('catalogo_id')->references('id')->on('core_catalogo');
-            $table->foreign('padre_id')->references('id')->on('core_catalogo_item');
+            $table->foreign('catalogo_id')->references('id')->on('core_catalogos');
+            $table->foreign('padre_id')->references('id')->on('core_catalogos_items');
         });
     }
 
@@ -35,6 +35,6 @@ class CreateTableCoreCatalogoItem extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('core_catalogo_item');
+        Schema::dropIfExists('core_catalogos_items');
     }
 }

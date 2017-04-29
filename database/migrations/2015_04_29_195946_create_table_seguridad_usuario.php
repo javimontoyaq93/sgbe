@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableCoreCatalogo extends Migration
+class CreateTableSeguridadUsuario extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class CreateTableCoreCatalogo extends Migration
      */
     public function up()
     {
-        Schema::create('core_catalogos', function (Blueprint $table) {
+        Schema::create('seguridad_usuarios', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nombre')->unique();
-            $table->string('descripcion')->nullable();
-            $table->integer('orden')->nullable();
-            $table->boolean('eliminado')->nullable();
+            $table->boolean('super_user');
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('id')->references('id')->on('users');
         });
     }
 
@@ -31,6 +29,6 @@ class CreateTableCoreCatalogo extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('core_catalogos');
+        Schema::dropIfExists('seguridad_usuarios');
     }
 }

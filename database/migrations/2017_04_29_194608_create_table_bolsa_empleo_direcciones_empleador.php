@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableCoreCatalogo extends Migration
+class CreateTableBolsaEmpleoDireccionesEmpleador extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateTableCoreCatalogo extends Migration
      */
     public function up()
     {
-        Schema::create('core_catalogos', function (Blueprint $table) {
+        Schema::create('bolsa_empleo_direcciones_empleadores', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nombre')->unique();
-            $table->string('descripcion')->nullable();
-            $table->integer('orden')->nullable();
-            $table->boolean('eliminado')->nullable();
+            $table->integer('empleador_id')->unsigned()->index();
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('id')->references('id')->on('core_direcciones');
+            $table->foreign('empleador_id')->references('id')->on('bolsa_empleo_empleadores');
         });
     }
 
@@ -31,6 +30,6 @@ class CreateTableCoreCatalogo extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('core_catalogos');
+        Schema::dropIfExists('bolsa_empleo_direcciones_empleadores');
     }
 }

@@ -13,24 +13,27 @@ class CreateTableSeguridadPermiso extends Migration
      */
     public function up()
     {
-        Schema::create('seguridad_permiso', function (Blueprint $table) {
+        Schema::create('seguridad_permisos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre', 250);
             $table->string('codigo', 50)->unique();
             $table->boolean('eliminado')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
         });
-        Schema::create('seguridad_grupo_usuario_permiso', function (Blueprint $table) {
+        Schema::create('seguridad_grupo_usuarios_permisos', function (Blueprint $table) {
             $table->integer('grupo_id')->unsigned()->index();
-            $table->foreign('grupo_id')->references('id')->on('seguridad_grupo_usuario')->onDelete('cascade');
+            $table->foreign('grupo_id')->references('id')->on('seguridad_grupos_usuarios')->onDelete('cascade');
             $table->integer('permiso_id')->unsigned()->index();
-            $table->foreign('permiso_id')->references('id')->on('seguridad_permiso')->onDelete('cascade');
+            $table->foreign('permiso_id')->references('id')->on('seguridad_permisos')->onDelete('cascade');
             $table->timestamps();
         });
-        Schema::create('seguridad_users_permiso', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned()->index();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        Schema::create('seguridad_usuarios_permisos', function (Blueprint $table) {
+            $table->integer('usuario_id')->unsigned()->index();
+            $table->foreign('usuario_id')->references('id')->on('seguridad_usuarios')->onDelete('cascade');
             $table->integer('permiso_id')->unsigned()->index();
-            $table->foreign('permiso_id')->references('id')->on('seguridad_permiso')->onDelete('cascade');
+            $table->foreign('permiso_id')->references('id')->on('seguridad_permisos')->onDelete('cascade');
 
             $table->timestamps();
         });
@@ -44,10 +47,9 @@ class CreateTableSeguridadPermiso extends Migration
     public function down()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
-        Schema::drop('seguridad_permiso');
+        Schema::drop('seguridad_permisos');
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
-        //Schema::dropIfExists('seguridad_permiso');
-        Schema::dropIfExists('seguridad_users_permiso');
-        Schema::dropIfExists('seguridad_grupo_usuario_permiso');
+        Schema::dropIfExists('seguridad_usuarios_permisos');
+        Schema::dropIfExists('seguridad_grupo_usuarios_permisos');
     }
 }
