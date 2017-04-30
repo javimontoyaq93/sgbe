@@ -24,6 +24,7 @@ class CreateTableBolsaEmpleoPostulante extends Migration
             $table->integer('tipo_identificacion')->unsigned()->index();
             $table->integer('estado_civil')->unsigned()->index();
             $table->integer('genero')->unsigned()->index();
+            $table->timestamps();
             $table->softDeletes();
             $table->foreign('tipo_identificacion')->references('id')->on('core_catalogos_items');
             $table->foreign('estado_civil')->references('id')->on('core_catalogos_items');
