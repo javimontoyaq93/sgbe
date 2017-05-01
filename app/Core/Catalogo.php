@@ -1,6 +1,6 @@
 <?php
 
-namespace App\\Core;
+namespace App\Core;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -19,6 +19,6 @@ class Catalogo extends Model
      */
     public function items()
     {
-        return $this->hasMany('App\core\CatalogoItem', 'catalogo_id', 'id');
+        return $this->hasMany('App\Core\CatalogoItem', 'catalogo_id', 'id');
     }
 }

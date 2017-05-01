@@ -43,4 +43,5 @@ class Usuario extends User
     {
         return $this->belongsToMany('App\Seguridad\Permiso', 'seguridad_usuarios_permisos', 'usuario_id', 'permiso_id');
     }
+
 }
