@@ -1,16 +1,16 @@
 @extends('layouts.app')
 @section('content')
-<div class="container">
+<div class="container" style="width: 100%">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Dashboard
-                </div>
-                <div class="panel-body">
-                    {{ $usuario->name}}
-                </div>
-            </div>
+        <div class="col-lg-2">
+            @if (Auth::user())
+            @include('seguridad.menu')
+            @endif
+        </div>
+        <div class="col-lg-8">
+            @yield('contenido')
+        </div>
+        <div class="col-lg-2">
         </div>
     </div>
 </div>

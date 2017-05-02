@@ -21,4 +21,12 @@ class Catalogo extends Model
     {
         return $this->hasMany('App\Core\CatalogoItem', 'catalogo_id', 'id');
     }
+    public function prueba()
+    {
+        return [
+            'ACTIVIDAD_ECONOMICA' => "",
+            'HOME'                => "Home",
+            'WORK'                => "Work",
+        ];
+    }
 }

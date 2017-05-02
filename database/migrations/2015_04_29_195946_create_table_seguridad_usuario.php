@@ -16,9 +16,10 @@ class CreateTableSeguridadUsuario extends Migration
         Schema::create('seguridad_usuarios', function (Blueprint $table) {
             $table->increments('id');
             $table->boolean('super_user');
+            $table->integer('user_id')->unsigned()->index();
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

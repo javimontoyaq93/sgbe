@@ -10,7 +10,7 @@ class Empleador extends Model
     use SoftDeletes;
     protected $table      = 'bolsa_empleo_empleadores';
     protected $primaryKey = 'id';
-    protected $fillable   = ['razon_social', 'email', 'numero_identicacion', 'actividad_economica', 'tipo_identificacion', 'tipo_personeria', 'celular', 'eliminado'];
+    protected $fillable   = ['razon_social', 'email', 'numero_identificacion', 'actividad_economica', 'tipo_identificacion', 'tipo_personeria', 'celular', 'eliminado'];
 
     /**
      *
@@ -33,3 +33,12 @@ class Empleador extends Model
     {
         return $this->hasMany('App\BolsaEmpleo\DireccionEmpleador', 'empleador_id', 'id');
     }
+    public static $rules = array(
+        'actividad_economica'   => 'required',
+        'tipo_identificacion'   => 'required',
+        'tipo_personeria'       => 'required',
+        'email'                 => 'required|email',
+        'razon_social'          => 'required|min:4',
+        'numero_identificacion' => 'required',
+    );
+}

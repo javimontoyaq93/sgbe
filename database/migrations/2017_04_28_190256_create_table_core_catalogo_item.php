@@ -15,7 +15,7 @@ class CreateTableCoreCatalogoItem extends Migration
     {
         Schema::create('core_catalogos_items', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nombre')->unique();
+            $table->string('nombre');
             $table->string('descripcion')->nullable();
             $table->integer('orden')->nullable();
             $table->boolean('eliminado')->nullable();

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Core;
 
+use App\Core\Catalogo;
+use App\Core\CatalogoItem;
 use App\Http\Controllers\Controller;
 use App\Seguridad\GrupoUsuario;
 use App\Seguridad\Menu;
@@ -22,7 +24,7 @@ class UtilController extends Controller
 
     public function crearGruposUsuario()
     {
-        $handle = fopen('/home/jorgemalla/Documentos/SGBE/catalogos.csv', "r");
+        $handle = fopen('/home/jorgemalla/Documentos/SGBE/grupos.csv', "r");
         $header = true;
 
         while ($csvLine = fgetcsv($handle, 1000, ";")) {
@@ -50,20 +52,19 @@ class UtilController extends Controller
 
     public function crearSuperUsuario()
     {
-        $user    = User::where('name', 'admin')->first();
-        $usuario = null;
-        $grupo   = GrupoUsuario::where('nombre', 'Administrador')->first();
-        if ($user) {
-            $usuario = Usuario::where('id', $user->id)->first();
-        }
-
-        if (!$usuario) {
-            Usuario::create(['name' => 'admin', 'email' => 'administrador@gmail.com', 'password' => bcrypt('admin'), 'super_user' => true]);
-        } else {
+        $user  = User::where('name', 'admin')->first();
+        $grupo = GrupoUsuario::where('nombre', 'Administrador')->first();
+        if (!$user) {
+            $user           = new User();
+            $user->name     = 'admin';
             $user->email    = 'administrador@gmail.com';
             $user->password = bcrypt('admin');
             $user->save();
+            Usuario::create(
+                ['user_id' => $user->id, 'super_user' => true]);
+            $user->usuario->save();
         }
+
     }
 
     /**
@@ -91,6 +92,48 @@ class UtilController extends Controller
                     }
                     Menu::create(['nombre' => $csvLine[0], 'descripcion' => $csvLine[1], 'formulario' => $csvLine[2], 'padre_id' => $padre_id, 'orden' => $csvLine[4]]);
                 }
+            }
+        }
+
+    }
+    public function crearCatalogos()
+    {
+        $handle = fopen('/home/jorgemalla/Documentos/SGBE/catalogos.csv', "r");
+        $header = true;
+
+        while ($csvLine = fgetcsv($handle, 1000, ";")) {
+
+            if ($header) {
+                $header = false;
+            } else {
+                $catalogo = Catalogo::where('nombre', $csvLine[0])->first();
+                if (!$catalogo) {
+
+                    Catalogo::create(['nombre' => $csvLine[0], 'descripcion' => $csvLine[1]]);
+                }
+            }
+        }
+    }
+    public function crearCatalogosItems()
+    {
+        $handle = fopen('/home/jorgemalla/Documentos/SGBE/catalogos_items.csv', "r");
+        $header = true;
+
+        while ($csvLine = fgetcsv($handle, 1000, ";")) {
+            echo $csvLine[2];
+            if ($header) {
+                $header = false;
+            } else {
+
+                $catalogo = Catalogo::where('nombre', $csvLine[2])->first();
+                if ($catalogo) {
+                    $catalogoItem = CatalogoItem::where(['nombre' => $csvLine[0], 'catalogo_id' => $catalogo->id])->first();
+                    if (!$catalogoItem) {
+                        CatalogoItem::create(['nombre' => $csvLine[0], 'descripcion' => $csvLine[1], 'catalogo_id' => $catalogo->id]);
+                    }
+
+                }
+
             }
         }
 

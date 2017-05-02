@@ -21,7 +21,7 @@ class CreateTableBolsaEmpleoEmpleador extends Migration
             $table->integer('actividad_economica')->unsigned()->index();
             $table->integer('tipo_identificacion')->unsigned()->index();
             $table->integer('tipo_personeria')->unsigned()->index();
-            $table->boolean('eliminado')->nullable();
+            $table->boolean('eliminado')->nullable()->default('0');
             $table->string('celular', 25)->nullable();
             $table->timestamps();
             $table->softDeletes();
