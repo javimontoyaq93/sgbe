@@ -7,6 +7,8 @@ use App\Core\CatalogoItem;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Redirect;
+use Session;
 
 class EmpleadorController extends Controller
 {
@@ -33,8 +35,9 @@ class EmpleadorController extends Controller
         $actividades_economicas = CatalogoItem::where('catalogo_id', 22)->get();
         $tipos_documentos       = CatalogoItem::where('catalogo_id', 10)->get();
         $tipos_personeria       = CatalogoItem::where('catalogo_id', 18)->get();
+        $direcciones            = array();
         $empleador              = new Empleador();
-        return view('bolsaEmpleo.empleador')->with('actividades_economicas', $actividades_economicas)->with('tipos_personeria', $tipos_personeria)->with('tipos_documentos', $tipos_documentos)->with('empleador', $empleador);
+        return view('bolsaEmpleo.empleador')->with('actividades_economicas', $actividades_economicas)->with('tipos_personeria', $tipos_personeria)->with('tipos_documentos', $tipos_documentos)->with('empleador', $empleador)->with('direcciones', $direcciones);
     }
 
     /**
@@ -45,14 +48,14 @@ class EmpleadorController extends Controller
 
     public function guardar(Request $request)
     {
-
+        $id        = null;
         $datos     = ['email' => $request->email, 'razon_social' => $request->razon_social, 'celular' => $request->celular, 'numero_identificacion' => $request->numero_identificacion, 'tipo_personeria' => $request->tipo_personeria, 'tipo_identificacion' => $request->tipo_identificacion, 'actividad_economica' => $request->actividad_economica];
         $validator = Validator::make($datos, Empleador::$rules);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->errors());
         }
         if (!$request->id) {
-            Empleador::create($datos);
+            $id = Empleador::create($datos)->id;
         } else {
             $empleador                        = Empleador::find($request->id);
             $empleador->razon_social          = $request->razon_social;
@@ -63,8 +66,10 @@ class EmpleadorController extends Controller
             $empleador->actividad_economica   = $request->actividad_economica;
             $empleador->celular               = $request->celular;
             $empleador->save();
+            $id = $empleador->id;
         }
-        return redirect('/empleadores');
+        Session::flash('flash_message', 'Empleador grabado exitosamente');
+        return redirect('/empleador/' . $id);
     }
 
     /**
@@ -78,13 +83,15 @@ class EmpleadorController extends Controller
         $tipos_documentos       = CatalogoItem::where('catalogo_id', 10)->get();
         $tipos_personeria       = CatalogoItem::where('catalogo_id', 18)->get();
         $empleador              = Empleador::find($id);
-        return view('bolsaEmpleo.empleador')->with('empleador', $empleador)->with('actividades_economicas', $actividades_economicas)->with('tipos_personeria', $tipos_personeria)->with('tipos_documentos', $tipos_documentos);
+        $direcciones            = $empleador->direcciones;
+        return view('bolsaEmpleo.empleador')->with('empleador', $empleador)->with('actividades_economicas', $actividades_economicas)->with('tipos_personeria', $tipos_personeria)->with('tipos_documentos', $tipos_documentos)->with('direcciones', $direcciones);
     }
-    public function borrar($id)
+    public function borrar(Request $request)
     {
-        $empleador            = Empleador::find($id);
-        $empleador->eliminado = false;
+        $empleador            = Empleador::find($request->id);
+        $empleador->eliminado = true;
         $empleador->save();
-        return redirect('/empleadores');
+        return redirect()->back();
     }
+
 }

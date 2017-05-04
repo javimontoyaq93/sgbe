@@ -31,12 +31,21 @@
                         {{ $empleador->email }}
                     </td>
                     <td>
-                        <a class="btn btn-primary btn-lg " href="{{ route('show-empleador',$empleador->id) }}" type="button">
-                            Editar
-                        </a>
-                        <button class="btn btn-default btn-lg" type="button">
-                            Eliminar
-                        </button>
+                        <div class="form-group">
+                            <div class="col-sm-6 ">
+                                <a class="btn btn-primary" href="{{ route('show-empleador',$empleador->id) }}" type="button">
+                                    Editar
+                                </a>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <form action="{{ route('borrar-empleador') }}" method="POST" onsubmit="return confirm('Realmente desea eliminar el empleador seleccionado?');">
+                                    {{ csrf_field() }}
+                                    <input name="id" type="hidden" value="{{ $empleador->id }}">
+                                        <input class="btn btn-primary" name="completeYes" type="submit" value="Eliminar"/>
+                                    </input>
+                                </form>
+                            </div>
+                        </div>
                     </td>
                 </tr>
                 @endforeach

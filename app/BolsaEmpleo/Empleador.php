@@ -2,6 +2,7 @@
 
 namespace App\BolsaEmpleo;
 
+use App\BolsaEmpleo\DireccionEmpleador;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -31,7 +32,7 @@ class Empleador extends Model
 
     public function direcciones()
     {
-        return $this->hasMany('App\BolsaEmpleo\DireccionEmpleador', 'empleador_id', 'id');
+        return $this->hasMany(DireccionEmpleador::class, 'empleador_id', 'id');
     }
     public static $rules = array(
         'actividad_economica'   => 'required',
@@ -39,6 +40,6 @@ class Empleador extends Model
         'tipo_personeria'       => 'required',
         'email'                 => 'required|email',
         'razon_social'          => 'required|min:4',
-        'numero_identificacion' => 'required',
+        'numero_identificacion' => 'required|min:10',
     );
 }
