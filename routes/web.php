@@ -23,3 +23,4 @@ Route::post('confirmar-borrado-empleador', ['uses' => 'BolsaEmpleo\EmpleadorCont
 Route::get('crear-direccion-empleador\{empleador_id}', ['uses' => 'BolsaEmpleo\DireccionEmpleadorController@crear', 'as' => 'crear-direccion-empleador']);
 Route::post('guardar-direccion', ['uses' => 'BolsaEmpleo\DireccionEmpleadorController@guardar', 'as' => 'guardar-direccion-empleador']);
 Route::get('direccion-empleador/{id}', ['uses' => 'BolsaEmpleo\DireccionEmpleadorController@show', 'as' => 'show-direccion-empleador']);
+Route::get('provincias/{pais_id}', ['uses' => 'Core\DireccionController@provincias', 'as' => 'provincias']);

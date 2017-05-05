@@ -3,6 +3,7 @@
 namespace App\BolsaEmpleo;
 
 use App\BolsaEmpleo\DireccionEmpleador;
+use App\Core\CatalogoItem;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -33,6 +34,14 @@ class Empleador extends Model
     public function direcciones()
     {
         return $this->hasMany(DireccionEmpleador::class, 'empleador_id', 'id');
+    }
+    public function tipoIdentificacion()
+    {
+        return $this->belongsTo(CatalogoItem::class, 'tipo_identificacion');
+    }
+    public function actividadEconomica()
+    {
+        return $this->belongsTo(CatalogoItem::class, 'actividad_economica');
     }
     public static $rules = array(
         'actividad_economica'   => 'required',

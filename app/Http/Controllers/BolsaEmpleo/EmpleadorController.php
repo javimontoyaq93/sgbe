@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\BolsaEmpleo;
 
+use App\BolsaEmpleo\DireccionEmpleador;
 use App\BolsaEmpleo\Empleador;
 use App\Core\CatalogoItem;
 use App\Http\Controllers\Controller;
+use App\Util\DataType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Redirect;
@@ -20,7 +22,7 @@ class EmpleadorController extends Controller
 
     public function index()
     {
-        $empleadores = Empleador::where('eliminado', false)->get();
+        $empleadores = Empleador::where('eliminado', false)->paginate(DataType::PAGINATE);
         return view('bolsaEmpleo.empleadores')->with('empleadores', $empleadores);
     }
 
@@ -32,6 +34,7 @@ class EmpleadorController extends Controller
 
     public function crear()
     {
+
         $actividades_economicas = CatalogoItem::where('catalogo_id', 22)->get();
         $tipos_documentos       = CatalogoItem::where('catalogo_id', 10)->get();
         $tipos_personeria       = CatalogoItem::where('catalogo_id', 18)->get();
@@ -83,9 +86,10 @@ class EmpleadorController extends Controller
         $tipos_documentos       = CatalogoItem::where('catalogo_id', 10)->get();
         $tipos_personeria       = CatalogoItem::where('catalogo_id', 18)->get();
         $empleador              = Empleador::find($id);
-        $direcciones            = $empleador->direcciones;
+        $direcciones            = DireccionEmpleador::where('empleador_id', $empleador->id)->paginate(1);
         return view('bolsaEmpleo.empleador')->with('empleador', $empleador)->with('actividades_economicas', $actividades_economicas)->with('tipos_personeria', $tipos_personeria)->with('tipos_documentos', $tipos_documentos)->with('direcciones', $direcciones);
     }
+
     public function borrar(Request $request)
     {
         $empleador            = Empleador::find($request->id);

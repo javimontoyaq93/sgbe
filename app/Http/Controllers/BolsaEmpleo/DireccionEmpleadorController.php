@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\BolsaEmpleo;
 
 use App\BolsaEmpleo\DireccionEmpleador;
+use App\Core\Catalogo;
 use App\Core\CatalogoItem;
 use App\Core\Direccion;
 use App\Http\Controllers\Controller;
+use App\Util\DataType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Redirect;
@@ -16,9 +18,15 @@ class DireccionEmpleadorController extends Controller
     public function crear($empleador_id)
     {
 
-        $direccion         = new DireccionEmpleador();
-        $tipos_direcciones = CatalogoItem::where('catalogo_id', 9)->get();
-        return view('bolsaEmpleo.direccionEmpleador')->with('empleador_id', $empleador_id)->with('direccion', $direccion)->with('tipos_direcciones', $tipos_direcciones);
+        $direccion               = new DireccionEmpleador();
+        $catalogo_tipo_documento = Catalogo::where('nombre', DataType::TIPO_DIRECCION)->first();
+        $catalogo_paises         = Catalogo::where('nombre', DataType::PAIS)->first();
+        if (!$catalogo_tipo_documento && $catalogo_paises) {
+            return redirect('/empleador/' . $empleador_id);
+        }
+        $tipos_direcciones = CatalogoItem::where('catalogo_id', $catalogo_tipo_documento->id)->get();
+        $paises            = CatalogoItem::where('catalogo_id', $catalogo_paises->id)->get();
+        return view('bolsaEmpleo.direccionEmpleador')->with('empleador_id', $empleador_id)->with('direccion', $direccion)->with('tipos_direcciones', $tipos_direcciones)->with('paises', $paises);
     }
     public function guardar(Request $request)
     {
@@ -35,11 +43,11 @@ class DireccionEmpleadorController extends Controller
             $direccion_empleador->id;
             $direccion_empleador->save();
         } else {
-            $direccion                 = DireccionEmpleador::find($request->id);
-            $direccion->calles         = $request->calles;
-            $direccion->referencia     = $request->referencia;
-            $direccion->tipo_direccion = $request->tipo_direccion;
-            $direccion->save();
+            $direccion                            = DireccionEmpleador::find($request->id);
+            $direccion->direccion->calles         = $request->calles;
+            $direccion->direccion->referencia     = $request->referencia;
+            $direccion->direccion->tipo_direccion = $request->tipo_direccion;
+            $direccion->direccion->save();
             $id = $direccion->id;
         }
         Session::flash('flash_message', 'Direccion grabada exitosamente');
@@ -47,10 +55,15 @@ class DireccionEmpleadorController extends Controller
     }
     public function show($id)
     {
-        $actividades_economicas = CatalogoItem::where('catalogo_id', 22)->get();
-        $tipos_documentos       = CatalogoItem::where('catalogo_id', 10)->get();
-        $tipos_personeria       = CatalogoItem::where('catalogo_id', 18)->get();
-        $empleador              = Empleador::find($id);
-        return view('bolsaEmpleo.empleador')->with('empleador', $empleador)->with('actividades_economicas', $actividades_economicas)->with('tipos_personeria', $tipos_personeria)->with('tipos_documentos', $tipos_documentos);
+        $catalogo_tipo_documento = Catalogo::where('nombre', DataType::TIPO_DIRECCION)->first();
+        $catalogo_paises         = Catalogo::where('nombre', DataType::PAIS)->first();
+        if (!$catalogo_tipo_documento && $catalogo_paises) {
+            return redirect('/empleador/' . $empleador_id);
+        }
+        $tipos_direcciones = CatalogoItem::where('catalogo_id', $catalogo_tipo_documento->id)->get();
+        $paises            = CatalogoItem::where('catalogo_id', $catalogo_paises->id)->get();
+        $direccion         = DireccionEmpleador::find($id);
+
+        return view('bolsaEmpleo.direccionEmpleador')->with('empleador_id', $direccion->empleador_id)->with('direccion', $direccion)->with('tipos_direcciones', $tipos_direcciones)->with('paises', $paises);
     }
 }
