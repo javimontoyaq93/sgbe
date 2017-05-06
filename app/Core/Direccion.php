@@ -12,15 +12,30 @@ class Direccion extends Model
     protected $table = 'core_direcciones';
 
     protected $primaryKey = 'id';
-    protected $fillable   = ['referencia', 'calles', 'telefono', 'tipo_direccion', 'pais', 'ciudad', 'eliminado'];
+    protected $fillable   = ['referencia', 'calles', 'telefono', 'tipo_direccion', 'pais', 'provincia', 'ciudad', 'eliminado'];
 
     public function tipoDireccion()
     {
         return $this->belongsTo(CatalogoItem::class, 'tipo_direccion');
     }
+    public function getPais()
+    {
+        return $this->belongsTo(CatalogoItem::class, 'pais');
+    }
+    public function getProvincia()
+    {
+        return $this->belongsTo(CatalogoItem::class, 'provincia');
+    }
+    public function getCiudad()
+    {
+        return $this->belongsTo(CatalogoItem::class, 'ciudad');
+    }
     public static $rules = array(
         'calles'         => 'required|min:10',
         'referencia'     => 'required|min:10',
         'tipo_direccion' => 'required',
+        'pais'           => 'required',
+        'provincia'      => 'required',
+        'ciudad'         => 'required',
     );
 }

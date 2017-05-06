@@ -118,7 +118,6 @@ class UtilController extends Controller
         $header = true;
 
         while ($csvLine = fgetcsv($handle, 1000, ";")) {
-            echo $csvLine[2];
             if ($header) {
                 $header = false;
             } else {
@@ -127,12 +126,17 @@ class UtilController extends Controller
                 if ($catalogo) {
                     $catalogoItem = CatalogoItem::where(['nombre' => $csvLine[0], 'catalogo_id' => $catalogo->id])->first();
                     $padre        = null;
+                    $id_padre     = null;
                     if (is_numeric($csvLine[3])) {
-                        $padre = $csvLine[3];
+                        $padre = CatalogoItem::where('nombre', $csvLine[3])->first();
+                        if ($padre) {
+                            $id_padre = $padre->id;
+                        }
                     }
+                    echo $padre, $id_padre;
                     if (!$catalogoItem) {
 
-                        CatalogoItem::create(['nombre' => $csvLine[0], 'descripcion' => $csvLine[1], 'catalogo_id' => $catalogo->id, 'padre_id' => $padre]);
+                        CatalogoItem::create(['nombre' => $csvLine[0], 'descripcion' => $csvLine[1], 'catalogo_id' => $catalogo->id, 'padre_id' => $id_padre]);
                     } else {
                         $catalogoItem->padre_id    = $padre;
                         $catalogoItem->catalogo_id = $catalogo->id;

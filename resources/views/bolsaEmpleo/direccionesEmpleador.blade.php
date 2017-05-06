@@ -7,6 +7,15 @@
                     <thead>
                         <tr>
                             <th>
+                                Pais
+                            </th>
+                            <th>
+                                Provincia
+                            </th>
+                            <th>
+                                Ciudad
+                            </th>
+                            <th>
                                 Dirección
                             </th>
                             <th>
@@ -26,6 +35,21 @@
                         @foreach($direcciones as $direccion)
                         <tr>
                             <td>
+                                @if($direccion->direccion->pais)
+                                {{ $direccion->direccion->getPais->descripcion }}
+                                @endif
+                            </td>
+                            <td>
+                                @if($direccion->direccion->provincia)
+                                {{ $direccion->direccion->getProvincia->descripcion }}
+                                @endif
+                            </td>
+                            <td>
+                                @if($direccion->direccion->ciudad)
+                                {{ $direccion->direccion->getCiudad->descripcion }}
+                                @endif
+                            </td>
+                            <td>
                                 {{ $direccion->direccion->calles }}
                             </td>
                             <td>
@@ -38,6 +62,13 @@
                                 {{ $direccion->direccion->tipoDireccion->descripcion }}
                             </td>
                             <td>
+                                <div class="form-group">
+                                    <div class="col-sm-6 ">
+                                        <a class="btn btn-primary" href="{{ route('show-direccion-empleador',$direccion->id) }}" type="button">
+                                            Editar
+                                        </a>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                         @endforeach

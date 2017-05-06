@@ -19,8 +19,8 @@ class CreateTableCoreDirecciones extends Migration
             $table->string('calles', 250);
             $table->string('telefono', 50)->nullable();
             $table->integer('tipo_direccion')->unsigned()->index();
-            $table->integer('pais')->unsigned()->index();
-            $table->integer('ciudad')->unsigned()->index();
+            $table->integer('pais')->unsigned()->index()->nullable();
+            $table->integer('ciudad')->unsigned()->index()->nullable();
             $table->boolean('eliminado')->nullable();
             $table->timestamps();
             $table->softDeletes();

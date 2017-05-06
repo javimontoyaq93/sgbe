@@ -25,13 +25,15 @@ class DireccionEmpleadorController extends Controller
             return redirect('/empleador/' . $empleador_id);
         }
         $tipos_direcciones = CatalogoItem::where('catalogo_id', $catalogo_tipo_documento->id)->get();
-        $paises            = CatalogoItem::where('catalogo_id', $catalogo_paises->id)->get();
-        return view('bolsaEmpleo.direccionEmpleador')->with('empleador_id', $empleador_id)->with('direccion', $direccion)->with('tipos_direcciones', $tipos_direcciones)->with('paises', $paises);
+        $paises            = CatalogoItem::where('catalogo_id', $catalogo_paises->id)->orderBy('descripcion', 'asc')->get();
+        $provincias        = array();
+        $ciudades          = array();
+        return view('bolsaEmpleo.direccionEmpleador')->with('empleador_id', $empleador_id)->with('direccion', $direccion)->with('tipos_direcciones', $tipos_direcciones)->with('paises', $paises)->with('provincias', $provincias)->with('ciudades', $ciudades);
     }
     public function guardar(Request $request)
     {
         $id        = null;
-        $datos     = ['calles' => $request->calles, 'referencia' => $request->referencia, 'tipo_direccion' => $request->tipo_direccion];
+        $datos     = ['calles' => $request->calles, 'referencia' => $request->referencia, 'tipo_direccion' => $request->tipo_direccion, 'pais' => $request->pais, 'provincia' => $request->provincia, 'ciudad' => $request->ciudad, 'telefono' => $request->telefono];
         $validator = Validator::make($datos, Direccion::$rules);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->errors());
@@ -47,6 +49,10 @@ class DireccionEmpleadorController extends Controller
             $direccion->direccion->calles         = $request->calles;
             $direccion->direccion->referencia     = $request->referencia;
             $direccion->direccion->tipo_direccion = $request->tipo_direccion;
+            $direccion->direccion->pais           = $request->pais;
+            $direccion->direccion->provincia      = $request->provincia;
+            $direccion->direccion->ciudad         = $request->ciudad;
+            $direccion->direccion->telefono       = $request->telefono;
             $direccion->direccion->save();
             $id = $direccion->id;
         }
@@ -61,9 +67,16 @@ class DireccionEmpleadorController extends Controller
             return redirect('/empleador/' . $empleador_id);
         }
         $tipos_direcciones = CatalogoItem::where('catalogo_id', $catalogo_tipo_documento->id)->get();
-        $paises            = CatalogoItem::where('catalogo_id', $catalogo_paises->id)->get();
+        $paises            = CatalogoItem::where('catalogo_id', $catalogo_paises->id)->orderBy('descripcion', 'asc')->get();
+        $provincias        = array();
+        $ciudades          = array();
         $direccion         = DireccionEmpleador::find($id);
-
-        return view('bolsaEmpleo.direccionEmpleador')->with('empleador_id', $direccion->empleador_id)->with('direccion', $direccion)->with('tipos_direcciones', $tipos_direcciones)->with('paises', $paises);
+        if ($direccion->direccion->pais) {
+            $provincias = CatalogoItem::where('padre_id', $direccion->direccion->pais)->orderBy('descripcion', 'asc')->get();
+        }
+        if ($direccion->direccion->provincia) {
+            $ciudades = CatalogoItem::where('padre_id', $direccion->direccion->provincia)->orderBy('descripcion', 'asc')->get();
+        }
+        return view('bolsaEmpleo.direccionEmpleador')->with('empleador_id', $direccion->empleador_id)->with('direccion', $direccion)->with('tipos_direcciones', $tipos_direcciones)->with('paises', $paises)->with('provincias', $provincias)->with('ciudades', $ciudades);
     }
 }
