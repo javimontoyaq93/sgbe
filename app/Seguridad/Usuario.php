@@ -9,7 +9,7 @@ class Usuario extends User
 {
     use SoftDeletes;
     protected $table    = 'seguridad_usuarios';
-    protected $fillable = ['super_user', 'user_id'];
+    protected $fillable = ['super_user'];
 
     /**
      *
@@ -45,6 +45,6 @@ class Usuario extends User
     }
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User', 'id');
     }
 }

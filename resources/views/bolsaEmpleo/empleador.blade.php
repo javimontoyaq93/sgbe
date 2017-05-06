@@ -11,6 +11,15 @@
             </em>
         </div>
         @endif
+         @if(Session::has('error_message'))
+        <div class="alert alert-warning">
+            <span class="glyphicon glyphicon-remove">
+            </span>
+            <em>
+                {!! session('error_message') !!}
+            </em>
+        </div>
+        @endif
         <ul class="nav nav-tabs">
             <li class="active">
                 <a data-toggle="tab" href="#datos_basicos">

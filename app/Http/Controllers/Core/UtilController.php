@@ -61,7 +61,7 @@ class UtilController extends Controller
             $user->password = bcrypt('admin');
             $user->save();
             Usuario::create(
-                ['user_id' => $user->id, 'super_user' => true]);
+                ['id' => $user->id, 'super_user' => true]);
             $user->usuario->save();
         }
 

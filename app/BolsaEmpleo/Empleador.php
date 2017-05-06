@@ -4,6 +4,7 @@ namespace App\BolsaEmpleo;
 
 use App\BolsaEmpleo\DireccionEmpleador;
 use App\Core\CatalogoItem;
+use App\Seguridad\UsuarioEmpleador;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -42,6 +43,10 @@ class Empleador extends Model
     public function actividadEconomica()
     {
         return $this->belongsTo(CatalogoItem::class, 'actividad_economica');
+    }
+    public function usuarios()
+    {
+        return $this->hasMany(UsuarioEmpleador::class, 'empleador_id', 'id');
     }
     public static $rules = array(
         'actividad_economica'   => 'required',
