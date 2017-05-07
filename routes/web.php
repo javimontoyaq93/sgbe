@@ -26,3 +26,8 @@ Route::get('direccion-empleador/{id}', ['uses' => 'BolsaEmpleo\DireccionEmpleado
 Route::get('provincias/{pais_id}', ['uses' => 'Core\DireccionController@provincias', 'middleware' => 'auth', 'as' => 'provincias']);
 Route::get('ciudades/{pais_id}', ['uses' => 'Core\DireccionController@ciudades', 'middleware' => 'auth', 'as' => 'ciudades']);
 Route::get('sendbasicemail', 'Core\MailController@basic_email');
+Route::get('puestos', ['uses' => 'BolsaEmpleo\PuestoController@index', 'middleware' => 'auth', 'as' => 'puestos']);
+Route::get('puesto', ['uses' => 'BolsaEmpleo\PuestoController@crear', 'middleware' => 'auth', 'as' => 'crear-puesto']);
+Route::get('puesto/{id}', ['uses' => 'BolsaEmpleo\PuestoController@show', 'middleware' => 'auth', 'as' => 'show-puesto']);
+Route::post('guardar-puesto', ['uses' => 'BolsaEmpleo\PuestoController@guardar', 'middleware' => 'auth', 'as' => 'guardar-puesto']);
+Route::post('borrar-puesto', array('uses' => 'BolsaEmpleo\PuestoController@borrar', 'middleware' => 'auth', 'as' => 'borrar-puesto'));

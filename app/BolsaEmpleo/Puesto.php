@@ -1,7 +1,8 @@
 <?php
 
-namespace App\\BolsaEmpleo;
+namespace App\BolsaEmpleo;
 
+use App\Core\CatalogoItem;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -22,4 +23,15 @@ class Puesto extends Model
     {
         return $this->hasMany('App\BolsaEmpleo\Vacante', 'puesto_id', 'id');
     }
+    public function nivelInstruccion()
+    {
+        return $this->belongsTo(CatalogoItem::class, 'nivel_instruccion');
+    }
+    public static $rules = array(
+        'denominacion'       => 'required|min:10',
+        'nivel_instruccion'  => 'required',
+        'remuneracion'       => 'required',
+        'area_conocimiento'  => 'required|min:10',
+        'tiempo_experiencia' => 'required',
+    );
 }

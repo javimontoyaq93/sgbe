@@ -5,14 +5,16 @@
         </a>
     </li>
     <li>
+        @if (Session::get(Auth::user()->name)->super_user)
         <a href="{{ route('empleadores') }}">
             Administrarar Empleadores
         </a>
+        @endif
     </li>
     <li>
         @if (Session::get(Auth::user()->name)->super_user)
-        <a href="#">
-            Administrar Usuarios
+        <a href="{{ route('puestos') }}">
+            Administrar Puestos
         </a>
         @endif
     </li>

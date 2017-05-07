@@ -141,7 +141,7 @@ class EmpleadorController extends Controller
         $tipos_documentos       = CatalogoItem::where('catalogo_id', $catalogo_tipo_documento->id)->get();
         $tipos_personeria       = CatalogoItem::where('catalogo_id', $catalogo_tipo_personeria->id)->get();
         $empleador              = Empleador::find($id);
-        $direcciones            = DireccionEmpleador::where('empleador_id', $empleador->id)->paginate(1);
+        $direcciones            = DireccionEmpleador::where('empleador_id', $empleador->id)->paginate(DataType::PAGINATE);
         return view('bolsaEmpleo.empleador')->with('empleador', $empleador)->with('actividades_economicas', $actividades_economicas)->with('tipos_personeria', $tipos_personeria)->with('tipos_documentos', $tipos_documentos)->with('direcciones', $direcciones);
     }
     /**

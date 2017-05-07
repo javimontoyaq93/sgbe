@@ -16,13 +16,14 @@ class CreateTableBolsaEmpleoPuesto extends Migration
         Schema::create('bolsa_empleo_puestos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('denominacion', 250);
-            $table->boolean('eliminado')->nullable();
-            $table->integer('area_conocimiento')->unsigned()->index();
+            $table->boolean('eliminado')->nullable()->default('0');
+            $table->string('area_conocimiento', 250);
             $table->integer('nivel_instruccion')->unsigned()->index();
             $table->integer('tiempo_experiencia');
-            $table->boolean('remuneracion', 12, 2);
+            $table->decimal('remuneracion', 12, 2);
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('nivel_instruccion')->references('id')->on('core_catalogos_items');
         });
     }
 
