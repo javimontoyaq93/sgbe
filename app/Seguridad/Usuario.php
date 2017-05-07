@@ -19,7 +19,7 @@ class Usuario extends User
 
     public function grupos()
     {
-        return $this->belongsToMany('App\Seguridad\GrupoUsuario', 'seguridad_usuarios_grupos_usuarios', 'usuario_id', 'grupo_id');
+        return $this->belongsToMany('App\Seguridad\GrupoUsuario', 'seguridad_usuarios_grupos_usuarios');
     }
 
     /**
@@ -46,5 +46,9 @@ class Usuario extends User
     public function user()
     {
         return $this->belongsTo('App\User', 'id');
+    }
+    public function usuarioEmpleador()
+    {
+        return $this->hasOne('App\Seguridad\UsuarioEmpleador', 'id');
     }
 }

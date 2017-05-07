@@ -24,8 +24,8 @@ class CreateTableSeguridadGrupoUsuario extends Migration
         Schema::create('seguridad_usuarios_grupos_usuarios', function (Blueprint $table) {
             $table->integer('usuario_id')->unsigned()->index();
             $table->foreign('usuario_id')->references('id')->on('seguridad_usuarios')->onDelete('cascade');
-            $table->integer('grupo_id')->unsigned()->index();
-            $table->foreign('grupo_id')->references('id')->on('seguridad_grupos_usuarios')->onDelete('cascade');
+            $table->integer('grupo_usuario_id')->unsigned()->index();
+            $table->foreign('grupo_usuario_id')->references('id')->on('seguridad_grupos_usuarios')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -20,7 +20,7 @@ class GrupoUsuario extends Model
 
     public function usuarios()
     {
-        return $this->belongsToMany('App\Seguridad\Usuario');
+        return $this->belongsToMany('App\Seguridad\Usuario', 'seguridad_usuarios_grupos_usuarios');
     }
     /**
      *

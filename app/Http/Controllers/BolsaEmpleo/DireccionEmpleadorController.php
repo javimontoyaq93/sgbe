@@ -19,6 +19,7 @@ class DireccionEmpleadorController extends Controller
     {
 
         $direccion               = new DireccionEmpleador();
+        $direccion->direccion    = new Direccion();
         $catalogo_tipo_documento = Catalogo::where('nombre', DataType::TIPO_DIRECCION)->first();
         $catalogo_paises         = Catalogo::where('nombre', DataType::PAIS)->first();
         if (!$catalogo_tipo_documento && $catalogo_paises) {
@@ -39,11 +40,12 @@ class DireccionEmpleadorController extends Controller
             return redirect()->back()->withErrors($validator->errors());
         }
         if (!$request->id) {
-            $id                                = Direccion::create($datos)->id;
+            $direccion_id                      = Direccion::create($datos)->id;
             $direccion_empleador               = new DireccionEmpleador();
             $direccion_empleador->empleador_id = $request->empleador_id;
-            $direccion_empleador->id;
+            $direccion_empleador->id           = $direccion_id;
             $direccion_empleador->save();
+            $id = $direccion_empleador->id;
         } else {
             $direccion                            = DireccionEmpleador::find($request->id);
             $direccion->direccion->calles         = $request->calles;

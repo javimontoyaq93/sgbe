@@ -7,10 +7,7 @@ use App\Core\Direccion;
 
 class DireccionEmpleador extends Direccion
 {
-    public function __construct()
-    {
-        $this->direccion = new Direccion();
-    }
+
     protected $table    = 'bolsa_empleo_direcciones_empleadores';
     protected $fillable = ['empleador_id'];
 
@@ -22,7 +19,7 @@ class DireccionEmpleador extends Direccion
 
     public function empleador()
     {
-        return $this->belongsTo(Empleador::class, 'id');
+        return $this->belongsTo(Empleador::class, 'empleador_id');
     }
     public function direccion()
     {
