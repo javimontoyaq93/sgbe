@@ -1,6 +1,6 @@
 <?php
 
-namespace App\\BolsaEmpleo;
+namespace App\BolsaEmpleo;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -41,4 +41,10 @@ class Vacante extends Model
     {
         return $this->belongsTo('App\BolsaEmpleo\Puesto', 'puesto_id');
     }
+    public static $rules = array(
+        'numero_vacante'   => 'required',
+        'descripcion'      => 'required|min:10',
+        'puesto_id'        => 'required',
+        'oferta_empleo_id' => 'required',
+    );
 }

@@ -10,6 +10,7 @@ use App\Util\DataType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Redirect;
+use Response;
 use Session;
 
 class PuestoController extends Controller
@@ -47,7 +48,7 @@ class PuestoController extends Controller
         }
 
         if (!$request->id) {
-            $id = $puesto = Puesto::create($datos)->id;
+            $id = Puesto::create($datos)->id;
 
         } else {
             $puesto = Puesto::find($request->id);
@@ -93,5 +94,12 @@ class PuestoController extends Controller
         $puesto->eliminado = true;
         $puesto->save();
         return redirect()->back();
+    }
+    public function puestoPorId($puesto_id)
+    {
+
+        $puesto = Puesto::find($puesto_id);
+
+        return Response::json($puesto);
     }
 }

@@ -51,4 +51,27 @@ class Usuario extends User
     {
         return $this->hasOne('App\Seguridad\UsuarioEmpleador', 'id');
     }
+    /**
+     *
+     * Permite validar si un usuario puede hacer una acción de acuerdo a si es un superusuario
+     *o pertenece a un grupo de usuario
+     */
+
+    public static function validarPermisos($usuario_id, $grupoUsuario = null)
+    {
+        $usuario = Usuario::find($usuario_id);
+        if ($usuario->super_user) {
+            return true;
+        }
+        if ($grupoUsuario) {
+            $grupos = $usuario->grupos()->get();
+            foreach ($grupos as $grupo) {
+                if ($grupo->nombre == $grupoUsuario) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+    }
 }

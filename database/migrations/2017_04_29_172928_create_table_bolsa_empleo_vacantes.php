@@ -17,7 +17,7 @@ class CreateTableBolsaEmpleoVacantes extends Migration
             $table->increments('id');
             $table->string('descripcion', 250);
             $table->integer('numero_vacante');
-            $table->boolean('eliminado');
+            $table->boolean('eliminado')->nullable()->default('0');
             $table->integer('puesto_id')->unsigned()->index();
             $table->integer('oferta_empleo_id')->unsigned()->index();
             $table->timestamps();

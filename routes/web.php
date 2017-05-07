@@ -12,6 +12,7 @@
  */
 
 Route::get('/', ['uses' => 'Seguridad\LoginController@index', 'as' => 'login']);
+Route::get('/home', ['uses' => 'HomeController@index', 'as' => 'home']);
 Route::post('autenticar', ['uses' => 'Seguridad\LoginController@autenticar', 'as' => 'autenticar']);
 Route::post('logout', ['uses' => 'Seguridad\LoginController@logout', 'as' => 'logout']);
 Route::get('empleadores', ['uses' => 'BolsaEmpleo\EmpleadorController@index', 'middleware' => 'auth', 'as' => 'empleadores']);
@@ -31,3 +32,12 @@ Route::get('puesto', ['uses' => 'BolsaEmpleo\PuestoController@crear', 'middlewar
 Route::get('puesto/{id}', ['uses' => 'BolsaEmpleo\PuestoController@show', 'middleware' => 'auth', 'as' => 'show-puesto']);
 Route::post('guardar-puesto', ['uses' => 'BolsaEmpleo\PuestoController@guardar', 'middleware' => 'auth', 'as' => 'guardar-puesto']);
 Route::post('borrar-puesto', array('uses' => 'BolsaEmpleo\PuestoController@borrar', 'middleware' => 'auth', 'as' => 'borrar-puesto'));
+Route::get('ofertasEmpleo', ['uses' => 'BolsaEmpleo\OfertaEmpleoController@index', 'as' => 'ofertasEmpleo']);
+Route::get('ofertaEmpleo', ['uses' => 'BolsaEmpleo\OfertaEmpleoController@crear', 'as' => 'crear-ofertaEmpleo']);
+Route::get('ofertaEmpleo/{id}', ['uses' => 'BolsaEmpleo\OfertaEmpleoController@show', 'as' => 'show-ofertaEmpleo']);
+Route::post('guardar-ofertaEmpleo', ['uses' => 'BolsaEmpleo\OfertaEmpleoController@guardar', 'as' => 'guardar-ofertaEmpleo']);
+Route::post('borrar-ofertaEmpleo', array('uses' => 'BolsaEmpleo\OfertaEmpleoController@borrar', 'as' => 'borrar-ofertaEmpleo'));
+Route::get('crear-vacante\{oferta_empleo_id}', ['uses' => 'BolsaEmpleo\VacanteController@crear', 'as' => 'crear-vacante']);
+Route::post('guardar-vacante', ['uses' => 'BolsaEmpleo\VacanteController@guardar', 'as' => 'guardar-vacante']);
+Route::get('vacante/{id}', ['uses' => 'BolsaEmpleo\VacanteController@show', 'as' => 'show-vacante']);
+Route::get('puesto-por-id/{puesto_id}', ['uses' => 'BolsaEmpleo\PuestoController@puestoPorId', 'as' => 'puesto-por-id']);

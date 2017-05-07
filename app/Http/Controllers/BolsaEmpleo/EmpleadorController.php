@@ -12,6 +12,7 @@ use App\Seguridad\Usuario;
 use App\Seguridad\UsuarioEmpleador;
 use App\User;
 use App\Util\DataType;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Redirect;
@@ -19,6 +20,7 @@ use Session;
 
 class EmpleadorController extends Controller
 {
+
     /**
      *
      * Permite mostrar los empleadores creados
@@ -27,6 +29,11 @@ class EmpleadorController extends Controller
 
     public function index()
     {
+        $usuario          = Session::get(Auth::user()->name);
+        $validar_permisos = Usuario::validarPermisos($usuario->id);
+        if (!$validar_permisos) {
+            return redirect('home')->with('usuario', $usuario);
+        }
         $empleadores = Empleador::where('eliminado', false)->paginate(DataType::PAGINATE);
         return view('bolsaEmpleo.empleadores')->with('empleadores', $empleadores);
     }
@@ -39,6 +46,10 @@ class EmpleadorController extends Controller
 
     public function crear()
     {
+        $validar_permisos = Usuario::validarPermisos(Session::get(Auth::user()->name)->id);
+        if (!$validar_permisos) {
+            return redirect('home');
+        }
         $catalogo_tipo_documento  = Catalogo::where('nombre', DataType::TIPO_DOCUMENTO)->first();
         $catalogo_tipo_personeria = Catalogo::where('nombre', DataType::TIPO_PERSONERIA)->first();
         $catalogo_actividad       = Catalogo::where('nombre', DataType::TIPO_ACTIVIDAD_ECONOMICA)->first();
@@ -62,6 +73,10 @@ class EmpleadorController extends Controller
 
     public function guardar(Request $request)
     {
+        $validar_permisos = Usuario::validarPermisos(Session::get(Auth::user()->name)->id);
+        if (!$validar_permisos) {
+            return redirect('home');
+        }
         $id        = null;
         $datos     = ['email' => $request->email, 'razon_social' => $request->razon_social, 'celular' => $request->celular, 'numero_identificacion' => $request->numero_identificacion, 'tipo_personeria' => $request->tipo_personeria, 'tipo_identificacion' => $request->tipo_identificacion, 'actividad_economica' => $request->actividad_economica];
         $validator = Validator::make($datos, Empleador::$rules);
@@ -130,6 +145,10 @@ class EmpleadorController extends Controller
      */
     public function show($id)
     {
+        $validar_permisos = Usuario::validarPermisos(Session::get(Auth::user()->name)->id);
+        if (!$validar_permisos) {
+            return redirect('home');
+        }
         $catalogo_tipo_documento  = Catalogo::where('nombre', DataType::TIPO_DOCUMENTO)->first();
         $catalogo_tipo_personeria = Catalogo::where('nombre', DataType::TIPO_PERSONERIA)->first();
         $catalogo_actividad       = Catalogo::where('nombre', DataType::TIPO_ACTIVIDAD_ECONOMICA)->first();
@@ -141,7 +160,7 @@ class EmpleadorController extends Controller
         $tipos_documentos       = CatalogoItem::where('catalogo_id', $catalogo_tipo_documento->id)->get();
         $tipos_personeria       = CatalogoItem::where('catalogo_id', $catalogo_tipo_personeria->id)->get();
         $empleador              = Empleador::find($id);
-        $direcciones            = DireccionEmpleador::where('empleador_id', $empleador->id)->paginate(DataType::PAGINATE);
+        $direcciones            = DireccionEmpleador::where('empleador_id', $empleador->id)->where('eliminado', false)->paginate(DataType::PAGINATE);
         return view('bolsaEmpleo.empleador')->with('empleador', $empleador)->with('actividades_economicas', $actividades_economicas)->with('tipos_personeria', $tipos_personeria)->with('tipos_documentos', $tipos_documentos)->with('direcciones', $direcciones);
     }
     /**
@@ -152,6 +171,10 @@ class EmpleadorController extends Controller
 
     public function borrar(Request $request)
     {
+        $validar_permisos = Usuario::validarPermisos(Session::get(Auth::user()->name)->id);
+        if (!$validar_permisos) {
+            return redirect('home');
+        }
         $empleador            = Empleador::find($request->id);
         $empleador->eliminado = true;
         $empleador->save();

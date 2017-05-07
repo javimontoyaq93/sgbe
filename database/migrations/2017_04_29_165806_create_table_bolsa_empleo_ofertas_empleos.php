@@ -18,7 +18,7 @@ class CreateTableBolsaEmpleoOfertasEmpleos extends Migration
             $table->string('descripcion', 250);
             $table->date('fecha_inicio');
             $table->date('fecha_fin');
-            $table->boolean('eliminado')->nullable();
+            $table->boolean('eliminado')->nullable()->default('0');
             $table->integer('empleador_id')->unsigned()->index();
             $table->timestamps();
             $table->softDeletes();
