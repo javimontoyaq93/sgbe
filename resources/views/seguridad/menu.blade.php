@@ -19,9 +19,16 @@
         @endif
     </li>
     <li>
-        @if (Session::get(Auth::user()->name)->super_user || Session::get(Auth::user()->name)->usuarioEmpleador->empleador )
+        @if (Session::get(Auth::user()->name)->super_user || Session::get(Auth::user()->name)->usuarioEmpleador)
         <a href="{{ route('ofertasEmpleo') }}">
             Administrar Ofertas de Empleo
+        </a>
+        @endif
+    </li>
+    <li>
+        @if (Session::get(Auth::user()->name)->super_user)
+        <a href="{{ route('postulantes') }}">
+            Administrar Postulantes
         </a>
         @endif
     </li>

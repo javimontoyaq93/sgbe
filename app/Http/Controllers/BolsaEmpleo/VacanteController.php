@@ -68,7 +68,7 @@ class VacanteController extends Controller
             $vacante->numero_vacante   = $request->numero_vacante;
             $vacante->descripcion      = $request->descripcion;
             $vacante->puesto_id        = $request->puesto_id;
-            $vacante->oferta_empleo_id = $request->oferta_empleo_idSS;
+            $vacante->oferta_empleo_id = $request->oferta_empleo_id;
             $vacante->save();
             $id = $vacante->id;
 

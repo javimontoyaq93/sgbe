@@ -48,6 +48,12 @@ class Empleador extends Model
     {
         return $this->hasMany(UsuarioEmpleador::class, 'empleador_id', 'id');
     }
+    /**
+     *
+     * Reglas de validación de campos.
+     *
+     */
+
     public static $rules = array(
         'actividad_economica'   => 'required',
         'tipo_identificacion'   => 'required',

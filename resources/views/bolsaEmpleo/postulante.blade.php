@@ -38,43 +38,39 @@
                 <div class="col-md-8 col-md-offset-2">
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            <form action="{{ route('guardar-empleador') }}" class="form-horizontal" method="POST" role="form">
+                            <form action="{{ route('guardar-postulante') }}" class="form-horizontal" method="POST" role="form">
                                 {{ csrf_field() }}
-                                <input id="id" name="id" type="hidden" value="{{ $empleador->id }}"/>
-                                <div class="form-group{{ $errors->has('razon_social') ? ' has-error' : '' }}">
-                                    <label class="col-md-4 control-label" for="razon_social">
-                                        Nombre
+                                <input id="id" name="id" type="hidden" value="{{ $postulante->id }}"/>
+                                <div class="form-group{{ $errors->has('nombres') ? ' has-error' : '' }}">
+                                    <label class="col-md-4 control-label" for="nombres">
+                                        Nombres
                                     </label>
                                     <div class="col-md-6">
-                                        <input autofocus="" class="form-control" id="razon-social" name="razon_social" required="" type="text" value="{{ $empleador->razon_social }}">
-                                            @if ($errors->has('razon_social'))
+                                        <input autofocus="" class="form-control" id="nombres" name="nombres" required="" type="text" value="{{ $postulante->nombres }}">
+                                            @if ($errors->has('nombres'))
                                             <span class="help-block">
                                                 <strong>
-                                                    {{ $errors->first('razon_social') }}
+                                                    {{ $errors->first('nombres') }}
                                                 </strong>
                                             </span>
                                             @endif
                                         </input>
                                     </div>
                                 </div>
-                                <div class="form-group{{ $errors->has('actividad_economica') ? ' has-error' : '' }}">
-                                    <label class="col-md-4 control-label" for="actividad_economica">
-                                        Actividad Económica
+                                <div class="form-group{{ $errors->has('apellidos') ? ' has-error' : '' }}">
+                                    <label class="col-md-4 control-label" for="apellidos">
+                                        Apellidos
                                     </label>
                                     <div class="col-md-6">
-                                        <select class="form-control" name="actividad_economica">
-                                            @foreach($actividades_economicas as $item)
-                                   @if($item->id==$empleador->actividad_economica)
-                                            <option selected="selected" value="{{$item->id}}">
-                                                {{$item->descripcion}}
-                                            </option>
-                                            @else
-                                            <option value="{{$item->id}}">
-                                                {{$item->descripcion}}
-                                            </option>
+                                        <input autofocus="" class="form-control" id="apellidos" name="apellidos" required="" type="text" value="{{ $postulante->apellidos }}">
+                                            @if ($errors->has('apellidos'))
+                                            <span class="help-block">
+                                                <strong>
+                                                    {{ $errors->first('apellidos') }}
+                                                </strong>
+                                            </span>
                                             @endif
-                                    @endforeach
-                                        </select>
+                                        </input>
                                     </div>
                                 </div>
                                 <div class="form-group{{ $errors->has('tipo_identificacion') ? ' has-error' : '' }}">
@@ -84,7 +80,7 @@
                                     <div class="col-md-6">
                                         <select class="form-control" name="tipo_identificacion">
                                             @foreach($tipos_documentos as $item)
-                                       @if($item->id==$empleador->tipo_identificacion)
+                                       @if($item->id==$postulante->tipo_identificacion)
                                             <option selected="selected" value="{{$item->id}}">
                                                 {{$item->descripcion}}
                                             </option>
@@ -102,7 +98,7 @@
                                         Número de Identificación
                                     </label>
                                     <div class="col-md-6">
-                                        <input autofocus="" class="form-control" id="numero_identificacion" name="numero_identificacion" required="" type="text" value="{{$empleador->numero_identificacion }}">
+                                        <input autofocus="" class="form-control" id="numero_identificacion" name="numero_identificacion" required="" type="text" value="{{$postulante->numero_identificacion }}">
                                             @if ($errors->has('numero_identificacion'))
                                             <span class="help-block">
                                                 <strong>
@@ -113,14 +109,34 @@
                                         </input>
                                     </div>
                                 </div>
-                                <div class="form-group{{ $errors->has('tipo_personeria') ? ' has-error' : '' }}">
-                                    <label class="col-md-4 control-label" for="tipo_personeria">
-                                        Tipo de Personeria
+                                <div class="form-group{{ $errors->has('estado_civil') ? ' has-error' : '' }}">
+                                    <label class="col-md-4 control-label" for="estado_civil">
+                                        Estado  Civil
                                     </label>
                                     <div class="col-md-6">
-                                        <select class="form-control" name="tipo_personeria">
-                                            @foreach($tipos_personeria as $item)
-                                       @if($item->id==$empleador->tipo_personeria)
+                                        <select class="form-control" name="estado_civil">
+                                            @foreach($estados_civiles as $item)
+                                       @if($item->id==$postulante->estado_civil)
+                                            <option selected="selected" value="{{$item->id}}">
+                                                {{$item->descripcion}}
+                                            </option>
+                                            @else
+                                            <option value="{{$item->id}}">
+                                                {{$item->descripcion}}
+                                            </option>
+                                            @endif
+                                        @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group{{ $errors->has('genero') ? ' has-error' : '' }}">
+                                    <label class="col-md-4 control-label" for="genero">
+                                        Genero
+                                    </label>
+                                    <div class="col-md-6">
+                                        <select class="form-control" name="genero">
+                                            @foreach($tipos_sexo as $item)
+                                       @if($item->id==$postulante->genero)
                                             <option selected="selected" value="{{$item->id}}">
                                                 {{$item->descripcion}}
                                             </option>
@@ -138,7 +154,7 @@
                                         Email
                                     </label>
                                     <div class="col-md-6">
-                                        <input class="form-control" id="celular" name="email" type="email" value="{{$empleador->email}}">
+                                        <input class="form-control" id="celular" name="email" type="email" value="{{$postulante->email}}">
                                             @if ($errors->has('email'))
                                             <span class="help-block">
                                                 <strong>
@@ -154,7 +170,7 @@
                                         Celular
                                     </label>
                                     <div class="col-md-6">
-                                        <input class="form-control" id="celular" name="celular" value="{{ $empleador->celular}}">
+                                        <input class="form-control" id="celular" name="celular" value="{{ $postulante->celular}}">
                                             @if ($errors->has('celular'))
                                             <span class="help-block">
                                                 <strong>
@@ -178,8 +194,8 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="direcciones">
-                @if ($empleador->id!==null)
-                @include('bolsaEmpleo.direccionesEmpleador',['empleador' => $empleador])
+                @if ($postulante->id!==null)
+                @include('bolsaEmpleo.direccionesPostulante',['postulante' => $postulante])
                 @endif
             </div>
         </div>

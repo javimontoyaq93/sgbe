@@ -79,6 +79,11 @@
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
+                                    <li>
+                                        <a href="{{ route('cambiar-clave') }}">
+                                            Cambiar Clave
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                             @endif

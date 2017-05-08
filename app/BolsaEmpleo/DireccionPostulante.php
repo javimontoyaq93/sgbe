@@ -1,15 +1,13 @@
 <?php
 
-namespace App\\BolsaEmpleo;
+namespace App\BolsaEmpleo;
 
 use App\Core\Direccion;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DireccionPostulante extends Direccion
 {
-    use SoftDeletes;
-    protected $table    = 'core_direcciones_postulantes';
-    protected $fillable = ['postulante_id'];
+    protected $table    = 'bolsa_empleo_direcciones_postulantes';
+    protected $fillable = ['postulante_id', 'eliminado'];
 
     /**
      *
@@ -20,5 +18,9 @@ class DireccionPostulante extends Direccion
     public function postulante()
     {
         return $this->belongsTo('App\BolsaEmpleo\Postulante', 'postulante_id');
+    }
+    public function direccion()
+    {
+        return $this->belongsTo(Direccion::class, 'id');
     }
 }

@@ -51,6 +51,10 @@ class Usuario extends User
     {
         return $this->hasOne('App\Seguridad\UsuarioEmpleador', 'id');
     }
+    public function usuarioPostulante()
+    {
+        return $this->hasOne('App\Seguridad\UsuarioPostulante', 'id');
+    }
     /**
      *
      * Permite validar si un usuario puede hacer una acción de acuerdo a si es un superusuario

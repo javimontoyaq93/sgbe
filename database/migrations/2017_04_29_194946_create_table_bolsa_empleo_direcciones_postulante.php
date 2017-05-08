@@ -16,6 +16,7 @@ class CreateTableBolsaEmpleoDireccionesPostulante extends Migration
         Schema::create('bolsa_empleo_direcciones_postulantes', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('postulante_id')->unsigned()->index();
+            $table->boolean('eliminado')->nullable()->default('0');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('id')->references('id')->on('core_direcciones');

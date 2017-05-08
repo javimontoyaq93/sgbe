@@ -52,10 +52,10 @@ function seleccionarProvincia(select){
                 </em>
             </div>
             @endif
-            <form action="{{ route('guardar-direccion-empleador') }}" class="form-horizontal" method="POST" role="form">
+            <form action="{{ route('guardar-direccion-postulante') }}" class="form-horizontal" method="POST" role="form">
                 {{ csrf_field() }}
                 <input id="id" name="id" type="hidden" value="{{ $direccion->id }}"/>
-                <input id="empleador_id" name="empleador_id" type="hidden" value="{{ $empleador_id }}"/>
+                <input id="postulante_id" name="postulante_id" type="hidden" value="{{ $postulante_id }}"/>
                 <div class="form-group{{ $errors->has('pais') ? ' has-error' : '' }}">
                     <label class="col-md-4 control-label" for="pais">
                         Pais
@@ -192,7 +192,7 @@ function seleccionarProvincia(select){
                         <button class="btn btn-primary" type="submit">
                             Guardar
                         </button>
-                        <a class="btn btn-primary" href="{{ route('show-empleador',$empleador_id) }}">
+                        <a class="btn btn-primary" href="{{ route('show-postulante',$postulante_id) }}">
                             Regresar
                         </a>
                     </div>

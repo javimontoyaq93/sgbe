@@ -11,6 +11,9 @@ class DataType
     const PAIS                     = 'PAIS';
     const PAGINATE                 = 20;
     const EMPLEADOR                = 'Empleador';
+    const POSTULANTE               = 'Postulante';
+    const TIPO_SEXO                = 'TIPO_SEXO';
+    const ESTADO_CIVIL             = 'ESTADO_CIVIL';
 
     public function Defines($const)
     {return in_array($const, $this->getConstants());}

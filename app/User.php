@@ -31,4 +31,7 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Seguridad\Usuario', 'id');
     }
+    public static $rules = array(
+        'password' => 'required|min:10',
+    );
 }

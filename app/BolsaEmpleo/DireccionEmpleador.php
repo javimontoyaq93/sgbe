@@ -9,7 +9,7 @@ class DireccionEmpleador extends Direccion
 {
 
     protected $table    = 'bolsa_empleo_direcciones_empleadores';
-    protected $fillable = ['empleador_id'];
+    protected $fillable = ['empleador_id', 'eliminado'];
 
     /**
      *

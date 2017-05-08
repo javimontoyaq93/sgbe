@@ -1,7 +1,9 @@
 <?php
 
-namespace App\\BolsaEmpleo;
+namespace App\BolsaEmpleo;
 
+use App\Core\CatalogoItem;
+use App\Seguridad\UsuarioPostulante;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -10,7 +12,7 @@ class Postulante extends Model
     use SoftDeletes;
     protected $table      = 'bolsa_empleo_postulantes';
     protected $primaryKey = 'id';
-    protected $fillable   = ['nombres', 'apellidos', 'numero_documento', 'eliminado', 'email', 'celular', 'estado_civil', 'genero', 'tipo_identificacion'];
+    protected $fillable   = ['nombres', 'apellidos', 'numero_identificacion', 'eliminado', 'email', 'celular', 'estado_civil', 'genero', 'tipo_identificacion'];
 
     /**
      *
@@ -22,4 +24,35 @@ class Postulante extends Model
     {
         return $this->hasMany('App\BolsaEmpleo\DireccionPostulante', 'postulante_id', 'id');
     }
+    public function tipoIdentificacion()
+    {
+        return $this->belongsTo(CatalogoItem::class, 'tipo_identificacion');
+    }
+    public function estadoCivil()
+    {
+        return $this->belongsTo(CatalogoItem::class, 'estado_civil');
+    }
+    public function getGenero()
+    {
+        return $this->belongsTo(CatalogoItem::class, 'genero');
+    }
+    public function usuarios()
+    {
+        return $this->hasMany(UsuarioPostulante::class, 'postulante_id', 'id');
+    }
+    /**
+     *
+     * Reglas de validación de campos.
+     *
+     */
+
+    public static $rules = array(
+        'nombres'               => 'required',
+        'apellidos'             => 'required',
+        'tipo_identificacion'   => 'required',
+        'email'                 => 'required|email',
+        'estado_civil'          => 'required',
+        'genero'                => 'required',
+        'numero_identificacion' => 'required|min:10',
+    );
 }

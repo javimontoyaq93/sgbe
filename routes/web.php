@@ -12,6 +12,8 @@
  */
 
 Route::get('/', ['uses' => 'Seguridad\LoginController@index', 'as' => 'login']);
+Route::get('cambiar-clave', ['uses' => 'Seguridad\UsuarioController@index', 'as' => 'cambiar-clave']);
+Route::post('actualizar-clave', ['uses' => 'Seguridad\UsuarioController@actualizarClave', 'as' => 'actualizar-clave']);
 Route::get('/home', ['uses' => 'HomeController@index', 'as' => 'home']);
 Route::post('autenticar', ['uses' => 'Seguridad\LoginController@autenticar', 'as' => 'autenticar']);
 Route::post('logout', ['uses' => 'Seguridad\LoginController@logout', 'as' => 'logout']);
@@ -41,3 +43,11 @@ Route::get('crear-vacante\{oferta_empleo_id}', ['uses' => 'BolsaEmpleo\VacanteCo
 Route::post('guardar-vacante', ['uses' => 'BolsaEmpleo\VacanteController@guardar', 'as' => 'guardar-vacante']);
 Route::get('vacante/{id}', ['uses' => 'BolsaEmpleo\VacanteController@show', 'as' => 'show-vacante']);
 Route::get('puesto-por-id/{puesto_id}', ['uses' => 'BolsaEmpleo\PuestoController@puestoPorId', 'as' => 'puesto-por-id']);
+Route::get('postulantes', ['uses' => 'BolsaEmpleo\PostulanteController@index', 'as' => 'postulantes']);
+Route::get('postulante', ['uses' => 'BolsaEmpleo\PostulanteController@crear', 'as' => 'crear-postulante']);
+Route::get('postulante/{id}', ['uses' => 'BolsaEmpleo\PostulanteController@show', 'as' => 'show-postulante']);
+Route::post('guardar-postulante', ['uses' => 'BolsaEmpleo\PostulanteController@guardar', 'as' => 'guardar-postulante']);
+Route::post('borrar-postulante', array('uses' => 'BolsaEmpleo\PostulanteController@borrar', 'as' => 'borrar-postulante'));
+Route::get('crear-direccion-postulante\{postulante_id}', ['uses' => 'BolsaEmpleo\DireccionPostulanteController@crear', 'as' => 'crear-direccion-postulante']);
+Route::post('guardar-direccion-postulante', ['uses' => 'BolsaEmpleo\DireccionPostulanteController@guardar', 'as' => 'guardar-direccion-postulante']);
+Route::get('direccion-postulante/{id}', ['uses' => 'BolsaEmpleo\DireccionPostulanteController@show', 'as' => 'show-direccion-postulante']);

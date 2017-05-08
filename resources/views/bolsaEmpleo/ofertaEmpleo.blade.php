@@ -70,15 +70,9 @@
                                                 Descripción
                                             </label>
                                             <div class="col-md-6">
-                                                <input autofocus="" class="form-control" id="descripcion" name="descripcion" required="" type="text" value="{{ $ofertaEmpleo->descripcion }}">
-                                                    @if ($errors->has('descripcion'))
-                                                    <span class="help-block">
-                                                        <strong>
-                                                            {{ $errors->first('descripcion') }}
-                                                        </strong>
-                                                    </span>
-                                                    @endif
-                                                </input>
+                                                <textarea class="form-control" cols="50" id="descripcion" name="descripcion" required="" rows="5">
+                                                    {{ $ofertaEmpleo->descripcion }}
+                                                </textarea>
                                             </div>
                                         </div>
                                         <div class="form-group{{ $errors->has('fecha_inicio') ? ' has-error' : '' }}">
