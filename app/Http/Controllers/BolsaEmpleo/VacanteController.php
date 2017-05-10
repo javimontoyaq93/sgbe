@@ -63,8 +63,7 @@ class VacanteController extends Controller
             $id = Vacante::create($datos)->id;
 
         } else {
-            $vacante = Vacante::find($request->id);
-
+            $vacante                   = Vacante::find($request->id);
             $vacante->numero_vacante   = $request->numero_vacante;
             $vacante->descripcion      = $request->descripcion;
             $vacante->puesto_id        = $request->puesto_id;

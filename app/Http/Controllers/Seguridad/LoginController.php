@@ -29,9 +29,11 @@ class LoginController extends Controller
         if (Auth::attempt($credenciales, $remember_me)) {
             $usuario = Usuario::where('id', Auth::user()->id)->first();
             Session::put(Auth::user()->name, $usuario);
+
             return view('home')->with('usuario', $usuario);
         }
-        return view('seguridad.login')->with('error', 'Datos Incorrectos');
+        Session::flash('error_message', 'Datos Incorrectos');
+        return view('seguridad.login');
 
     }
 

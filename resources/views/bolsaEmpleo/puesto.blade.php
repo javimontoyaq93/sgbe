@@ -125,6 +125,9 @@
                                             <button class="btn btn-primary" type="submit">
                                                 Guardar
                                             </button>
+                                            <a class="btn btn-primary" href="{{ route('puestos') }}" type="button">
+                                                Regresar
+                                            </a>
                                         </div>
                                     </div>
                                 </input>

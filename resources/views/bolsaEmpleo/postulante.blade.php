@@ -109,6 +109,22 @@
                                         </input>
                                     </div>
                                 </div>
+                                <div class="form-group{{ $errors->has('fecha_nacimiento') ? ' has-error' : '' }}">
+                                    <label class="col-md-4 control-label" for="apellidos">
+                                        Fecha de Nacimiento
+                                    </label>
+                                    <div class="col-md-6">
+                                        <input autofocus="" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required="" type="date" value="{{ $postulante->fecha_nacimiento }}">
+                                            @if ($errors->has('fecha_nacimiento'))
+                                            <span class="help-block">
+                                                <strong>
+                                                    {{ $errors->first('fecha_nacimiento') }}
+                                                </strong>
+                                            </span>
+                                            @endif
+                                        </input>
+                                    </div>
+                                </div>
                                 <div class="form-group{{ $errors->has('estado_civil') ? ' has-error' : '' }}">
                                     <label class="col-md-4 control-label" for="estado_civil">
                                         Estado  Civil

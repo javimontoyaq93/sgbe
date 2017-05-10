@@ -73,7 +73,8 @@ class EmpleadorController extends Controller
 
     public function guardar(Request $request)
     {
-        $validar_permisos = Usuario::validarPermisos(Session::get(Auth::user()->name)->id);
+        $usuario_session  = Session::get(Auth::user()->name);
+        $validar_permisos = Usuario::validarPermisos($usuario_session->id, DataType::EMPLEADOR);
         if (!$validar_permisos) {
             return redirect('home');
         }
@@ -105,6 +106,7 @@ class EmpleadorController extends Controller
 
         } else {
             $empleador = Empleador::find($request->id);
+
             if ($user_existe && $user_existe->usuario && $user_existe->usuario->usuarioEmpleador && $user_existe->usuario->usuarioEmpleador->empleador_id != $empleador->id) {
                 Session::flash('error_message', 'Ya existe un usuario con el email: ' . $request->email);
                 return redirect()->back();
@@ -117,6 +119,7 @@ class EmpleadorController extends Controller
             $empleador->actividad_economica   = $request->actividad_economica;
             $empleador->celular               = $request->celular;
             $empleador->save();
+            Session::flash('flash_message', 'Empleador grabado exitosamente, su usuario es su email y clave es su  número de identificación');
             $id = $empleador->id;
             if (count($empleador->usuarios) == 0) {
                 $grupo = GrupoUsuario::where('nombre', DataType::EMPLEADOR)->first();
@@ -131,10 +134,15 @@ class EmpleadorController extends Controller
                 $usuario_empleador->id           = $usuario->id;
                 $usuario_empleador->empleador_id = $id;
                 $usuario_empleador->save();
+            } elseif ($user_existe) {
+                $user_existe->email = $request->email;
+                $user_existe->name  = $request->email;
+                Session::put($user_existe->name, $user_existe);
+                $user_existe->save();
             }
-
+            Session::flash('flash_message', 'Empleador grabado exitosamente');
         }
-        Session::flash('flash_message', 'Empleador grabado exitosamente');
+
         return redirect('/empleador/' . $id);
     }
 
@@ -145,8 +153,13 @@ class EmpleadorController extends Controller
      */
     public function show($id)
     {
-        $validar_permisos = Usuario::validarPermisos(Session::get(Auth::user()->name)->id);
-        if (!$validar_permisos) {
+        $user         = Session::get(Auth::user()->name);
+        $es_empleador = false;
+        if ($user->usuario && $user->usuario->usuarioEmpleador && $id != $user->usuario->usuarioEmpleador->empleador_id) {
+            $es_empleador = true;
+        }
+        $validar_permisos = Usuario::validarPermisos($user->id);
+        if (!$validar_permisos && $es_empleador) {
             return redirect('home');
         }
         $catalogo_tipo_documento  = Catalogo::where('nombre', DataType::TIPO_DOCUMENTO)->first();

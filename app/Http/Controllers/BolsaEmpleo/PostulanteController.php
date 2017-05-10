@@ -77,7 +77,7 @@ class PostulanteController extends Controller
             return redirect('home');
         }
         $id        = null;
-        $datos     = ['email' => $request->email, 'nombres' => $request->nombres, 'celular' => $request->celular, 'numero_identificacion' => $request->numero_identificacion, 'apellidos' => $request->apellidos, 'tipo_identificacion' => $request->tipo_identificacion, 'estado_civil' => $request->estado_civil, 'genero' => $request->genero];
+        $datos     = ['email' => $request->email, 'nombres' => $request->nombres, 'celular' => $request->celular, 'numero_identificacion' => $request->numero_identificacion, 'apellidos' => $request->apellidos, 'tipo_identificacion' => $request->tipo_identificacion, 'estado_civil' => $request->estado_civil, 'genero' => $request->genero, 'fecha_nacimiento' => $request->fecha_nacimiento];
         $validator = Validator::make($datos, Postulante::$rules);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->errors());
@@ -104,7 +104,7 @@ class PostulanteController extends Controller
 
         } else {
             $postulante = Postulante::find($request->id);
-            if ($user_existe && $user_existe->usuario && $user_existe->usuario->usuarioPostulante && $user_existe->usuario->usuarioPostulante->postulante_id != $postulante->id) {
+            if ($user_existe && $user_existe->usuario && $user_existe->usuario && $user_existe->usuario->usuarioPostulante->postulante_id != $postulante->id) {
                 Session::flash('error_message', 'Ya existe un usuario con el email: ' . $request->email);
                 return redirect()->back();
             }
@@ -116,7 +116,9 @@ class PostulanteController extends Controller
             $postulante->estado_civil          = $request->estado_civil;
             $postulante->genero                = $request->genero;
             $postulante->celular               = $request->celular;
+            $postulante->fecha_nacimiento      = $request->fecha_nacimiento;
             $postulante->save();
+            Session::flash('flash_message', 'Postulante grabado exitosamente, su usuario es su email y clave es su numero de dentificacion');
             $id = $postulante->id;
             if (count($postulante->usuarios) == 0) {
                 $grupo = GrupoUsuario::where('nombre', DataType::POSTULANTE)->first();
@@ -131,10 +133,15 @@ class PostulanteController extends Controller
                 $usuario_postulante->id            = $usuario->id;
                 $usuario_postulante->postulante_id = $id;
                 $usuario_postulante->save();
+            } elseif ($user_existe) {
+                $user_existe->email = $request->email;
+                $user_existe->name  = $request->email;
+                Session::put($user_existe->name, $user_existe);
+                $user_existe->save();
             }
-
+            Session::flash('flash_message', 'Postulante grabado exitosamente');
         }
-        Session::flash('flash_message', 'Postulante grabado exitosamente');
+
         return redirect('/postulante/' . $id);
     }
 
@@ -145,9 +152,13 @@ class PostulanteController extends Controller
      */
     public function show($id)
     {
-        $usuario          = Session::get(Auth::user()->name);
-        $validar_permisos = Usuario::validarPermisos($usuario->id, DataType::POSTULANTE);
-        if (!$validar_permisos) {
+        $user          = Session::get(Auth::user()->name);
+        $es_postulante = false;
+        if ($user->usuario && $user->usuario->usuarioPostulante && $id != $user->usuario->usuarioPostulante->postulante_id) {
+            $es_postulante = true;
+        }
+        $validar_permisos = Usuario::validarPermisos($user->id);
+        if (!$validar_permisos && $es_postulante) {
             return redirect('home');
         }
         $catalogo_tipo_documento = Catalogo::where('nombre', DataType::TIPO_DOCUMENTO)->first();

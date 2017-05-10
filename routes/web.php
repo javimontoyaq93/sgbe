@@ -51,3 +51,4 @@ Route::post('borrar-postulante', array('uses' => 'BolsaEmpleo\PostulanteControll
 Route::get('crear-direccion-postulante\{postulante_id}', ['uses' => 'BolsaEmpleo\DireccionPostulanteController@crear', 'as' => 'crear-direccion-postulante']);
 Route::post('guardar-direccion-postulante', ['uses' => 'BolsaEmpleo\DireccionPostulanteController@guardar', 'as' => 'guardar-direccion-postulante']);
 Route::get('direccion-postulante/{id}', ['uses' => 'BolsaEmpleo\DireccionPostulanteController@show', 'as' => 'show-direccion-postulante']);
+Route::get('vacantes-disponibles', ['uses' => 'BolsaEmpleo\VacantesDisponiblesController@index', 'as' => 'vacantes-disponibles']);

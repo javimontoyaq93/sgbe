@@ -71,6 +71,11 @@
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
+                                        <a href="{{ route('cambiar-clave') }}">
+                                            Cambiar Clave
+                                        </a>
+                                    </li>
+                                    <li>
                                         <a href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                             Logout
@@ -78,11 +83,6 @@
                                         <form action="{{ route('logout') }}" id="logout-form" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('cambiar-clave') }}">
-                                            Cambiar Clave
-                                        </a>
                                     </li>
                                 </ul>
                             </li>

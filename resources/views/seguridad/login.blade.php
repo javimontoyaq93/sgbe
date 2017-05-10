@@ -2,6 +2,15 @@
 @section('content')
 <div class="container">
     <div class="row">
+        @if(Session::has('error_message'))
+        <div class="alert alert-warning">
+            <span class="glyphicon glyphicon-remove">
+            </span>
+            <em>
+                {!! session('error_message') !!}
+            </em>
+        </div>
+        @endif
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -58,11 +67,11 @@
                                 <button class="btn btn-primary" type="submit">
                                     Login
                                 </button>
+                                <a class="btn btn-link" href="#">
+                                    Olvidate tu contraseña?
+                                </a>
                             </div>
                         </div>
-                        @if ($error!='')
-                        {{ $error }}
-                        @endif
                     </form>
                 </div>
             </div>

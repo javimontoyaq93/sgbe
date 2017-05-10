@@ -54,5 +54,6 @@ class Postulante extends Model
         'estado_civil'          => 'required',
         'genero'                => 'required',
         'numero_identificacion' => 'required|min:10',
+        'fecha_nacimiento'      => 'required|date',
     );
 }
