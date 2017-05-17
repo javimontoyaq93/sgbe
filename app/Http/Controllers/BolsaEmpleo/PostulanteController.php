@@ -14,6 +14,7 @@ use App\User;
 use App\Util\DataType;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Redirect;
 use Session;
@@ -71,59 +72,25 @@ class PostulanteController extends Controller
 
     public function guardar(Request $request)
     {
-        $usuario          = Session::get(Auth::user()->name);
-        $validar_permisos = Usuario::validarPermisos($usuario->id, DataType::POSTULANTE);
-        if (!$validar_permisos) {
-            return redirect('home');
-        }
-        $id        = null;
-        $datos     = ['email' => $request->email, 'nombres' => $request->nombres, 'celular' => $request->celular, 'numero_identificacion' => $request->numero_identificacion, 'apellidos' => $request->apellidos, 'tipo_identificacion' => $request->tipo_identificacion, 'estado_civil' => $request->estado_civil, 'genero' => $request->genero, 'fecha_nacimiento' => $request->fecha_nacimiento];
-        $validator = Validator::make($datos, Postulante::$rules);
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator->errors());
-        }
-        $user_existe = User::where('email', $request->email)->first();
-        if (!$request->id) {
-            if ($user_existe) {
-                Session::flash('error_message', 'Ya existe un usuario con el email: ' . $request->email);
-                return redirect()->back();
+        DB::beginTransaction();
+        try {
+            $usuario          = Session::get(Auth::user()->name);
+            $validar_permisos = Usuario::validarPermisos($usuario->id, DataType::POSTULANTE);
+            if (!$validar_permisos) {
+                return redirect('home');
             }
-            $grupo   = GrupoUsuario::where('nombre', DataType::POSTULANTE)->first();
-            $id      = Postulante::create($datos)->id;
-            $user_id = User::create(['name' => $request->email, 'email' => $request->email, 'password' => bcrypt($request->numero_identificacion)])->id;
+            $id    = null;
+            $rules = Postulante::$rules;
+            $datos = ['email' => $request->email, 'nombres' => $request->nombres, 'celular' => $request->celular, 'numero_identificacion' => $request->numero_identificacion, 'apellidos' => $request->apellidos, 'tipo_identificacion' => $request->tipo_identificacion, 'estado_civil' => $request->estado_civil, 'genero' => $request->genero, 'fecha_nacimiento' => $request->fecha_nacimiento];
+            if (!$request->id) {
+                $validator = Validator::make($datos, $rules);
+                if ($validator->fails()) {
+                    return redirect()->back()->withErrors($validator->errors());
+                }
+                $grupo   = GrupoUsuario::where('nombre', DataType::POSTULANTE)->first();
+                $id      = Postulante::create($datos)->id;
+                $user_id = User::create(['name' => $request->email, 'email' => $request->email, 'password' => bcrypt($request->numero_identificacion)])->id;
 
-            $usuario             = new Usuario();
-            $usuario->super_user = false;
-            $usuario->id         = $user_id;
-            $usuario->save();
-            $usuario->grupos()->attach($grupo->id);
-            $usuario_postulante                = new UsuarioPostulante();
-            $usuario_postulante->id            = $usuario->id;
-            $usuario_postulante->postulante_id = $id;
-            $usuario_postulante->save();
-
-        } else {
-            $postulante = Postulante::find($request->id);
-            if ($user_existe && $user_existe->usuario && $user_existe->usuario && $user_existe->usuario->usuarioPostulante->postulante_id != $postulante->id) {
-                Session::flash('error_message', 'Ya existe un usuario con el email: ' . $request->email);
-                return redirect()->back();
-            }
-            $postulante->nombres               = $request->nombres;
-            $postulante->apellidos             = $request->apellidos;
-            $postulante->email                 = $request->email;
-            $postulante->numero_identificacion = $request->numero_identificacion;
-            $postulante->tipo_identificacion   = $request->tipo_identificacion;
-            $postulante->estado_civil          = $request->estado_civil;
-            $postulante->genero                = $request->genero;
-            $postulante->celular               = $request->celular;
-            $postulante->fecha_nacimiento      = $request->fecha_nacimiento;
-            $postulante->save();
-            Session::flash('flash_message', 'Postulante grabado exitosamente, su usuario es su email y clave es su numero de dentificacion');
-            $id = $postulante->id;
-            if (count($postulante->usuarios) == 0) {
-                $grupo = GrupoUsuario::where('nombre', DataType::POSTULANTE)->first();
-
-                $user_id             = User::create(['name' => $request->email, 'email' => $request->email, 'password' => bcrypt($request->numero_identificacion)])->id;
                 $usuario             = new Usuario();
                 $usuario->super_user = false;
                 $usuario->id         = $user_id;
@@ -133,15 +100,62 @@ class PostulanteController extends Controller
                 $usuario_postulante->id            = $usuario->id;
                 $usuario_postulante->postulante_id = $id;
                 $usuario_postulante->save();
-            } elseif ($user_existe) {
-                $user_existe->email = $request->email;
-                $user_existe->name  = $request->email;
-                Session::put($user_existe->name, $user_existe);
-                $user_existe->save();
-            }
-            Session::flash('flash_message', 'Postulante grabado exitosamente');
-        }
 
+            } else {
+                $rules['numero_identificacion'] = 'required|min:4|unique:bolsa_empleo_postulantes,numero_identificacion,' . $request->id;
+                $rules['email']                 = 'required|email|unique:bolsa_empleo_postulantes,email,' . $request->id;
+                $validator                      = Validator::make($datos, $rules);
+                if ($validator->fails()) {
+                    return redirect()->back()->withErrors($validator->errors());
+                }
+                $postulante = Postulante::find($request->id);
+
+                $postulante->nombres               = $request->nombres;
+                $postulante->apellidos             = $request->apellidos;
+                $postulante->email                 = $request->email;
+                $postulante->numero_identificacion = $request->numero_identificacion;
+                $postulante->tipo_identificacion   = $request->tipo_identificacion;
+                $postulante->estado_civil          = $request->estado_civil;
+                $postulante->genero                = $request->genero;
+                $postulante->celular               = $request->celular;
+                $postulante->fecha_nacimiento      = $request->fecha_nacimiento;
+                $postulante->save();
+
+                $id = $postulante->id;
+                if (count($postulante->usuarios) == 0) {
+                    $grupo = GrupoUsuario::where('nombre', DataType::POSTULANTE)->first();
+
+                    $user_id             = User::create(['name' => $request->email, 'email' => $request->email, 'password' => bcrypt($request->numero_identificacion)])->id;
+                    $usuario             = new Usuario();
+                    $usuario->super_user = false;
+                    $usuario->id         = $user_id;
+                    $usuario->save();
+                    $usuario->grupos()->attach($grupo->id);
+                    $usuario_postulante                = new UsuarioPostulante();
+                    $usuario_postulante->id            = $usuario->id;
+                    $usuario_postulante->postulante_id = $id;
+                    $usuario_postulante->save();
+                    Session::flash('flash_message', 'Postulante grabado exitosamente, su usuario es su email y clave es su numero de dentificacion');
+                } else {
+                    $user_update        = null;
+                    $usuario_postulante = UsuarioPostulante::where('postulante_id', $postulante->id)->first();
+                    if ($usuario_postulante && $usuario_postulante->usuario && $usuario_postulante->usuario->user) {
+                        $user_update = $usuario_postulante->usuario->user;
+                    }
+
+                    $user_update->name  = $request->email;
+                    $user_update->email = $request->email;
+                    Session::put($user_update->name, $user_update);
+                    $user_update->save();
+                }
+                Session::flash('flash_message', 'Postulante grabado exitosamente');
+            }
+
+        } catch (Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
+        DB::commit();
         return redirect('/postulante/' . $id);
     }
 

@@ -17,7 +17,7 @@ class CreateTableBolsaEmpleoPostulante extends Migration
             $table->increments('id');
             $table->string('nombres', 250);
             $table->string('apellidos', 250);
-            $table->string('email', 100);
+            $table->string('email', 100)->unique();
             $table->string('numero_identificacion', 25)->unique();
             $table->string('celular', 25)->nullable();
             $table->date('fecha_nacimiento');

@@ -14,7 +14,10 @@ class DataType
     const POSTULANTE               = 'Postulante';
     const TIPO_SEXO                = 'TIPO_SEXO';
     const ESTADO_CIVIL             = 'ESTADO_CIVIL';
-
+    const SERVER                   = 'sgbe.localhost.com';
+    const RUTA_CAMBIAR_CLAVE       = 'solicitar-cambio-clave';
+    const MAIL_USERNAME            = 'javimontoyaq93@gmail.com';
+    const MAIL_NAME                = 'javimontoyaq93';
     public function Defines($const)
     {return in_array($const, $this->getConstants());}
 }

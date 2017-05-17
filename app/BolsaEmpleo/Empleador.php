@@ -58,8 +58,8 @@ class Empleador extends Model
         'actividad_economica'   => 'required',
         'tipo_identificacion'   => 'required',
         'tipo_personeria'       => 'required',
-        'email'                 => 'required|email',
+        'email'                 => 'required|email|unique:bolsa_empleo_empleadores',
         'razon_social'          => 'required|min:4',
-        'numero_identificacion' => 'required|min:10',
+        'numero_identificacion' => 'required|min:4|unique:bolsa_empleo_empleadores',
     );
 }

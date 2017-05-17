@@ -53,7 +53,7 @@ class Postulante extends Model
         'email'                 => 'required|email',
         'estado_civil'          => 'required',
         'genero'                => 'required',
-        'numero_identificacion' => 'required|min:10',
+        'numero_identificacion' => 'required|min:4|unique:bolsa_empleo_postulantes',
         'fecha_nacimiento'      => 'required|date',
     );
 }

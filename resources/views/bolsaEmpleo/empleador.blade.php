@@ -26,11 +26,13 @@
                     Datos Básicos
                 </a>
             </li>
+            @if ($empleador->id && Auth::user())
             <li>
                 <a data-toggle="tab" href="#direcciones">
                     Direcciones
                 </a>
             </li>
+            @endif
         </ul>
         <div class="tab-content">
             <div class="tab-pane fade in active" id="datos_basicos">
@@ -168,8 +170,19 @@
                                 <div class="form-group">
                                     <div class="col-md-6 col-md-offset-4">
                                         <button class="btn btn-primary" type="submit">
+                                            <span class="glyphicon glyphicon-ok">
+                                            </span>
                                             Guardar
                                         </button>
+                                        @if(Auth::user())
+                                        <a class="btn btn-primary" href="{{ route('empleadores') }}">
+                                            Regresar
+                                        </a>
+                                        @else
+                                        <a class="btn btn-primary" href="{{ route('login') }}">
+                                            Regresar
+                                        </a>
+                                        @endif
                                     </div>
                                 </div>
                             </form>
@@ -177,11 +190,11 @@
                     </div>
                 </div>
             </div>
+            @if ($empleador->id && Auth::user())
             <div class="tab-pane fade" id="direcciones">
-                @if ($empleador->id!==null)
                 @include('bolsaEmpleo.direccionesEmpleador',['empleador' => $empleador])
-                @endif
             </div>
+            @endif
         </div>
     </div>
 </div>

@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-primary">
+            <div class="panel panel-default">
                 <div class="panel panel-heading">
                     <h3 class="panel-title">
                         Listado de Empleadores
@@ -82,7 +82,7 @@
                     {{ $empleadores->links() }}
                     <div class="form-group">
                         <div class="col-md-6 col-md-offset-4">
-                            <a class="btn btn-primary btn-lg active" href="{{ route('crear-empleador') }}" type="button">
+                            <a class="btn btn-primary btn-lg " href="{{ route('crear-empleador') }}" type="button">
                                 Crear
                             </a>
                         </div>

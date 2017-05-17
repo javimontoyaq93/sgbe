@@ -13,6 +13,7 @@ use App\User;
 use App\Util\DataType;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Redirect;
 use Session;
@@ -23,6 +24,11 @@ class DireccionPostulanteController extends Controller
     {
         $this->middleware('auth');
     }
+    /**
+     *
+     * Permite crear la dirección de un postulante
+     *
+     */
 
     public function crear($postulante_id)
     {
@@ -44,36 +50,56 @@ class DireccionPostulanteController extends Controller
         $ciudades          = array();
         return view('bolsaEmpleo.direccionPostulante')->with('postulante_id', $postulante_id)->with('direccion', $direccion)->with('tipos_direcciones', $tipos_direcciones)->with('paises', $paises)->with('provincias', $provincias)->with('ciudades', $ciudades);
     }
+
+    /**
+     *
+     * Permite guardar la dirección de un postulante.
+     *
+     */
+
     public function guardar(Request $request)
     {
-        $id        = null;
-        $datos     = ['calles' => $request->calles, 'referencia' => $request->referencia, 'tipo_direccion' => $request->tipo_direccion, 'pais' => $request->pais, 'provincia' => $request->provincia, 'ciudad' => $request->ciudad, 'telefono' => $request->telefono];
-        $validator = Validator::make($datos, Direccion::$rules);
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator->errors());
+        DB::beginTransaction();
+        try {
+            $id        = null;
+            $datos     = ['calles' => $request->calles, 'referencia' => $request->referencia, 'tipo_direccion' => $request->tipo_direccion, 'pais' => $request->pais, 'provincia' => $request->provincia, 'ciudad' => $request->ciudad, 'telefono' => $request->telefono];
+            $validator = Validator::make($datos, Direccion::$rules);
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator->errors());
+            }
+            if (!$request->id) {
+                $direccion_id                        = Direccion::create($datos)->id;
+                $direccion_postulante                = new DireccionPostulante();
+                $direccion_postulante->postulante_id = $request->postulante_id;
+                $direccion_postulante->id            = $direccion_id;
+                $direccion_postulante->save();
+                $id = $direccion_postulante->id;
+            } else {
+                $direccion                            = DireccionPostulante::find($request->id);
+                $direccion->direccion->calles         = $request->calles;
+                $direccion->direccion->referencia     = $request->referencia;
+                $direccion->direccion->tipo_direccion = $request->tipo_direccion;
+                $direccion->direccion->pais           = $request->pais;
+                $direccion->direccion->provincia      = $request->provincia;
+                $direccion->direccion->ciudad         = $request->ciudad;
+                $direccion->direccion->telefono       = $request->telefono;
+                $direccion->direccion->save();
+                $id = $direccion->id;
+            }
+        } catch (Exception $e) {
+            DB::rollback();
+            throw $e;
         }
-        if (!$request->id) {
-            $direccion_id                        = Direccion::create($datos)->id;
-            $direccion_postulante                = new DireccionPostulante();
-            $direccion_postulante->postulante_id = $request->postulante_id;
-            $direccion_postulante->id            = $direccion_id;
-            $direccion_postulante->save();
-            $id = $direccion_postulante->id;
-        } else {
-            $direccion                            = DireccionPostulante::find($request->id);
-            $direccion->direccion->calles         = $request->calles;
-            $direccion->direccion->referencia     = $request->referencia;
-            $direccion->direccion->tipo_direccion = $request->tipo_direccion;
-            $direccion->direccion->pais           = $request->pais;
-            $direccion->direccion->provincia      = $request->provincia;
-            $direccion->direccion->ciudad         = $request->ciudad;
-            $direccion->direccion->telefono       = $request->telefono;
-            $direccion->direccion->save();
-            $id = $direccion->id;
-        }
+        DB::commit();
         Session::flash('flash_message', 'Direccion grabada exitosamente');
         return redirect('/direccion-postulante/' . $id);
     }
+    /**
+     *
+     * Permite mostrar la dirección de un Postulante.
+     *
+     */
+
     public function show($id)
     {
         $catalogo_tipo_documento = Catalogo::where('nombre', DataType::TIPO_DIRECCION)->first();

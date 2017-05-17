@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <br/>
-        <div class="panel panel-primary">
+        <div class="panel panel-default">
             <div class="panel-body">
                 <table class="table table-hover table-striped table-bordered">
                     <thead>
@@ -77,7 +77,7 @@
                 {{ $direcciones->links() }}
                 <div class="form-group">
                     <div class="col-md-6 col-md-offset-4">
-                        <a class="btn btn-primary btn-lg active" href="{{ route('crear-direccion-postulante',$postulante->id) }}" type="button">
+                        <a class="btn btn-primary btn-lg" href="{{ route('crear-direccion-postulante',$postulante->id) }}" type="button">
                             Crear
                         </a>
                     </div>

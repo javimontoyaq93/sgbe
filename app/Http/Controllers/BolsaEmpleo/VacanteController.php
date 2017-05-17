@@ -9,6 +9,7 @@ use App\Seguridad\Usuario;
 use App\Util\DataType;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Redirect;
 use Session;
@@ -47,31 +48,38 @@ class VacanteController extends Controller
 
     public function guardar(Request $request)
     {
-        $usuario          = Session::get(Auth::user()->name);
-        $validar_permisos = Usuario::validarPermisos($usuario->id, DataType::EMPLEADOR);
-        if (!$validar_permisos) {
-            return redirect('home');
-        }
-        $id        = null;
-        $datos     = ['numero_vacante' => $request->numero_vacante, 'descripcion' => $request->descripcion, 'puesto_id' => $request->puesto_id, 'oferta_empleo_id' => $request->oferta_empleo_id];
-        $validator = Validator::make($datos, Vacante::$rules);
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator->errors());
-        }
+        DB::beginTransaction();
+        try {
+            $usuario          = Session::get(Auth::user()->name);
+            $validar_permisos = Usuario::validarPermisos($usuario->id, DataType::EMPLEADOR);
+            if (!$validar_permisos) {
+                return redirect('home');
+            }
+            $id        = null;
+            $datos     = ['numero_vacante' => $request->numero_vacante, 'descripcion' => $request->descripcion, 'puesto_id' => $request->puesto_id, 'oferta_empleo_id' => $request->oferta_empleo_id];
+            $validator = Validator::make($datos, Vacante::$rules);
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator->errors());
+            }
 
-        if (!$request->id) {
-            $id = Vacante::create($datos)->id;
+            if (!$request->id) {
+                $id = Vacante::create($datos)->id;
 
-        } else {
-            $vacante                   = Vacante::find($request->id);
-            $vacante->numero_vacante   = $request->numero_vacante;
-            $vacante->descripcion      = $request->descripcion;
-            $vacante->puesto_id        = $request->puesto_id;
-            $vacante->oferta_empleo_id = $request->oferta_empleo_id;
-            $vacante->save();
-            $id = $vacante->id;
+            } else {
+                $vacante                   = Vacante::find($request->id);
+                $vacante->numero_vacante   = $request->numero_vacante;
+                $vacante->descripcion      = $request->descripcion;
+                $vacante->puesto_id        = $request->puesto_id;
+                $vacante->oferta_empleo_id = $request->oferta_empleo_id;
+                $vacante->save();
+                $id = $vacante->id;
 
+            }
+        } catch (Exception $e) {
+            DB::rollback();
+            throw $e;
         }
+        DB::commit();
         Session::flash('flash_message', 'Vacante grabada exitosamente');
         return redirect('/vacante/' . $id);
     }

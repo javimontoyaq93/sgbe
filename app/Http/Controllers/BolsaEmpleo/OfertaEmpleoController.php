@@ -10,6 +10,7 @@ use App\Seguridad\Usuario;
 use App\Util\DataType;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Redirect;
 use Session;
@@ -20,6 +21,12 @@ class OfertaEmpleoController extends Controller
     {
         $this->middleware('auth');
     }
+    /**
+     *
+     * Permute devolver las ofertas de empleo aun no eliminadas.
+     *
+     */
+
     public function index()
     {
         $usuario          = Session::get(Auth::user()->name);
@@ -65,32 +72,39 @@ class OfertaEmpleoController extends Controller
 
     public function guardar(Request $request)
     {
-        $usuario          = Session::get(Auth::user()->name);
-        $validar_permisos = Usuario::validarPermisos($usuario->id, DataType::EMPLEADOR);
-        if (!$validar_permisos) {
-            return redirect('home');
+        DB::beginTransaction();
+        try {
+            $usuario          = Session::get(Auth::user()->name);
+            $validar_permisos = Usuario::validarPermisos($usuario->id, DataType::EMPLEADOR);
+            if (!$validar_permisos) {
+                return redirect('home');
+            }
+            $id        = null;
+            $datos     = ['descripcion' => $request->descripcion, 'fecha_inicio' => $request->fecha_inicio, 'fecha_fin' => $request->fecha_fin, 'empleador_id' => $request->empleador_id];
+            $validator = Validator::make($datos, OfertaEmpleo::$rules);
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator->errors());
+            }
+
+            if (!$request->id) {
+                $id = OfertaEmpleo::create($datos)->id;
+
+            } else {
+                $ofertaEmpleo = OfertaEmpleo::find($request->id);
+
+                $ofertaEmpleo->descripcion  = $request->descripcion;
+                $ofertaEmpleo->fecha_inicio = $request->fecha_inicio;
+                $ofertaEmpleo->fecha_fin    = $request->fecha_fin;
+                $ofertaEmpleo->empleador_id = $request->empleador_id;
+                $ofertaEmpleo->save();
+                $id = $ofertaEmpleo->id;
+
+            }
+        } catch (Exception $e) {
+            DB::rollback();
+            throw $e;
         }
-        $id        = null;
-        $datos     = ['descripcion' => $request->descripcion, 'fecha_inicio' => $request->fecha_inicio, 'fecha_fin' => $request->fecha_fin, 'empleador_id' => $request->empleador_id];
-        $validator = Validator::make($datos, OfertaEmpleo::$rules);
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator->errors());
-        }
-
-        if (!$request->id) {
-            $id = OfertaEmpleo::create($datos)->id;
-
-        } else {
-            $ofertaEmpleo = OfertaEmpleo::find($request->id);
-
-            $ofertaEmpleo->descripcion  = $request->descripcion;
-            $ofertaEmpleo->fecha_inicio = $request->fecha_inicio;
-            $ofertaEmpleo->fecha_fin    = $request->fecha_fin;
-            $ofertaEmpleo->empleador_id = $request->empleador_id;
-            $ofertaEmpleo->save();
-            $id = $ofertaEmpleo->id;
-
-        }
+        DB::commit();
         Session::flash('flash_message', 'Oferta de Empleo grabada exitosamente');
         return redirect('/ofertaEmpleo/' . $id);
     }

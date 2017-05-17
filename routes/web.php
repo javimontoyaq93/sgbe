@@ -13,14 +13,18 @@
 
 Route::get('/', ['uses' => 'Seguridad\LoginController@index', 'as' => 'login']);
 Route::get('cambiar-clave', ['uses' => 'Seguridad\UsuarioController@index', 'as' => 'cambiar-clave']);
-Route::post('actualizar-clave', ['uses' => 'Seguridad\UsuarioController@actualizarClave', 'as' => 'actualizar-clave']);
+Route::get('recuperar-clave', ['uses' => 'Seguridad\UsuarioController@recuperarClave', 'as' => 'recuperar-clave']);
+Route::post('enviar-cambio-clave', ['uses' => 'Seguridad\UsuarioController@enviarCambioClave', 'as' => 'enviar-cambio-clave']);
+Route::post('actualizar-clave', ['uses' => 'Seguridad\UsuarioController@actualizarClave', 'middleware' => 'auth', 'as' => 'actualizar-clave']);
+Route::get('solicitar-cambio-clave/{token}', ['uses' => 'Seguridad\UsuarioController@vistaCambiarClave', 'as' => 'solicitar-cambio-clave']);
+Route::post('actualizar-cambio-clave', ['uses' => 'Seguridad\UsuarioController@actualizarCambioClave', 'as' => 'actualizar-cambio-clave']);
 Route::get('/home', ['uses' => 'HomeController@index', 'as' => 'home']);
 Route::post('autenticar', ['uses' => 'Seguridad\LoginController@autenticar', 'as' => 'autenticar']);
 Route::post('logout', ['uses' => 'Seguridad\LoginController@logout', 'as' => 'logout']);
-Route::get('empleadores', ['uses' => 'BolsaEmpleo\EmpleadorController@index', 'middleware' => 'auth', 'as' => 'empleadores']);
-Route::get('empleador', ['uses' => 'BolsaEmpleo\EmpleadorController@crear', 'middleware' => 'auth', 'as' => 'crear-empleador']);
-Route::get('empleador/{id}', ['uses' => 'BolsaEmpleo\EmpleadorController@show', 'middleware' => 'auth', 'as' => 'show-empleador']);
-Route::post('guardar-empleador', ['uses' => 'BolsaEmpleo\EmpleadorController@guardar', 'middleware' => 'auth', 'as' => 'guardar-empleador']);
+Route::get('empleadores', ['uses' => 'BolsaEmpleo\EmpleadorController@index', 'as' => 'empleadores']);
+Route::get('empleador', ['uses' => 'BolsaEmpleo\EmpleadorController@crear', 'as' => 'crear-empleador']);
+Route::get('empleador/{id}', ['uses' => 'BolsaEmpleo\EmpleadorController@show', 'as' => 'show-empleador']);
+Route::post('guardar-empleador', ['uses' => 'BolsaEmpleo\EmpleadorController@guardar', 'as' => 'guardar-empleador']);
 Route::post('borrar-empleador', array('uses' => 'BolsaEmpleo\EmpleadorController@borrar', 'middleware' => 'auth', 'as' => 'borrar-empleador'));
 Route::post('confirmar-borrado-empleador', ['uses' => 'BolsaEmpleo\EmpleadorController@confirmarBorrado', 'as' => 'confirmar-borrado-empleador']);
 Route::get('crear-direccion-empleador\{empleador_id}', ['uses' => 'BolsaEmpleo\DireccionEmpleadorController@crear', 'middleware' => 'auth', 'as' => 'crear-direccion-empleador']);

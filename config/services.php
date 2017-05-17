@@ -13,10 +13,9 @@ return [
     | to have a conventional place to find your various credentials.
     |
      */
-
     'mailgun'   => [
-        'domain' => env('javimontoyaq93@gmail.com'),
-        'secret' => env('montoya54321'),
+        'domain' => env('MAILGUN_DOMAIN'),
+        'secret' => env('MAILGUN_PASS'),
     ],
 
     'ses'       => [

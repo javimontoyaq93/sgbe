@@ -17,8 +17,6 @@
             'csrfToken' => csrf_token(),
         ]) !!};
                             </script>
-                            <script src="{{ URL::asset('js/jquery-3.2.1.min.js') }}" type="text/javascript">
-                            </script>
                         </link>
                     </meta>
                 </meta>
@@ -61,6 +59,9 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="{{ route('crear-empleador') }}">
+                                    Registrar Empleador
+                                </a>
                             </li>
                             @else
                             <li class="dropdown">

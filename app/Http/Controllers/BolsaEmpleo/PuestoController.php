@@ -8,6 +8,7 @@ use App\Core\CatalogoItem;
 use App\Http\Controllers\Controller;
 use App\Util\DataType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Redirect;
 use Response;
@@ -40,27 +41,34 @@ class PuestoController extends Controller
 
     public function guardar(Request $request)
     {
-        $id        = null;
-        $datos     = ['denominacion' => $request->denominacion, 'nivel_instruccion' => $request->nivel_instruccion, 'area_conocimiento' => $request->area_conocimiento, 'remuneracion' => $request->remuneracion, 'tiempo_experiencia' => $request->tiempo_experiencia];
-        $validator = Validator::make($datos, Puesto::$rules);
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator->errors());
+        DB::beginTransaction();
+        try {
+            $id        = null;
+            $datos     = ['denominacion' => $request->denominacion, 'nivel_instruccion' => $request->nivel_instruccion, 'area_conocimiento' => $request->area_conocimiento, 'remuneracion' => $request->remuneracion, 'tiempo_experiencia' => $request->tiempo_experiencia];
+            $validator = Validator::make($datos, Puesto::$rules);
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator->errors());
+            }
+
+            if (!$request->id) {
+                $id = Puesto::create($datos)->id;
+
+            } else {
+                $puesto = Puesto::find($request->id);
+
+                $puesto->denominacion       = $request->denominacion;
+                $puesto->area_conocimiento  = $request->area_conocimiento;
+                $puesto->remuneracion       = $request->remuneracion;
+                $puesto->tiempo_experiencia = $request->tiempo_experiencia;
+                $puesto->save();
+                $id = $puesto->id;
+
+            }
+        } catch (Exception $e) {
+            DB::rollback();
+            throw $e;
         }
-
-        if (!$request->id) {
-            $id = Puesto::create($datos)->id;
-
-        } else {
-            $puesto = Puesto::find($request->id);
-
-            $puesto->denominacion       = $request->denominacion;
-            $puesto->area_conocimiento  = $request->area_conocimiento;
-            $puesto->remuneracion       = $request->remuneracion;
-            $puesto->tiempo_experiencia = $request->tiempo_experiencia;
-            $puesto->save();
-            $id = $puesto->id;
-
-        }
+        DB::commit();
         Session::flash('flash_message', 'Puesto grabado exitosamente');
         return redirect('/puesto/' . $id);
     }
@@ -95,11 +103,15 @@ class PuestoController extends Controller
         $puesto->save();
         return redirect()->back();
     }
+    /**
+     *
+     * Permite retornar un puesto por id en formato json.
+     *
+     */
+
     public function puestoPorId($puesto_id)
     {
-
         $puesto = Puesto::find($puesto_id);
-
         return Response::json($puesto);
     }
 }

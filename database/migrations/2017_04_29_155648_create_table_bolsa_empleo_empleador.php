@@ -15,7 +15,7 @@ class CreateTableBolsaEmpleoEmpleador extends Migration
     {
         Schema::create('bolsa_empleo_empleadores', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('email', 100);
+            $table->string('email', 100)->unique();
             $table->string('numero_identificacion', 25)->unique();
             $table->string('razon_social', 250);
             $table->integer('actividad_economica')->unsigned()->index();

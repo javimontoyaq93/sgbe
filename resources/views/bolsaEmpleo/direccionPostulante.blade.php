@@ -36,7 +36,7 @@ function seleccionarProvincia(select){
 }
 </script>
 <div class="col-md-8 col-md-offset-2">
-    <div class="panel panel-primary">
+    <div class="panel panel-default">
         <div class="panel-heading">
             <h2 class="panel-title">
                 Datos de Dirección
