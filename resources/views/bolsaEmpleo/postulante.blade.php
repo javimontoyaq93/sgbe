@@ -110,7 +110,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group{{ $errors->has('fecha_nacimiento') ? ' has-error' : '' }}">
-                                    <label class="col-md-4 control-label" for="apellidos">
+                                    <label class="col-md-4 control-label" for="fecha_nacimiento">
                                         Fecha de Nacimiento
                                     </label>
                                     <div class="col-md-6">
