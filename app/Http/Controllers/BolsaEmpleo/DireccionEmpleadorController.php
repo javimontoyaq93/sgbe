@@ -22,6 +22,12 @@ class DireccionEmpleadorController extends Controller
         $this->middleware('auth');
     }
 
+    /**
+     *
+     * Block comment
+     *
+     */
+
     public function crear($empleador_id)
     {
 
