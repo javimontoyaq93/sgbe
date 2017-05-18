@@ -90,7 +90,6 @@ class EmpleadorController extends Controller
                 if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator->errors());
                 }
-
                 $grupo   = GrupoUsuario::where('nombre', DataType::EMPLEADOR)->first();
                 $id      = Empleador::create($datos)->id;
                 $user_id = User::create(['name' => $request->email, 'email' => $request->email, 'password' => bcrypt($request->numero_identificacion)])->id;
