@@ -12,6 +12,7 @@ use App\Seguridad\Usuario;
 use App\Seguridad\UsuarioPostulante;
 use App\User;
 use App\Util\DataType;
+use App\Util\ValidacionCampos;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -79,18 +80,27 @@ class PostulanteController extends Controller
             if (!$validar_permisos) {
                 return redirect('home');
             }
-            $id    = null;
-            $rules = Postulante::$rules;
-            $datos = ['email' => $request->email, 'nombres' => $request->nombres, 'celular' => $request->celular, 'numero_identificacion' => $request->numero_identificacion, 'apellidos' => $request->apellidos, 'tipo_identificacion' => $request->tipo_identificacion, 'estado_civil' => $request->estado_civil, 'genero' => $request->genero, 'fecha_nacimiento' => $request->fecha_nacimiento];
+            if (!$this->validarNumeroIdentificacion($request->numero_identificacion, $request->tipo_identificacion)) {
+                Session::flash('error_message', 'Cédula Incorrecta');
+                return redirect()->back();
+            }
+            $id = null;
+
+            $rules         = Postulante::$rules;
+            $rules_usuario = Usuario::$rules;
+            $datos         = ['email' => $request->email, 'nombres' => $request->nombres, 'celular' => $request->celular, 'numero_identificacion' => $request->numero_identificacion, 'apellidos' => $request->apellidos, 'tipo_identificacion' => $request->tipo_identificacion, 'estado_civil' => $request->estado_civil, 'genero' => $request->genero, 'fecha_nacimiento' => $request->fecha_nacimiento];
             if (!$request->id) {
                 $validator = Validator::make($datos, $rules);
                 if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator->errors());
                 }
-                $grupo   = GrupoUsuario::where('nombre', DataType::POSTULANTE)->first();
-                $id      = Postulante::create($datos)->id;
-                $user_id = User::create(['name' => $request->email, 'email' => $request->email, 'password' => bcrypt($request->numero_identificacion)])->id;
-
+                $grupo             = GrupoUsuario::where('nombre', DataType::POSTULANTE)->first();
+                $id                = Postulante::create($datos)->id;
+                $user_id           = User::create(['name' => $request->email, 'email' => $request->email, 'password' => bcrypt($request->numero_identificacion)])->id;
+                $validator_usuario = Validator::make(['numero_identificacion' => $request->numero_identificacion], $rules_usuario);
+                if ($validator_usuario->fails()) {
+                    return redirect()->back()->withErrors($validator_usuario->errors());
+                }
                 $usuario             = new Usuario();
                 $usuario->super_user = false;
                 $usuario->id         = $user_id;
@@ -108,8 +118,8 @@ class PostulanteController extends Controller
                 if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator->errors());
                 }
-                $postulante = Postulante::find($request->id);
 
+                $postulante                        = Postulante::find($request->id);
                 $postulante->nombres               = $request->nombres;
                 $postulante->apellidos             = $request->apellidos;
                 $postulante->email                 = $request->email;
@@ -120,12 +130,14 @@ class PostulanteController extends Controller
                 $postulante->celular               = $request->celular;
                 $postulante->fecha_nacimiento      = $request->fecha_nacimiento;
                 $postulante->save();
-
                 $id = $postulante->id;
                 if (count($postulante->usuarios) == 0) {
-                    $grupo = GrupoUsuario::where('nombre', DataType::POSTULANTE)->first();
-
-                    $user_id             = User::create(['name' => $request->email, 'email' => $request->email, 'password' => bcrypt($request->numero_identificacion)])->id;
+                    $grupo             = GrupoUsuario::where('nombre', DataType::POSTULANTE)->first();
+                    $user_id           = User::create(['name' => $request->email, 'email' => $request->email, 'password' => bcrypt($request->numero_identificacion)])->id;
+                    $validator_usuario = Validator::make(['numero_identificacion' => $request->numero_identificacion], $rules);
+                    if ($validator_usuario->fails()) {
+                        return redirect()->back()->withErrors($validator_usuario->errors());
+                    }
                     $usuario             = new Usuario();
                     $usuario->super_user = false;
                     $usuario->id         = $user_id;
@@ -142,7 +154,13 @@ class PostulanteController extends Controller
                     if ($usuario_postulante && $usuario_postulante->usuario && $usuario_postulante->usuario->user) {
                         $user_update = $usuario_postulante->usuario->user;
                     }
-
+                    $rules_usuario['numero_identificacion'] = 'required|min:4|unique:seguridad_usuarios,numero_identificacion,' . $usuario_postulante->usuario->id;
+                    $validator_usuario                      = Validator::make(['numero_identificacion' => $request->numero_identificacion], $rules_usuario);
+                    if ($validator_usuario->fails()) {
+                        return redirect()->back()->withErrors($validator_usuario->errors());
+                    }
+                    $usuario_postulante->usuario->numero_identificacion = $request->numero_identificacion;
+                    $usuario_postulante->usuario->save();
                     $user_update->name  = $request->email;
                     $user_update->email = $request->email;
                     Session::put($user_update->name, $user_update);
@@ -159,11 +177,11 @@ class PostulanteController extends Controller
         return redirect('/postulante/' . $id);
     }
 
-    /**
-     *
-     * Permite mmostrar un empleador.
-     *
-     */
+/**
+ *
+ * Permite mmostrar un empleador.
+ *
+ */
     public function show($id)
     {
         $user          = Session::get(Auth::user()->name);
@@ -189,11 +207,11 @@ class PostulanteController extends Controller
         $direcciones      = DireccionPostulante::where('postulante_id', $postulante->id)->where('eliminado', false)->paginate(DataType::PAGINATE);
         return view('bolsaEmpleo.postulante')->with('postulante', $postulante)->with('estados_civiles', $estados_civiles)->with('tipos_sexo', $tipos_sexo)->with('tipos_documentos', $tipos_documentos)->with('direcciones', $direcciones);
     }
-    /**
-     *
-     * Permite Borrar un empleador seleccionado
-     *
-     */
+/**
+ *
+ * Permite Borrar un empleador seleccionado
+ *
+ */
 
     public function borrar(Request $request)
     {
@@ -207,4 +225,19 @@ class PostulanteController extends Controller
         $postulante_id->save();
         return redirect()->back();
     }
+    public function validarNumeroIdentificacion($cedula, $tipo_identificacion)
+    {
+        $cedula_item = CatalogoItem::find($tipo_identificacion);
+        if ($cedula_item->nombre == DataType::CEDULA) {
+            $validacion     = new ValidacionCampos();
+            $validar_cedula = $validacion->validarCedula($cedula);
+            if ($validar_cedula) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

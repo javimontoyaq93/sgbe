@@ -114,7 +114,7 @@
                                         Fecha de Nacimiento
                                     </label>
                                     <div class="col-md-6">
-                                        <input autofocus="" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required="" type="date" value="{{ $postulante->fecha_nacimiento }}">
+                                        <input autofocus="" class="form-control datepicker" id="fecha_nacimiento" name="fecha_nacimiento" required="" type="date" value="{{ $postulante->fecha_nacimiento }}">
                                             @if ($errors->has('fecha_nacimiento'))
                                             <span class="help-block">
                                                 <strong>

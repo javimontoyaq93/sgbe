@@ -50,7 +50,7 @@ class Postulante extends Model
         'nombres'               => 'required',
         'apellidos'             => 'required',
         'tipo_identificacion'   => 'required',
-        'email'                 => 'required|email',
+        'email'                 => 'required|email|unique:bolsa_empleo_postulantes',
         'estado_civil'          => 'required',
         'genero'                => 'required',
         'numero_identificacion' => 'required|min:4|unique:bolsa_empleo_postulantes',

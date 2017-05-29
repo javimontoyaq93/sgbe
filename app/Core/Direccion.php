@@ -31,8 +31,8 @@ class Direccion extends Model
         return $this->belongsTo(CatalogoItem::class, 'ciudad');
     }
     public static $rules = array(
-        'calles'         => 'required|min:10',
-        'referencia'     => 'required|min:10',
+        'calles'         => 'required|min:2',
+        'referencia'     => 'required|min:2',
         'tipo_direccion' => 'required',
         'pais'           => 'required',
         'provincia'      => 'required',
