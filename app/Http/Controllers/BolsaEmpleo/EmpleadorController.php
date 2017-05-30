@@ -90,7 +90,7 @@ class EmpleadorController extends Controller
             $rules         = Empleador::$rules;
             $rules_usuario = Usuario::$rules;
             $datos         = ['email' => $request->email, 'razon_social' => $request->razon_social, 'celular' => $request->celular, 'numero_identificacion' => $request->numero_identificacion, 'tipo_personeria' => $request->tipo_personeria, 'tipo_identificacion' => $request->tipo_identificacion, 'actividad_economica' => $request->actividad_economica];
-
+            $token         = str_random(64);
             if (!$request->id) {
                 $validator = Validator::make($datos, $rules);
                 if ($validator->fails()) {
@@ -171,10 +171,14 @@ class EmpleadorController extends Controller
                     if ($validator_usuario->fails()) {
                         return redirect()->back()->withErrors($validator_usuario->errors());
                     }
+
                     $user_update->name  = $request->email;
                     $user_update->email = $request->email;
-                    Session::put($user_update->name, $user_update);
                     $user_update->save();
+                    if (Auth::user()->name != $request->email) {
+                        Session::put($user_update->name, $user_update);
+                    }
+
                 }
                 Session::flash('flash_message', 'Empleador grabado exitosamente');
             }

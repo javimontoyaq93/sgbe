@@ -27,6 +27,11 @@ class VacantesDisponiblesController extends Controller
         $vacantes_disponibles = Vacante::whereHas('ofertaEmpleo', function ($oe) {
             $now = date('Y-m-d');
             $oe->where('fecha_inicio', '<=', $now)->where('fecha_fin', '>=', $now);
+        })->whereHas('puesto', function ($puesto) {
+            $usuario = Session::get(Auth::user()->name);
+            if ($usuario->usuarioPostulante) {
+                $puesto->where('area_conocimiento', $usuario->usuarioPostulante->postulante->especialidad);
+            }
         })->paginate(DataType::PAGINATE);
         return view('bolsaEmpleo.vacantesDisponibles')->with('vacantes_disponibles', $vacantes_disponibles);
     }

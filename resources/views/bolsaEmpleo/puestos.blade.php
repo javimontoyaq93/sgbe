@@ -36,7 +36,7 @@
                                     {{ $puesto->denominacion }}
                                 </td>
                                 <td>
-                                    {{ $puesto->area_conocimiento }}
+                                    {{ $puesto->areaConocimiento->descripcion }}
                                 </td>
                                 <td>
                                     {{ $puesto->nivelInstruccion->descripcion }}

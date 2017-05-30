@@ -197,6 +197,26 @@
                                         </input>
                                     </div>
                                 </div>
+                                <div class="form-group{{ $errors->has('especialidad') ? ' has-error' : '' }}">
+                                    <label class="col-md-4 control-label" for="especialidad">
+                                        Especialidad
+                                    </label>
+                                    <div class="col-md-6">
+                                        <select class="form-control" name="especialidad">
+                                            @foreach($especialidades as $item)
+                                       @if($item->id==$postulante->especialidad)
+                                            <option selected="selected" value="{{$item->id}}">
+                                                {{$item->descripcion}}
+                                            </option>
+                                            @else
+                                            <option value="{{$item->id}}">
+                                                {{$item->descripcion}}
+                                            </option>
+                                            @endif
+                                        @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <div class="col-md-6 col-md-offset-4">
                                         <button class="btn btn-primary" type="submit">

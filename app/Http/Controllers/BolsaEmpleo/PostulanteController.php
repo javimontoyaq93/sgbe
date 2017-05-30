@@ -53,6 +53,7 @@ class PostulanteController extends Controller
         $catalogo_tipo_documento = Catalogo::where('nombre', DataType::TIPO_DOCUMENTO)->first();
         $catalogo_tipo_sexo      = Catalogo::where('nombre', DataType::TIPO_SEXO)->first();
         $catalogo_estado_civil   = Catalogo::where('nombre', DataType::ESTADO_CIVIL)->first();
+        $catalogo_especialidad   = Catalogo::where('nombre', DataType::ESPECIALIDAD)->first();
         if (!$catalogo_estado_civil || !$catalogo_tipo_documento || !$catalogo_tipo_sexo) {
             return redirect()->back();
         }
@@ -60,9 +61,10 @@ class PostulanteController extends Controller
         $tipos_sexo       = CatalogoItem::where('catalogo_id', $catalogo_tipo_sexo->id)->get();
         $tipos_documentos = CatalogoItem::where('catalogo_id', $catalogo_tipo_documento->id)->get();
         $estados_civiles  = CatalogoItem::where('catalogo_id', $catalogo_estado_civil->id)->get();
+        $especialidades   = CatalogoItem::where('catalogo_id', $catalogo_especialidad->id)->get();
         $direcciones      = array();
         $postulante       = new Postulante();
-        return view('bolsaEmpleo.postulante')->with('tipos_sexo', $tipos_sexo)->with('estados_civiles', $estados_civiles)->with('tipos_documentos', $tipos_documentos)->with('postulante', $postulante)->with('direcciones', $direcciones);
+        return view('bolsaEmpleo.postulante')->with('tipos_sexo', $tipos_sexo)->with('estados_civiles', $estados_civiles)->with('tipos_documentos', $tipos_documentos)->with('postulante', $postulante)->with('direcciones', $direcciones)->with('especialidades', $especialidades);
     }
 
     /**
@@ -88,7 +90,7 @@ class PostulanteController extends Controller
 
             $rules         = Postulante::$rules;
             $rules_usuario = Usuario::$rules;
-            $datos         = ['email' => $request->email, 'nombres' => $request->nombres, 'celular' => $request->celular, 'numero_identificacion' => $request->numero_identificacion, 'apellidos' => $request->apellidos, 'tipo_identificacion' => $request->tipo_identificacion, 'estado_civil' => $request->estado_civil, 'genero' => $request->genero, 'fecha_nacimiento' => $request->fecha_nacimiento];
+            $datos         = ['email' => $request->email, 'nombres' => $request->nombres, 'celular' => $request->celular, 'numero_identificacion' => $request->numero_identificacion, 'apellidos' => $request->apellidos, 'tipo_identificacion' => $request->tipo_identificacion, 'estado_civil' => $request->estado_civil, 'genero' => $request->genero, 'fecha_nacimiento' => $request->fecha_nacimiento, 'especialidad' => $request->especialidad];
             if (!$request->id) {
                 $validator = Validator::make($datos, $rules);
                 if ($validator->fails()) {
@@ -129,6 +131,7 @@ class PostulanteController extends Controller
                 $postulante->genero                = $request->genero;
                 $postulante->celular               = $request->celular;
                 $postulante->fecha_nacimiento      = $request->fecha_nacimiento;
+                $postulante->especialidad          = $request->especialidad;
                 $postulante->save();
                 $id = $postulante->id;
                 if (count($postulante->usuarios) == 0) {
@@ -163,8 +166,10 @@ class PostulanteController extends Controller
                     $usuario_postulante->usuario->save();
                     $user_update->name  = $request->email;
                     $user_update->email = $request->email;
-                    Session::put($user_update->name, $user_update);
                     $user_update->save();
+                    if (Auth::user()->name != $request->email) {
+                        Session::put($user_update->name, $user_update);
+                    }
                 }
                 Session::flash('flash_message', 'Postulante grabado exitosamente');
             }
@@ -193,6 +198,7 @@ class PostulanteController extends Controller
         if (!$validar_permisos && $es_postulante) {
             return redirect('home');
         }
+        $catalogo_especialidad   = Catalogo::where('nombre', DataType::ESPECIALIDAD)->first();
         $catalogo_tipo_documento = Catalogo::where('nombre', DataType::TIPO_DOCUMENTO)->first();
         $catalogo_tipo_sexo      = Catalogo::where('nombre', DataType::TIPO_SEXO)->first();
         $catalogo_estado_civil   = Catalogo::where('nombre', DataType::ESTADO_CIVIL)->first();
@@ -205,7 +211,8 @@ class PostulanteController extends Controller
         $estados_civiles  = CatalogoItem::where('catalogo_id', $catalogo_estado_civil->id)->get();
         $postulante       = Postulante::find($id);
         $direcciones      = DireccionPostulante::where('postulante_id', $postulante->id)->where('eliminado', false)->paginate(DataType::PAGINATE);
-        return view('bolsaEmpleo.postulante')->with('postulante', $postulante)->with('estados_civiles', $estados_civiles)->with('tipos_sexo', $tipos_sexo)->with('tipos_documentos', $tipos_documentos)->with('direcciones', $direcciones);
+        $especialidades   = CatalogoItem::where('catalogo_id', $catalogo_especialidad->id)->get();
+        return view('bolsaEmpleo.postulante')->with('postulante', $postulante)->with('estados_civiles', $estados_civiles)->with('tipos_sexo', $tipos_sexo)->with('tipos_documentos', $tipos_documentos)->with('direcciones', $direcciones)->with('especialidades', $especialidades);
     }
 /**
  *

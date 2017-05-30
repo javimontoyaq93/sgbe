@@ -11,7 +11,7 @@ class Puesto extends Model
     use SoftDeletes;
     protected $table      = 'bolsa_empleo_puestos';
     protected $primaryKey = 'id';
-    protected $fillable   = ['denominacion', 'area_conocimiento', 'nivel_instruccion', 'eliminado', 'tiempo_experiencia', 'remuneracion'];
+    protected $fillable   = ['denominacion', 'area_conocimiento', 'nivel_instruccion', 'eliminado', 'tiempo_experiencia', 'remuneracion', 'empleador_id'];
 
     /**
      *
@@ -31,7 +31,12 @@ class Puesto extends Model
         'denominacion'       => 'required|min:10',
         'nivel_instruccion'  => 'required',
         'remuneracion'       => 'required',
-        'area_conocimiento'  => 'required|min:10',
+        'area_conocimiento'  => 'required',
         'tiempo_experiencia' => 'required',
     );
+
+    public function areaConocimiento()
+    {
+        return $this->belongsTo(CatalogoItem::class, 'area_conocimiento');
+    }
 }
