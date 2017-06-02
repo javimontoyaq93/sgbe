@@ -99,12 +99,11 @@ class EmpleadorController extends Controller
                 $grupo = GrupoUsuario::where('nombre', DataType::EMPLEADOR)->first();
                 $id    = Empleador::create($datos)->id;
 
-                $user_id = User::create(['name' => $request->email, 'email' => $request->email, 'password' => bcrypt($request->numero_identificacion), 'api_token' => $token])->id;
-
                 $validator_usuario = Validator::make(['numero_identificacion' => $request->numero_identificacion], $rules_usuario);
                 if ($validator_usuario->fails()) {
                     return redirect()->back()->withErrors($validator_usuario->errors());
                 }
+                $user_id             = User::create(['name' => $request->email, 'email' => $request->email, 'password' => bcrypt($request->numero_identificacion), 'api_token' => $token])->id;
                 $usuario             = new Usuario();
                 $usuario->super_user = false;
                 $usuario->id         = $user_id;
@@ -250,11 +249,19 @@ class EmpleadorController extends Controller
             $validar_cedula = $validacion->validarCedula($cedula);
             if ($validar_cedula) {
                 return true;
-            } else {
-                return false;
+            }
+        } else {
+            if (strlen($cedula) == 13) {
+                $validacion     = new ValidacionCampos();
+                $validar_cedula = $validacion->validarCedula(substr($cedula, 0, -3));
+                if ($validar_cedula) {
+                    if (substr($cedula, 10) == '001') {
+                        return true;
+                    }
+                }
             }
         }
-        return true;
+        return false;
     }
     public function enviarEmail($email, $token)
     {
