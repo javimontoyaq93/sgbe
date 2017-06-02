@@ -36,6 +36,31 @@
                             <form action="{{ route('guardar-puesto') }}" class="form-horizontal" method="POST" role="form">
                                 {{ csrf_field() }}
                                 <input id="id" name="id" type="hidden" value="{{ $puesto->id }}">
+                                    @if ($usuario && !$usuario->usuarioEmpleador)
+                                    <div class="form-group{{ $errors->has('empleador_id') ? ' has-error' : '' }}">
+                                        <label class="col-md-4 control-label" for="empleador_id">
+                                            Empleador
+                                        </label>
+                                        <div class="col-md-6">
+                                            <select class="form-control" name="empleador_id">
+                                                @foreach($empleadores as $empleador)
+                                       @if($empleador->id==$puesto->empleador_id)
+                                                <option selected="selected" value="{{$empleador->id}}">
+                                                    {{$empleador->razon_social}}
+                                                </option>
+                                                s
+                                                @else
+                                                <option value="{{$empleador->id}}">
+                                                    {{$empleador->razon_social}}
+                                                </option>
+                                                @endif
+                                        @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    @else
+                                    <input id="empleador_id" name="empleador_id" type="hidden" value="{{ $usuario->usuarioEmpleador->empleador_id }}"/>
+                                    @endif
                                     <div class="form-group{{ $errors->has('razon_social') ? ' has-error' : '' }}">
                                         <label class="col-md-4 control-label" for="denominacion">
                                             Denominación
@@ -57,15 +82,19 @@
                                             Area de Conocimiento
                                         </label>
                                         <div class="col-md-6">
-                                            <input autofocus="" class="form-control" id="area_conocimiento" name="area_conocimiento" required="" type="text" value="{{$puesto->area_conocimiento }}">
-                                                @if ($errors->has('area_conocimiento'))
-                                                <span class="help-block">
-                                                    <strong>
-                                                        {{ $errors->first('area_conocimiento') }}
-                                                    </strong>
-                                                </span>
+                                            <select class="form-control" name="area_conocimiento">
+                                                @foreach($especialidades as $item)
+                                       @if($item->id==$puesto->area_conocimiento)
+                                                <option selected="selected" value="{{$item->id}}">
+                                                    {{$item->descripcion}}
+                                                </option>
+                                                @else
+                                                <option value="{{$item->id}}">
+                                                    {{$item->descripcion}}
+                                                </option>
                                                 @endif
-                                            </input>
+                                        @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="form-group{{ $errors->has('nivel_instruccion') ? ' has-error' : '' }}">

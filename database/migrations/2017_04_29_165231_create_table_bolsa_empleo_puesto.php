@@ -17,7 +17,7 @@ class CreateTableBolsaEmpleoPuesto extends Migration
             $table->increments('id');
             $table->string('denominacion', 250);
             $table->boolean('eliminado')->nullable()->default('0');
-            $table->string('area_conocimiento', 250);
+            $table->integer('area_conocimiento')->unsigned()->index();
             $table->integer('nivel_instruccion')->unsigned()->index();
             $table->integer('tiempo_experiencia');
             $table->decimal('remuneracion', 12, 2);

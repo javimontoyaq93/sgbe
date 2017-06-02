@@ -12,7 +12,7 @@ class Postulante extends Model
     use SoftDeletes;
     protected $table      = 'bolsa_empleo_postulantes';
     protected $primaryKey = 'id';
-    protected $fillable   = ['nombres', 'apellidos', 'numero_identificacion', 'eliminado', 'email', 'celular', 'estado_civil', 'genero', 'tipo_identificacion'];
+    protected $fillable   = ['nombres', 'apellidos', 'numero_identificacion', 'eliminado', 'email', 'celular', 'estado_civil', 'genero', 'tipo_identificacion', 'fecha_nacimiento', 'especialidad'];
 
     /**
      *
@@ -50,7 +50,7 @@ class Postulante extends Model
         'nombres'               => 'required',
         'apellidos'             => 'required',
         'tipo_identificacion'   => 'required',
-        'email'                 => 'required|email',
+        'email'                 => 'required|email|unique:bolsa_empleo_postulantes',
         'estado_civil'          => 'required',
         'genero'                => 'required',
         'numero_identificacion' => 'required|min:4|unique:bolsa_empleo_postulantes',

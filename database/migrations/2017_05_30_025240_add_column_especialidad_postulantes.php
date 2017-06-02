@@ -1,9 +1,10 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableSeguridadUsuariosTokens extends Migration
+class AddColumnEspecialidadPostulantes extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +13,11 @@ class CreateTableSeguridadUsuariosTokens extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('api_token')->unique()->nullable();
+        Schema::table('bolsa_empleo_postulantes', function (Blueprint $table) {
+            $table->integer('especialidad')->unsigned()->index()->nullable();
         });
     }
+
     /**
      * Reverse the migrations.
      *
@@ -23,6 +25,6 @@ class CreateTableSeguridadUsuariosTokens extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('bolsa_empleo_postulantes');
     }
 }

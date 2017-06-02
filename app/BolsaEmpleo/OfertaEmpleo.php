@@ -34,7 +34,7 @@ class OfertaEmpleo extends Model
         return $this->belongsTo('App\BolsaEmpleo\Empleador', 'empleador_id');
     }
     public static $rules = array(
-        'descripcion'  => 'required|min:10',
+        'descripcion'  => 'required|min:4',
         'fecha_inicio' => 'required|date',
         'fecha_fin'    => 'required|date',
         'empleador_id' => 'required',

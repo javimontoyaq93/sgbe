@@ -7,7 +7,9 @@ use App\Core\Catalogo;
 use App\Core\CatalogoItem;
 use App\Core\Direccion;
 use App\Http\Controllers\Controller;
+use App\Seguridad\Usuario;
 use App\Util\DataType;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -20,6 +22,12 @@ class DireccionEmpleadorController extends Controller
     {
         $this->middleware('auth');
     }
+
+    /**
+     *
+     * Block comment
+     *
+     */
 
     public function crear($empleador_id)
     {
