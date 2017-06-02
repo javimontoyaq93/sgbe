@@ -103,7 +103,7 @@ class PostulanteController extends Controller
                 if ($validator_usuario->fails()) {
                     return redirect()->back()->withErrors($validator_usuario->errors());
                 }
-                $user_id = User::create(['name' => $request->email, 'email' => $request->email, 'password' => bcrypt($request->numero_identificacion)])->id;
+                $user_id = User::create(['name' => $request->email, 'email' => $request->email, 'password' => bcrypt($request->numero_identificacion, "api_token" => $token)])->id;
 
                 $usuario             = new Usuario();
                 $usuario->super_user = false;
