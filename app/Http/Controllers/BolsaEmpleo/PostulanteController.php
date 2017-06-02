@@ -229,7 +229,7 @@ class PostulanteController extends Controller
         }
         $postulante            = Postulante::find($request->id);
         $postulante->eliminado = true;
-        $postulante_id->save();
+        $postulante->save();
         return redirect()->back();
     }
     public function validarNumeroIdentificacion($cedula, $tipo_identificacion)
