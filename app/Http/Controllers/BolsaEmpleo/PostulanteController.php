@@ -258,5 +258,13 @@ class PostulanteController extends Controller
         }
         return false;
     }
-
+    public function enviarEmail($email, $token)
+    {
+        $data = array('from' => DataType::MAIL_USERNAME, 'name' => DataType::MAIL_NAME, 'to' => $email, 'content' => "" . DataType::SERVER . "/" . DataType::RUTA_CAMBIAR_CLAVE . "/" . $token . "");
+        \Mail::send([], $data, function ($message) use ($data) {
+            $message->to($data['to'], 'Bolsa de Empleo-Instituto Juan Montalvo')->subject
+            (' Ruta para Cambiar Clave')->setBody('Bienvenido al Sistema de Gestión de Bolsa de Empleo del Instituto Juan Montalvo; su usuario es: ' . $data['to'] . ', ' . 'ingrese al siguiente link para el cambio de clave: ' . $data['content']);;
+            $message->from($data['to'], $data['name']);
+        });
+    }
 }
