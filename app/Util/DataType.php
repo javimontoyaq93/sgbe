@@ -18,6 +18,8 @@ class DataType
     const RUTA_CAMBIAR_CLAVE       = 'solicitar-cambio-clave';
     const MAIL_USERNAME            = 'javimontoyaq93@gmail.com';
     const MAIL_NAME                = 'javimontoyaq93';
+    const CEDULA                   = 'CEDULA';
+    const ESPECIALIDAD             = 'ESPECIALIDAD';
     public function Defines($const)
     {return in_array($const, $this->getConstants());}
 }

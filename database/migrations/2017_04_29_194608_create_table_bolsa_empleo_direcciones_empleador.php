@@ -16,7 +16,7 @@ class CreateTableBolsaEmpleoDireccionesEmpleador extends Migration
         Schema::create('bolsa_empleo_direcciones_empleadores', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('empleador_id')->unsigned()->index();
-            $table->boolean('eliminado')->nullable()->default('0')
+            $table->boolean('eliminado')->nullable()->default('0');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('id')->references('id')->on('core_direcciones');

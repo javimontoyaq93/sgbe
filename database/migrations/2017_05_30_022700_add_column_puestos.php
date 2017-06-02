@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableSeguridadUsuariosTokens extends Migration
+class AddColumnPuestos extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class CreateTableSeguridadUsuariosTokens extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('api_token')->unique();
+        Schema::table('bolsa_empleo_puestos', function (Blueprint $table) {
+            $table->integer('empleador_id')->unsigned()->index()->nullable();
+            $table->foreign('empleador_id')->references('id')->on('bolsa_empleo_empleadores');
         });
     }
 
@@ -25,6 +26,6 @@ class CreateTableSeguridadUsuariosTokens extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('bolsa_empleo_puestos');
     }
 }

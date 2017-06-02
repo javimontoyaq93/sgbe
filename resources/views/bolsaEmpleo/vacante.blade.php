@@ -45,6 +45,9 @@
                     </label>
                     <div class="col-md-6">
                         <select class="form-control" name="puesto_id" onchange="seleccionarPuesto(this)">
+                            <option>
+                                Seleccione un Puesto
+                            </option>
                             @foreach($puestos as $puesto)
                                        @if($puesto->id==$vacante->puesto_id)
                             <option selected="selected" value="{{$puesto->id}}">

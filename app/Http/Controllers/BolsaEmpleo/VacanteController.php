@@ -35,16 +35,21 @@ class VacanteController extends Controller
             return redirect('home');
         }
         $vacante = new Vacante();
-        $puestos = Puesto::where('eliminado', false)->get();
+        $puestos = array();
+        if ($usuario->usuarioEmpleador) {
+            $puestos = Puesto::where('eliminado', false)->where('empleador_id', $usuario->usuarioEmpleador->empleador_id)->get();
+        } else {
+            $puestos = Puesto::where('eliminado', false)->get();
+        }
 
         return view('bolsaEmpleo.vacante')->with('puestos', $puestos)->with('vacante', $vacante)->with('oferta_empleo_id', $oferta_empleo_id);
     }
 
-    /**
-     *
-     * Permite guardar una vacante.
-     *
-     */
+/**
+ *
+ * Permite guardar una vacante.
+ *
+ */
 
     public function guardar(Request $request)
     {
@@ -84,11 +89,11 @@ class VacanteController extends Controller
         return redirect('/vacante/' . $id);
     }
 
-    /**
-     *
-     * Permite mostrar una vacante.
-     *
-     */
+/**
+ *
+ * Permite mostrar una vacante.
+ *
+ */
     public function show($id)
     {
         $usuario          = Session::get(Auth::user()->name);
@@ -98,14 +103,20 @@ class VacanteController extends Controller
         }
 
         $vacante = Vacante::find($id);
-        $puestos = Puesto::where('eliminado', false)->get();
+        $puestos = array();
+        if ($usuario->usuarioEmpleador) {
+            $puestos = Puesto::where('eliminado', false)->where('empleador_id', $usuario->usuarioEmpleador->empleador_id)->get();
+        } else {
+            $puestos = Puesto::where('eliminado', false)->get();
+
+        }
         return view('bolsaEmpleo.vacante')->with('puestos', $puestos)->with('vacante', $vacante)->with('oferta_empleo_id', $vacante->oferta_empleo_id);
     }
-    /**
-     *
-     * Permite Borrar una vacante seleccionada.
-     *
-     */
+/**
+ *
+ * Permite Borrar una vacante seleccionada.
+ *
+ */
 
     public function borrar(Request $request)
     {

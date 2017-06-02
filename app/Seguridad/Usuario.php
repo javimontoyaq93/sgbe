@@ -9,7 +9,7 @@ class Usuario extends User
 {
     use SoftDeletes;
     protected $table    = 'seguridad_usuarios';
-    protected $fillable = ['super_user'];
+    protected $fillable = ['super_user', 'numero_identificacion'];
 
     /**
      *
@@ -78,4 +78,7 @@ class Usuario extends User
         }
 
     }
+    public static $rules = array(
+        'numero_identificacion' => 'required|min:4|unique:seguridad_usuarios',
+    );
 }

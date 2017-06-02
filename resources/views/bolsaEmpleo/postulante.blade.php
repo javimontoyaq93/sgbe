@@ -114,7 +114,7 @@
                                         Fecha de Nacimiento
                                     </label>
                                     <div class="col-md-6">
-                                        <input autofocus="" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required="" type="date" value="{{ $postulante->fecha_nacimiento }}">
+                                        <input autofocus="" class="form-control datepicker" id="fecha_nacimiento" name="fecha_nacimiento" required="" type="date" value="{{ $postulante->fecha_nacimiento }}">
                                             @if ($errors->has('fecha_nacimiento'))
                                             <span class="help-block">
                                                 <strong>
@@ -195,6 +195,26 @@
                                             </span>
                                             @endif
                                         </input>
+                                    </div>
+                                </div>
+                                <div class="form-group{{ $errors->has('especialidad') ? ' has-error' : '' }}">
+                                    <label class="col-md-4 control-label" for="especialidad">
+                                        Especialidad
+                                    </label>
+                                    <div class="col-md-6">
+                                        <select class="form-control" name="especialidad">
+                                            @foreach($especialidades as $item)
+                                       @if($item->id==$postulante->especialidad)
+                                            <option selected="selected" value="{{$item->id}}">
+                                                {{$item->descripcion}}
+                                            </option>
+                                            @else
+                                            <option value="{{$item->id}}">
+                                                {{$item->descripcion}}
+                                            </option>
+                                            @endif
+                                        @endforeach
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
