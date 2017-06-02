@@ -144,12 +144,12 @@ class EmpleadorController extends Controller
                     }
                     $grupo = GrupoUsuario::where('nombre', DataType::EMPLEADOR)->first();
 
-                    $user_id           = User::create(['name' => $request->email, 'email' => $request->email, 'password' => bcrypt($request->numero_identificacion)])->id;
                     $rules_usuario     = Usuario::$rules;
                     $validator_usuario = Validator::make(['numero_identificacion' => $request->numero_identificacion], $rules);
                     if ($validator_usuario->fails()) {
                         return redirect()->back()->withErrors($validator_usuario->errors());
                     }
+                    $user_id             = User::create(['name' => $request->email, 'email' => $request->email, 'password' => bcrypt($request->numero_identificacion)])->id;
                     $usuario             = new Usuario();
                     $usuario->super_user = false;
                     $usuario->id         = $user_id;
