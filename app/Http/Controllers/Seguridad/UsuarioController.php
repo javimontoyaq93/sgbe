@@ -95,7 +95,7 @@ class UsuarioController extends Controller
             return redirect()->back();
         }
         $user                   = User::find($request->id);
-        $rules_usuario['email'] = 'required|min:4|unique:users,email,' . $user->id;
+        $rules_usuario['email'] = 'unique:users,email' . $user->id;
         $validator              = Validator::make(['password' => $request->clave], $rules_usuario);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->errors());
