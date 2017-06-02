@@ -96,13 +96,13 @@ class PostulanteController extends Controller
                 if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator->errors());
                 }
-                $grupo = GrupoUsuario::where('nombre', DataType::POSTULANTE)->first();
-                $id    = Postulante::create($datos)->id;
+                $grupo             = GrupoUsuario::where('nombre', DataType::POSTULANTE)->first();
+                $id                = Postulante::create($datos)->id;
+                $user_id           = User::create(['name' => $request->email, 'email' => $request->email, 'password' => bcrypt($request->numero_identificacion)])->id;
+                $validator_usuario = Validator::make(['numero_identificacion' => $request->numero_identificacion], $rules_usuario);
                 if ($validator_usuario->fails()) {
                     return redirect()->back()->withErrors($validator_usuario->errors());
                 }
-                $user_id             = User::create(['name' => $request->email, 'email' => $request->email, 'password' => bcrypt($request->numero_identificacion)])->id;
-                $validator_usuario   = Validator::make(['numero_identificacion' => $request->numero_identificacion], $rules_usuario);
                 $usuario             = new Usuario();
                 $usuario->super_user = false;
                 $usuario->id         = $user_id;
@@ -229,7 +229,7 @@ class PostulanteController extends Controller
         }
         $postulante            = Postulante::find($request->id);
         $postulante->eliminado = true;
-        $postulante_id->save();
+        $postulante->save();
         return redirect()->back();
     }
     public function validarNumeroIdentificacion($cedula, $tipo_identificacion)
