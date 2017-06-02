@@ -115,6 +115,7 @@ class PostulanteController extends Controller
                 $usuario_postulante->postulante_id = $id;
                 $usuario_postulante->save();
                 $this->enviarEmail($request->email, $token);
+                Session::flash('flash_message', 'Postulante grabado exitosamente, se le ha enviado un correo a su email para que modifique su clave');
             } else {
                 $rules['numero_identificacion'] = 'required|min:4|unique:bolsa_empleo_postulantes,numero_identificacion,' . $request->id;
                 $rules['email']                 = 'required|email|unique:bolsa_empleo_postulantes,email,' . $request->id;
