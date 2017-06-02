@@ -90,6 +90,7 @@ class PostulanteController extends Controller
 
             $rules         = Postulante::$rules;
             $rules_usuario = Usuario::$rules;
+            $token         = str_random(64);
             $datos         = ['email' => $request->email, 'nombres' => $request->nombres, 'celular' => $request->celular, 'numero_identificacion' => $request->numero_identificacion, 'apellidos' => $request->apellidos, 'tipo_identificacion' => $request->tipo_identificacion, 'estado_civil' => $request->estado_civil, 'genero' => $request->genero, 'fecha_nacimiento' => $request->fecha_nacimiento, 'especialidad' => $request->especialidad];
             if (!$request->id) {
                 $validator = Validator::make($datos, $rules);
