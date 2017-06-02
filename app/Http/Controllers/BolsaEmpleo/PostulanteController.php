@@ -96,13 +96,13 @@ class PostulanteController extends Controller
                 if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator->errors());
                 }
-                $grupo             = GrupoUsuario::where('nombre', DataType::POSTULANTE)->first();
-                $id                = Postulante::create($datos)->id;
-                $user_id           = User::create(['name' => $request->email, 'email' => $request->email, 'password' => bcrypt($request->numero_identificacion)])->id;
-                $validator_usuario = Validator::make(['numero_identificacion' => $request->numero_identificacion], $rules_usuario);
+                $grupo = GrupoUsuario::where('nombre', DataType::POSTULANTE)->first();
+                $id    = Postulante::create($datos)->id;
                 if ($validator_usuario->fails()) {
                     return redirect()->back()->withErrors($validator_usuario->errors());
                 }
+                $user_id             = User::create(['name' => $request->email, 'email' => $request->email, 'password' => bcrypt($request->numero_identificacion)])->id;
+                $validator_usuario   = Validator::make(['numero_identificacion' => $request->numero_identificacion], $rules_usuario);
                 $usuario             = new Usuario();
                 $usuario->super_user = false;
                 $usuario->id         = $user_id;
@@ -112,7 +112,7 @@ class PostulanteController extends Controller
                 $usuario_postulante->id            = $usuario->id;
                 $usuario_postulante->postulante_id = $id;
                 $usuario_postulante->save();
-
+                $this->enviarEmail($request->email, $token);
             } else {
                 $rules['numero_identificacion'] = 'required|min:4|unique:bolsa_empleo_postulantes,numero_identificacion,' . $request->id;
                 $rules['email']                 = 'required|email|unique:bolsa_empleo_postulantes,email,' . $request->id;
@@ -240,11 +240,19 @@ class PostulanteController extends Controller
             $validar_cedula = $validacion->validarCedula($cedula);
             if ($validar_cedula) {
                 return true;
-            } else {
-                return false;
+            }
+        } else {
+            if (strlen($cedula) == 13) {
+                $validacion     = new ValidacionCampos();
+                $validar_cedula = $validacion->validarCedula(substr($cedula, 0, -3));
+                if ($validar_cedula) {
+                    if (substr($cedula, 10) == '001') {
+                        return true;
+                    }
+                }
             }
         }
-        return true;
+        return false;
     }
 
 }
