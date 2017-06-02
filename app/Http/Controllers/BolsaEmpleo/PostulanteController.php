@@ -242,7 +242,7 @@ class PostulanteController extends Controller
             if ($validar_cedula) {
                 return true;
             }
-        } else {
+        } elseif ($cedula_item->nombre == DataType::RUC) {
             if (strlen($cedula) == 13) {
                 $validacion     = new ValidacionCampos();
                 $validar_cedula = $validacion->validarCedula(substr($cedula, 0, -3));
@@ -252,6 +252,8 @@ class PostulanteController extends Controller
                     }
                 }
             }
+        } else {
+            return true;
         }
         return false;
     }

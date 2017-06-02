@@ -19,6 +19,8 @@ class DataType
     const MAIL_USERNAME            = 'javimontoyaq93@gmail.com';
     const MAIL_NAME                = 'javimontoyaq93';
     const CEDULA                   = 'CEDULA';
+    const RUC                      = 'RUC';
+    const PASAPORTE                = 'PASAPORTE';
     const ESPECIALIDAD             = 'ESPECIALIDAD';
     public function Defines($const)
     {return in_array($const, $this->getConstants());}
