@@ -35,4 +35,7 @@ class User extends Authenticatable
         'password' => 'required|min:10',
         'email'    => 'required|email|unique:users',
     );
+    public static $rules_email = array(
+        'email' => 'required|email|unique:users',
+    );
 }

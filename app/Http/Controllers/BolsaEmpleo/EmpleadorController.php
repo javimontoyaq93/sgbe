@@ -89,9 +89,15 @@ class EmpleadorController extends Controller
             $id            = null;
             $rules         = Empleador::$rules;
             $rules_usuario = Usuario::$rules;
+            $rules_user    = User::$rules;
             $datos         = ['email' => $request->email, 'razon_social' => $request->razon_social, 'celular' => $request->celular, 'numero_identificacion' => $request->numero_identificacion, 'tipo_personeria' => $request->tipo_personeria, 'tipo_identificacion' => $request->tipo_identificacion, 'actividad_economica' => $request->actividad_economica];
             $token         = str_random(64);
             if (!$request->id) {
+                $validator_user = Validator::make(['email' => $request->email, 'password' => bcrypt($request->numero_identificacion)], $rules_user);
+                if ($validator_user->fails()) {
+                    return redirect()->back()->withErrors($validator_user->errors());
+                }
+
                 $validator = Validator::make($datos, $rules);
                 if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator->errors());

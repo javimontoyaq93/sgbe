@@ -186,7 +186,7 @@
                                         Celular
                                     </label>
                                     <div class="col-md-6">
-                                        <input class="form-control" id="celular" name="celular" value="{{ $postulante->celular}}">
+                                        <input class="form-control" id="celular" name="celular" type="number" value="{{ $postulante->celular}}">
                                             @if ($errors->has('celular'))
                                             <span class="help-block">
                                                 <strong>
@@ -215,6 +215,16 @@
                                             @endif
                                         @endforeach
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="form-group{{ $errors->has('observacion') ? ' has-error' : '' }}">
+                                    <label class="col-md-4 control-label" for="observacion">
+                                        Certificados
+                                    </label>
+                                    <div class="col-md-6">
+                                        <textarea cols="50" id="observacion" name="observacion" rows="5">
+                                            {{ $postulante->observacion }}
+                                        </textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
