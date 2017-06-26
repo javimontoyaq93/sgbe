@@ -72,46 +72,43 @@
                         <li class="dropdown">
                             <a aria-expanded="false" class="dropdown-toggle" data-toggle="dropdown" href="#" role="button">
                                 {{ Auth::user()->name }}
-                                <span class="caret">
-                                </span>
                             </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li>
-                                    <a href="{{ route('cambiar-clave') }}">
-                                        Cambiar Clave
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('logout') }}" onclick="event.preventDefault();
+                            <li>
+                                <a href="{{ route('cambiar-clave') }}">
+                                    Cambiar Clave
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        Logout
-                                    </a>
-                                    <form action="{{ route('logout') }}" id="logout-form" method="POST" style="display: none;">
-                                        {{ csrf_field() }}
-                                    </form>
-                                </li>
-                            </ul>
+                                    Logout
+                                </a>
+                                <form action="{{ route('logout') }}" id="logout-form" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
+                            </li>
                         </li>
-                        @endif
                     </ul>
                 </div>
             </div>
         </nav>
-        @yield('content')
     </div>
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}">
-    </script>
-    <script charset="UTF-8" src="{{ asset('jquery/jquery-1.8.3.min.js' )}}" type="text/javascript">
-    </script>
-    <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}" type="text/javascript">
-    </script>
-    <script charset="UTF-8" src="{{ asset('js/bootstrap-datetimepicker.js') }}" type="text/javascript">
-    </script>
-    <script charset="UTF-8" src="{{ asset('js/locales/bootstrap-datetimepicker.es.js') }}" type="text/javascript">
-    </script>
-    <script type="text/javascript">
-        $('.form_datetime').datetimepicker({
+</body>
+@endif
+@yield('content')
+<!-- Scripts -->
+<script src="{{ asset('js/app.js') }}">
+</script>
+<script charset="UTF-8" src="{{ asset('jquery/jquery-1.8.3.min.js' )}}" type="text/javascript">
+</script>
+<script src="{{ asset('bootstrap/js/bootstrap.min.js') }}" type="text/javascript">
+</script>
+<script charset="UTF-8" src="{{ asset('js/bootstrap-datetimepicker.js') }}" type="text/javascript">
+</script>
+<script charset="UTF-8" src="{{ asset('js/locales/bootstrap-datetimepicker.es.js') }}" type="text/javascript">
+</script>
+<script type="text/javascript">
+    $('.form_datetime').datetimepicker({
         weekStart: 1,
         todayBtn:  1,
         autoclose: 1,
@@ -141,5 +138,4 @@
         maxView: 1,
         forceParse: 0
     });
-    </script>
-</body>
+</script>
