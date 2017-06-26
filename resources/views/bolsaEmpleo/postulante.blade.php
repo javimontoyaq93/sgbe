@@ -113,15 +113,16 @@
                                     <label class="col-md-4 control-label" for="fecha_nacimiento">
                                         Fecha de Nacimiento
                                     </label>
-                                    <div class="col-md-6">
-                                        <input autofocus="" class="form-control datepicker" id="fecha_nacimiento" name="fecha_nacimiento" required="" type="date" value="{{ $postulante->fecha_nacimiento }}">
-                                            @if ($errors->has('fecha_nacimiento'))
-                                            <span class="help-block">
-                                                <strong>
-                                                    {{ $errors->first('fecha_nacimiento') }}
-                                                </strong>
+                                    <div class="input-append date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                        <input id="fecha_nacimiento" name="fecha_nacimiento" readonly="" size="16" type="text" value="{{ $postulante->fecha_nacimiento }}">
+                                            <span class="add-on">
+                                                <i class="icon-remove">
+                                                </i>
                                             </span>
-                                            @endif
+                                            <span class="add-on">
+                                                <i class="icon-th">
+                                                </i>
+                                            </span>
                                         </input>
                                     </div>
                                 </div>

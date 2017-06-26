@@ -70,7 +70,7 @@
                                                 Descripción
                                             </label>
                                             <div class="col-md-6">
-                                                <textarea class="form-control" cols="50" id="descripcion" name="descripcion" required="" rows="5">
+                                                <textarea class="form-control" cols="50" id="descripcion" name="descripcion" required="" rows="3">
                                                     {{ $ofertaEmpleo->descripcion }}
                                                 </textarea>
                                             </div>
@@ -79,15 +79,16 @@
                                             <label class="col-md-4 control-label" for="fecha_inicio">
                                                 Fecha de Inicio
                                             </label>
-                                            <div class="col-md-6">
-                                                <input autofocus="" class="form-control" id="fecha_inicio" name="fecha_inicio" required="" type="date" value="{{$ofertaEmpleo->fecha_inicio }}">
-                                                    @if ($errors->has('fecha_inicio'))
-                                                    <span class="help-block">
-                                                        <strong>
-                                                            {{ $errors->first('fecha_inicio') }}
-                                                        </strong>
+                                            <div class="input-append date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                                <input id="fecha_inicio" name="fecha_inicio" readonly="" size="16" type="text" value="{{ $ofertaEmpleo->fecha_inicio }}">
+                                                    <span class="add-on">
+                                                        <i class="icon-remove">
+                                                        </i>
                                                     </span>
-                                                    @endif
+                                                    <span class="add-on">
+                                                        <i class="icon-th">
+                                                        </i>
+                                                    </span>
                                                 </input>
                                             </div>
                                         </div>
@@ -95,15 +96,16 @@
                                             <label class="col-md-4 control-label" for="fecha_fin">
                                                 Fecha de Inicio
                                             </label>
-                                            <div class="col-md-6">
-                                                <input autofocus="" class="form-control" id="fecha_fin" name="fecha_fin" required="" type="date" value="{{$ofertaEmpleo->fecha_fin }}">
-                                                    @if ($errors->has('fecha_fin'))
-                                                    <span class="help-block">
-                                                        <strong>
-                                                            {{ $errors->first('fecha_fin') }}
-                                                        </strong>
+                                            <div class="input-append date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                                <input id="fecha_fin" name="fecha_fin" readonly="" size="16" type="text" value="{{ $ofertaEmpleo->fecha_fin }}">
+                                                    <span class="add-on">
+                                                        <i class="icon-remove">
+                                                        </i>
                                                     </span>
-                                                    @endif
+                                                    <span class="add-on">
+                                                        <i class="icon-th">
+                                                        </i>
+                                                    </span>
                                                 </input>
                                             </div>
                                         </div>
