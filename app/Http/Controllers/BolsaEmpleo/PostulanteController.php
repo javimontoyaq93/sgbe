@@ -90,9 +90,16 @@ class PostulanteController extends Controller
 
             $rules         = Postulante::$rules;
             $rules_usuario = Usuario::$rules;
+            $rules_user    = User::$rules;
             $token         = str_random(64);
-            $datos         = ['email' => $request->email, 'nombres' => $request->nombres, 'celular' => $request->celular, 'numero_identificacion' => $request->numero_identificacion, 'apellidos' => $request->apellidos, 'tipo_identificacion' => $request->tipo_identificacion, 'estado_civil' => $request->estado_civil, 'genero' => $request->genero, 'fecha_nacimiento' => $request->fecha_nacimiento, 'especialidad' => $request->especialidad];
+            $datos         = ['email' => $request->email, 'nombres' => $request->nombres, 'celular' => $request->celular, 'numero_identificacion' => $request->numero_identificacion, 'apellidos' => $request->apellidos, 'tipo_identificacion' => $request->tipo_identificacion, 'estado_civil' => $request->estado_civil, 'genero' => $request->genero, 'fecha_nacimiento' => $request->fecha_nacimiento, 'especialidad' => $request->especialidad, 'observacion' => $request->observacion];
             if (!$request->id) {
+
+                $validator_user = Validator::make(['email' => $request->email, 'password' => bcrypt($request->numero_identificacion)], $rules_user);
+                if ($validator_user->fails()) {
+                    return redirect()->back()->withErrors($validator_user->errors());
+                }
+
                 $validator = Validator::make($datos, $rules);
                 if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator->errors());
@@ -103,6 +110,7 @@ class PostulanteController extends Controller
                 if ($validator_usuario->fails()) {
                     return redirect()->back()->withErrors($validator_usuario->errors());
                 }
+
                 $user_id = User::create(['name' => $request->email, 'email' => $request->email, 'password' => bcrypt($request->numero_identificacion), 'api_token' => $token])->id;
 
                 $usuario             = new Usuario();
@@ -135,6 +143,7 @@ class PostulanteController extends Controller
                 $postulante->celular               = $request->celular;
                 $postulante->fecha_nacimiento      = $request->fecha_nacimiento;
                 $postulante->especialidad          = $request->especialidad;
+                $postulante->observacion           = $request->observacion;
                 $postulante->save();
                 $id = $postulante->id;
                 if (count($postulante->usuarios) == 0) {
@@ -225,14 +234,29 @@ class PostulanteController extends Controller
 
     public function borrar(Request $request)
     {
-        $usuario          = Session::get(Auth::user()->name);
-        $validar_permisos = Usuario::validarPermisos($usuario->id, DataType::POSTULANTE);
-        if (!$validar_permisos) {
-            return redirect('home');
+        DB::beginTransaction();
+        try {
+            $usuario          = Session::get(Auth::user()->name);
+            $validar_permisos = Usuario::validarPermisos($usuario->id, DataType::POSTULANTE);
+            if (!$validar_permisos) {
+                return redirect('home');
+            }
+            $postulante = Postulante::find($request->id);
+            $postulante->direcciones()->delete();
+            $usuarios_postulantes = UsuarioPostulante::where('postulante_id', $postulante->id)->get();
+            foreach ($usuarios_postulantes as $up) {
+                $up->delete();
+                $usuario_id = $up->id;
+                $up->usuario()->delete();
+                $user = User::find($usuario_id);
+                $user->delete();
+            }
+            $postulante->delete();
+        } catch (Exception $e) {
+            DB::rollback();
+            throw $e;
         }
-        $postulante            = Postulante::find($request->id);
-        $postulante->eliminado = true;
-        $postulante->save();
+        DB::commit();
         return redirect()->back();
     }
     public function validarNumeroIdentificacion($cedula, $tipo_identificacion)

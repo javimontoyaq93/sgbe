@@ -176,7 +176,7 @@ function seleccionarProvincia(select){
                         Teléfono
                     </label>
                     <div class="col-md-6">
-                        <input autofocus="" class="form-control" id="telefono" name="telefono" type="text" value="{{$direccion->direccion->telefono }}">
+                        <input autofocus="" class="form-control" id="telefono" name="telefono" type="number" value="{{$direccion->direccion->telefono }}">
                             @if ($errors->has('telefono'))
                             <span class="help-block">
                                 <strong>

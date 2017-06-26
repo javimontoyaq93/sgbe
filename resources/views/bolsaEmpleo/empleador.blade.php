@@ -156,7 +156,7 @@
                                         Celular
                                     </label>
                                     <div class="col-md-6">
-                                        <input class="form-control" id="celular" name="celular" value="{{ $empleador->celular}}">
+                                        <input class="form-control" id="celular" name="celular" type="number" value="{{ $empleador->celular}}">
                                             @if ($errors->has('celular'))
                                             <span class="help-block">
                                                 <strong>

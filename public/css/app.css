@@ -25,3 +25,10 @@ background-color: #ddd !important	;
 .btn-primary:focus{
 	background-color: #eee !important;
 }
+.nav-tabs-horizontal  > li.active > a,
+    .nav-tabs-horizontal  > li.active > a:hover,
+    .nav-tabs-horizontal  > li.active > a:focus {
+        color: #ffffff;
+        background-color: #428bca;
+    }
+

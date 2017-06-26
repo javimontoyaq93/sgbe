@@ -3,11 +3,9 @@
 namespace App\Seguridad;
 
 use App\User;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Usuario extends User
 {
-    use SoftDeletes;
     protected $table    = 'seguridad_usuarios';
     protected $fillable = ['super_user', 'numero_identificacion'];
 

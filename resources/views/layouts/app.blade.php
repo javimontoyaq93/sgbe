@@ -18,15 +18,16 @@
         ]) !!};
                             </script>
                         </link>
+                        <link href="{{ asset('bootstrap/css/bootstrap.css') }}" media="screen" rel="stylesheet">
+                        </link>
+                        <link href="{{ asset('css/bootstrap-datetimepicker.min.css') }}" media="screen" rel="stylesheet">
+                        </link>
                     </meta>
                 </meta>
             </meta>
         </meta>
     </head>
 </html>
-<link href="{{ asset('css/bootstrap-datepicker.min.css') }}" rel="stylesheet"/>
-<script src="{{asset('js/bootstrap-datepicker.min.js')}}">
-</script>
 <body>
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
@@ -100,5 +101,45 @@
     </div>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}">
+    </script>
+    <script charset="UTF-8" src="{{ asset('jquery/jquery-1.8.3.min.js' )}}" type="text/javascript">
+    </script>
+    <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}" type="text/javascript">
+    </script>
+    <script charset="UTF-8" src="{{ asset('js/bootstrap-datetimepicker.js') }}" type="text/javascript">
+    </script>
+    <script charset="UTF-8" src="{{ asset('js/locales/bootstrap-datetimepicker.es.js') }}" type="text/javascript">
+    </script>
+    <script type="text/javascript">
+        $('.form_datetime').datetimepicker({
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        forceParse: 0,
+        showMeridian: 1
+    });
+    $('.form_date').datetimepicker({
+        language:  'es',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+    $('.form_time').datetimepicker({
+        language:  'es',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 1,
+        minView: 0,
+        maxView: 1,
+        forceParse: 0
+    });
     </script>
 </body>

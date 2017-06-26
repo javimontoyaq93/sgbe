@@ -114,7 +114,7 @@ class UtilController extends Controller
     }
     public function crearCatalogosItems()
     {
-        $handle = fopen('/home/jorgemalla/Documentos/SGBE/catalogos_items.csv', "r");
+        $handle = fopen('/home/jorgemalla/Documentos/Proyectos/SGBE/catalogos_items.csv', "r");
         $header = true;
 
         while ($csvLine = fgetcsv($handle, 1000, ";")) {
@@ -133,12 +133,11 @@ class UtilController extends Controller
                             $id_padre = $padre->id;
                         }
                     }
-                    echo $padre, $id_padre;
                     if (!$catalogoItem) {
 
                         CatalogoItem::create(['nombre' => $csvLine[0], 'descripcion' => $csvLine[1], 'catalogo_id' => $catalogo->id, 'padre_id' => $id_padre]);
                     } else {
-                        $catalogoItem->padre_id    = $padre;
+                        $catalogoItem->padre_id    = $id_padre;
                         $catalogoItem->catalogo_id = $catalogo->id;
                         $catalogoItem->save();
                     }

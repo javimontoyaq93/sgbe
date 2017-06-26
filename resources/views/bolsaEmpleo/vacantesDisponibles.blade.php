@@ -64,7 +64,7 @@
                                     Área de Conocimiento
                                 </th>
                                 <td>
-                                    {{ $vd->puesto->area_conocimiento}}
+                                    {{ $vd->puesto->areaConocimiento->nombre}}
                                 </td>
                             </tr>
                             <tr>

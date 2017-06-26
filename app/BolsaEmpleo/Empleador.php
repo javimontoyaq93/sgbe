@@ -6,11 +6,9 @@ use App\BolsaEmpleo\DireccionEmpleador;
 use App\Core\CatalogoItem;
 use App\Seguridad\UsuarioEmpleador;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Empleador extends Model
 {
-    use SoftDeletes;
     protected $table      = 'bolsa_empleo_empleadores';
     protected $primaryKey = 'id';
     protected $fillable   = ['razon_social', 'email', 'numero_identificacion', 'actividad_economica', 'tipo_identificacion', 'tipo_personeria', 'celular', 'eliminado'];
