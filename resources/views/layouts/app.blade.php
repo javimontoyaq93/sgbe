@@ -20,7 +20,7 @@
                         </link>
                         <link href="{{ asset('bootstrap/css/bootstrap.css') }}" media="screen" rel="stylesheet">
                         </link>
-                        <link href="{{ asset('css/bootstrap-datetimepicker.min.css') }}" media="screen" rel="stylesheet">
+                        <link href="{{ asset('css/bootstrap-datetimepicker.css') }}" media="screen" rel="stylesheet">
                         </link>
                     </meta>
                 </meta>
@@ -58,7 +58,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
-                        <li>
+                        <li class="dropdown">
                             <a href="{{ route('login') }}">
                                 Login
                             </a>
@@ -95,7 +95,10 @@
     </div>
 </body>
 @endif
-@yield('content')
+<br/>
+<div>
+    @yield('content')
+</div>
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}">
 </script>

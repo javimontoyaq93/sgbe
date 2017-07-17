@@ -1945,10 +1945,10 @@ legend + .control-group {
   clear: both;
 }
 .form-horizontal .control-label {
-  float: left;
+  float: justify;
   width: 160px;
   padding-top: 5px;
-  text-align: right;
+  text-align: justify;
 }
 .form-horizontal .controls {
   *display: inline-block;
@@ -5272,7 +5272,7 @@ button.close {
     float: none;
     width: auto;
     padding-top: 0;
-    text-align: left;
+    text-align: justify;
   }
   .form-horizontal .controls {
     margin-left: 0;
