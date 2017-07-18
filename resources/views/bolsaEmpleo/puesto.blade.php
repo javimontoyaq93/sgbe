@@ -86,11 +86,11 @@
                                                 @foreach($especialidades as $item)
                                        @if($item->id==$puesto->area_conocimiento)
                                                 <option selected="selected" value="{{$item->id}}">
-                                                    {{ucfirst($item->descripcion)}}
+                                                    {{strtoupper($item->descripcion)}}
                                                 </option>
                                                 @else
                                                 <option value="{{$item->id}}">
-                                                    {{ucfirst($item->descripcion)}}
+                                                    {{strtoupper($item->descripcion)}}
                                                 </option>
                                                 @endif
                                         @endforeach
