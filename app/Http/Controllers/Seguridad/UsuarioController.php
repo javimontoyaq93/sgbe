@@ -87,18 +87,22 @@ class UsuarioController extends Controller
     }
     public function actualizarCambioClave(Request $request)
     {
-        $validator = Validator::make(['password' => $request->clave], User::$rules);
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator->errors());
-        }
+        $rules_usuario = User::$rules;
         $clave         = $request->clave;
         $confirmaClave = $request->confirmar_clave;
         if ($clave != $confirmaClave) {
             Session::flash('error_message', 'Claves no coinciden');
             return redirect()->back();
         }
-        $user           = User::find($request->id);
-        $user->password = bcrypt($request->clave);
+        $user                   = User::find($request->id);
+        $rules_usuario['email'] = 'unique:users,email' . $user->id;
+        $validator              = Validator::make(['password' => $request->clave], $rules_usuario);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->errors());
+        }
+        $user->password  = bcrypt($request->clave);
+        $token           = str_random(64);
+        $user->api_token = $token;
         $user->save();
         Session::flash('flash_message', 'Clave actualizada exitosamente');
         return redirect()->back();

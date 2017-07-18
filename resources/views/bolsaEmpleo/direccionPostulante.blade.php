@@ -101,7 +101,7 @@ function seleccionarProvincia(select){
                 </div>
                 <div class="form-group{{ $errors->has('ciudad') ? ' has-error' : '' }}">
                     <label class="col-md-4 control-label" for="ciudad">
-                        Ciudad
+                        Cantón
                     </label>
                     <div class="col-md-6">
                         <select class="form-control" id="ciudad" name="ciudad">
@@ -176,7 +176,7 @@ function seleccionarProvincia(select){
                         Teléfono
                     </label>
                     <div class="col-md-6">
-                        <input autofocus="" class="form-control" id="telefono" name="telefono" type="text" value="{{$direccion->direccion->telefono }}">
+                        <input autofocus="" class="form-control" id="telefono" name="telefono" type="number" value="{{$direccion->direccion->telefono }}">
                             @if ($errors->has('telefono'))
                             <span class="help-block">
                                 <strong>

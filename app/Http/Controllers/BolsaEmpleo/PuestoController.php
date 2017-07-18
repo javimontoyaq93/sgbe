@@ -52,7 +52,7 @@ class PuestoController extends Controller
         if (!$usuario->usuarioEmpleador) {
             $empleadores = Empleador::where('eliminado', false)->get();
         }
-        $niveles_instruccion = CatalogoItem::where('catalogo_id', $catalogo_nivel_instruccion->id)->get();
+        $niveles_instruccion = CatalogoItem::where('catalogo_id', $catalogo_nivel_instruccion->id)->orderBy('descripcion', 'asc')->get();
         $puesto              = new Puesto();
         return view('bolsaEmpleo.puesto')->with('niveles_instruccion', $niveles_instruccion)->with('puesto', $puesto)->with('empleadores', $empleadores)->with('usuario', $usuario)->with('especialidades', $especialidades);
     }
@@ -119,7 +119,7 @@ class PuestoController extends Controller
             $empleadores = Empleador::where('eliminado', false)->get();
         }
         $especialidades      = CatalogoItem::where('catalogo_id', $catalogo_especialidad->id)->get();
-        $niveles_instruccion = CatalogoItem::where('catalogo_id', $catalogo_nivel_instruccion->id)->get();
+        $niveles_instruccion = CatalogoItem::where('catalogo_id', $catalogo_nivel_instruccion->id)->orderBy('descripcion', 'asc')->get();
         $puesto              = Puesto::find($id);
 
         return view('bolsaEmpleo.puesto')->with('puesto', $puesto)->with('niveles_instruccion', $niveles_instruccion)->with('especialidades', $especialidades)->with('usuario', $usuario)->with('empleadores', $empleadores);

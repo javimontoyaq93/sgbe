@@ -18,15 +18,22 @@
         ]) !!};
                             </script>
                         </link>
+                        <link href="{{ asset('bootstrap/css/bootstrap.css') }}" media="screen" rel="stylesheet">
+                        </link>
+                        <link href="{{ asset('css/bootstrap-datetimepicker.css') }}" media="screen" rel="stylesheet">
+                        </link>
+                        <link href="{{ asset('css/prettify.css') }}" media="screen" rel="stylesheet">
+                        </link>
+                        <link href="{{ asset('css/wysiwyg-color.css') }}" media="screen" rel="stylesheet">
+                        </link>
+                        <link href="{{ asset('css/bootstrap-wysihtml5.css') }}" media="screen" rel="stylesheet">
+                        </link>
                     </meta>
                 </meta>
             </meta>
         </meta>
     </head>
 </html>
-<link href="{{ asset('css/bootstrap-datepicker.min.css') }}" rel="stylesheet"/>
-<script src="{{asset('js/bootstrap-datepicker.min.js')}}">
-</script>
 <body>
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
@@ -57,7 +64,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
-                        <li>
+                        <li class="dropdown">
                             <a href="{{ route('login') }}">
                                 Login
                             </a>
@@ -71,34 +78,85 @@
                         <li class="dropdown">
                             <a aria-expanded="false" class="dropdown-toggle" data-toggle="dropdown" href="#" role="button">
                                 {{ Auth::user()->name }}
-                                <span class="caret">
-                                </span>
                             </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li>
-                                    <a href="{{ route('cambiar-clave') }}">
-                                        Cambiar Clave
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('logout') }}" onclick="event.preventDefault();
+                            <li>
+                                <a href="{{ route('cambiar-clave') }}">
+                                    Cambiar Clave
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        Logout
-                                    </a>
-                                    <form action="{{ route('logout') }}" id="logout-form" method="POST" style="display: none;">
-                                        {{ csrf_field() }}
-                                    </form>
-                                </li>
-                            </ul>
+                                    Logout
+                                </a>
+                                <form action="{{ route('logout') }}" id="logout-form" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
+                            </li>
                         </li>
-                        @endif
                     </ul>
                 </div>
             </div>
         </nav>
-        @yield('content')
     </div>
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}">
-    </script>
 </body>
+@endif
+<br/>
+<div>
+    @yield('content')
+</div>
+<!-- Scripts -->
+<script src="{{ asset('js/app.js') }}">
+</script>
+<script charset="UTF-8" src="{{ asset('jquery/jquery-1.8.3.min.js' )}}" type="text/javascript">
+</script>
+<script src="{{ asset('bootstrap/js/bootstrap.min.js') }}" type="text/javascript">
+</script>
+<script charset="UTF-8" src="{{ asset('js/bootstrap-datetimepicker.js') }}" type="text/javascript">
+</script>
+<script charset="UTF-8" src="{{ asset('js/locales/bootstrap-datetimepicker.es.js') }}" type="text/javascript">
+</script>
+<script charset="UTF-8" src="{{ asset('js/wysihtml5-0.3.0.js') }}" type="text/javascript">
+</script>
+<script charset="UTF-8" src="{{ asset('js/prettify.js') }}" type="text/javascript">
+</script>
+<script charset="UTF-8" src="{{ asset('js/bootstrap-wysihtml5.js') }}" type="text/javascript">
+</script>
+<script type="text/javascript">
+    $('.form_datetime').datetimepicker({
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        forceParse: 0,
+        showMeridian: 1
+    });
+    $('.form_date').datetimepicker({
+        language:  'es',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+    $('.form_time').datetimepicker({
+        language:  'es',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 1,
+        minView: 0,
+        maxView: 1,
+        forceParse: 0
+    });
+</script>
+<script>
+    $('.textarea').wysihtml5();
+</script>
+<script charset="utf-8" type="text/javascript">
+    $(prettyPrint);
+</script>

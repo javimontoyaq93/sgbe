@@ -5,14 +5,12 @@ namespace App\BolsaEmpleo;
 use App\Core\CatalogoItem;
 use App\Seguridad\UsuarioPostulante;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Postulante extends Model
 {
-    use SoftDeletes;
     protected $table      = 'bolsa_empleo_postulantes';
     protected $primaryKey = 'id';
-    protected $fillable   = ['nombres', 'apellidos', 'numero_identificacion', 'eliminado', 'email', 'celular', 'estado_civil', 'genero', 'tipo_identificacion', 'fecha_nacimiento', 'especialidad'];
+    protected $fillable   = ['nombres', 'apellidos', 'numero_identificacion', 'eliminado', 'email', 'celular', 'estado_civil', 'genero', 'tipo_identificacion', 'fecha_nacimiento', 'especialidad', 'observacion'];
 
     /**
      *

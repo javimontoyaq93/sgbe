@@ -35,4 +35,5 @@ class VacantesDisponiblesController extends Controller
         })->paginate(DataType::PAGINATE);
         return view('bolsaEmpleo.vacantesDisponibles')->with('vacantes_disponibles', $vacantes_disponibles);
     }
+
 }
