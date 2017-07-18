@@ -44,7 +44,7 @@
                                     @if ($usuario && !$usuario->usuarioEmpleador)
                                     <div class="form-group{{ $errors->has('empleador_id') ? ' has-error' : '' }}">
                                         <label class="col-md-4 control-label" for="empleador_id">
-                                            Empleador
+                                            Empleador*
                                         </label>
                                         <div class="col-md-6">
                                             <select class="form-control" name="empleador_id">
@@ -67,17 +67,17 @@
                                         @endif
                                         <div class="form-group{{ $errors->has('descripcion') ? ' has-error' : '' }}">
                                             <label class="col-md-4 control-label" for="descripcion">
-                                                Descripción
+                                                Descripción*
                                             </label>
                                             <div class="col-md-6">
-                                                <textarea class="form-control" cols="50" id="descripcion" name="descripcion" required="" rows="3">
+                                                <textarea class="textarea" cols="20" id="descripcion" name="descripcion" required="" rows="5" style="width: 100%">
                                                     {{ $ofertaEmpleo->descripcion }}
                                                 </textarea>
                                             </div>
                                         </div>
                                         <div class="form-group{{ $errors->has('fecha_inicio') ? ' has-error' : '' }}">
                                             <label class="col-md-4 control-label" for="fecha_inicio">
-                                                Fecha de Inicio
+                                                Fecha de Inicio*
                                             </label>
                                             <div class="input-append date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
                                                 <input id="fecha_inicio" name="fecha_inicio" readonly="" size="16" type="text" value="{{ $ofertaEmpleo->fecha_inicio }}">
@@ -94,7 +94,7 @@
                                         </div>
                                         <div class="form-group{{ $errors->has('fecha_fin') ? ' has-error' : '' }}">
                                             <label class="col-md-4 control-label" for="fecha_fin">
-                                                Fecha de Inicio
+                                                Fecha de Fin*
                                             </label>
                                             <div class="input-append date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
                                                 <input id="fecha_fin" name="fecha_fin" readonly="" size="16" type="text" value="{{ $ofertaEmpleo->fecha_fin }}">

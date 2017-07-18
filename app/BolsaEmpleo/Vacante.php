@@ -41,6 +41,7 @@ class Vacante extends Model
     {
         return $this->belongsTo('App\BolsaEmpleo\Puesto', 'puesto_id');
     }
+
     public static $rules = array(
         'numero_vacante'   => 'required',
         'descripcion'      => 'required|min:4',

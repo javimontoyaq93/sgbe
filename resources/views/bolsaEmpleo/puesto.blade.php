@@ -39,7 +39,7 @@
                                     @if ($usuario && !$usuario->usuarioEmpleador)
                                     <div class="form-group{{ $errors->has('empleador_id') ? ' has-error' : '' }}">
                                         <label class="col-md-4 control-label" for="empleador_id">
-                                            Empleador
+                                            Empleador*
                                         </label>
                                         <div class="col-md-6">
                                             <select class="form-control" name="empleador_id">
@@ -63,7 +63,7 @@
                                     @endif
                                     <div class="form-group{{ $errors->has('razon_social') ? ' has-error' : '' }}">
                                         <label class="col-md-4 control-label" for="denominacion">
-                                            Denominación
+                                            Denominación*
                                         </label>
                                         <div class="col-md-6">
                                             <input autofocus="" class="form-control" id="denominacion" name="denominacion" required="" type="text" value="{{ $puesto->denominacion }}">
@@ -79,18 +79,18 @@
                                     </div>
                                     <div class="form-group{{ $errors->has('area_conocimiento') ? ' has-error' : '' }}">
                                         <label class="col-md-4 control-label" for="area_conocimiento">
-                                            Area de Conocimiento
+                                            Area de Conocimiento*
                                         </label>
                                         <div class="col-md-6">
                                             <select class="form-control" name="area_conocimiento">
                                                 @foreach($especialidades as $item)
                                        @if($item->id==$puesto->area_conocimiento)
                                                 <option selected="selected" value="{{$item->id}}">
-                                                    {{$item->descripcion}}
+                                                    {{ucfirst($item->descripcion)}}
                                                 </option>
                                                 @else
                                                 <option value="{{$item->id}}">
-                                                    {{$item->descripcion}}
+                                                    {{ucfirst($item->descripcion)}}
                                                 </option>
                                                 @endif
                                         @endforeach
@@ -99,7 +99,7 @@
                                     </div>
                                     <div class="form-group{{ $errors->has('nivel_instruccion') ? ' has-error' : '' }}">
                                         <label class="col-md-4 control-label" for="nivel_instruccion">
-                                            Nivel de Instrucción
+                                            Nivel de Instrucción*
                                         </label>
                                         <div class="col-md-6">
                                             <select class="form-control" name="nivel_instruccion">
@@ -119,7 +119,7 @@
                                     </div>
                                     <div class="form-group{{ $errors->has('remuneracion') ? ' has-error' : '' }}">
                                         <label class="col-md-4 control-label" for="remuneracion">
-                                            Remuneración
+                                            Remuneración*
                                         </label>
                                         <div class="col-md-6">
                                             <input autofocus="" class="form-control" id="remuneracion" name="remuneracion" required="" step="0.01" type="number" value="{{$puesto->remuneracion }}">
@@ -135,7 +135,7 @@
                                     </div>
                                     <div class="form-group{{ $errors->has('tiempo_experiencia') ? ' has-error' : '' }}">
                                         <label class="col-md-4 control-label" for="tiempo_experiencia">
-                                            Tiempo de Experiencia en Años
+                                            Tiempo de Experiencia en Años*
                                         </label>
                                         <div class="col-md-6">
                                             <input autofocus="" class="form-control" id="tiempo_experiencia" name="tiempo_experiencia" required="" type="number" value="{{$puesto->tiempo_experiencia }}">

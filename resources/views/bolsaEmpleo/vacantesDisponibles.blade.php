@@ -10,13 +10,36 @@
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table table-sm table-responsive table-hover">
                             <tr>
                                 <th>
-                                    Fechas de Postulación
+                                    Desde
                                 </th>
                                 <td>
-                                    Desde: {{ $vd->ofertaEmpleo->fecha_inicio }} a {{ $vd->ofertaEmpleo->fecha_fin }}
+                                    {{ $vd->ofertaEmpleo->fecha_inicio }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    Hasta
+                                </th>
+                                <td>
+                                    {{ $vd->ofertaEmpleo->fecha_fin }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    Tiempo de Vigencia
+                                </th>
+                                <td>
+                                    <?php
+$fecha_inicio=date_create($vd->
+                                    ofertaEmpleo->fecha_inicio);
+$fecha_fin=date_create($vd->ofertaEmpleo->fecha_fin);
+$diff=date_diff($fecha_inicio,$fecha_fin);
+echo $diff->
+                                        format("%R%a días");
+?>
                                 </td>
                             </tr>
                             <tr>
@@ -64,7 +87,7 @@
                                     Área de Conocimiento
                                 </th>
                                 <td>
-                                    {{ $vd->puesto->areaConocimiento->nombre}}
+                                    {{ $vd->puesto->areaConocimiento->descripcion}}
                                 </td>
                             </tr>
                             <tr>
