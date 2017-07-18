@@ -81,8 +81,6 @@
                                 </a>
                             </div>
                         </div>
-                        <textarea class="textarea" placeholder="Enter text ..." style="width: 810px; height: 200px">
-                        </textarea>
                     </form>
                 </div>
             </div>
