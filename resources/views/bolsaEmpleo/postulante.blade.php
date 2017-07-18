@@ -223,7 +223,7 @@
                                         Certificados
                                     </label>
                                     <div class="col-md-6">
-                                        <textarea cols="50" id="observacion" name="observacion" rows="5">
+                                        <textarea class="textarea" cols="20" id="descripcion" name="descripcion" required="" rows="5" style="width: 100%">
                                             {{ $postulante->observacion }}
                                         </textarea>
                                     </div>

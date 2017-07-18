@@ -22,6 +22,12 @@
                         </link>
                         <link href="{{ asset('css/bootstrap-datetimepicker.css') }}" media="screen" rel="stylesheet">
                         </link>
+                        <link href="{{ asset('css/prettify.css') }}" media="screen" rel="stylesheet">
+                        </link>
+                        <link href="{{ asset('css/wysiwyg-color.css') }}" media="screen" rel="stylesheet">
+                        </link>
+                        <link href="{{ asset('css/bootstrap-wysihtml5.css') }}" media="screen" rel="stylesheet">
+                        </link>
                     </meta>
                 </meta>
             </meta>
@@ -110,6 +116,12 @@
 </script>
 <script charset="UTF-8" src="{{ asset('js/locales/bootstrap-datetimepicker.es.js') }}" type="text/javascript">
 </script>
+<script charset="UTF-8" src="{{ asset('js/wysihtml5-0.3.0.js') }}" type="text/javascript">
+</script>
+<script charset="UTF-8" src="{{ asset('js/prettify.js') }}" type="text/javascript">
+</script>
+<script charset="UTF-8" src="{{ asset('js/bootstrap-wysihtml5.js') }}" type="text/javascript">
+</script>
 <script type="text/javascript">
     $('.form_datetime').datetimepicker({
         weekStart: 1,
@@ -141,4 +153,10 @@
         maxView: 1,
         forceParse: 0
     });
+</script>
+<script>
+    $('.textarea').wysihtml5();
+</script>
+<script charset="utf-8" type="text/javascript">
+    $(prettyPrint);
 </script>

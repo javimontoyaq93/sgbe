@@ -70,7 +70,7 @@
                                                 Descripción*
                                             </label>
                                             <div class="col-md-6">
-                                                <textarea class="form-control" cols="50" id="descripcion" name="descripcion" required="" rows="3">
+                                                <textarea class="textarea" cols="20" id="descripcion" name="descripcion" required="" rows="5" style="width: 100%">
                                                     {{ $ofertaEmpleo->descripcion }}
                                                 </textarea>
                                             </div>
