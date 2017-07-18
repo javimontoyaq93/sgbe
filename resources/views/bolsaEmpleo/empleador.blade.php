@@ -67,12 +67,12 @@
                                         <select class="form-control" name="actividad_economica">
                                             @foreach($actividades_economicas as $item)
                                    @if($item->id==$empleador->actividad_economica)
-                                            <option selected="selected" value="{{$item->id}}">
-                                                {{ucfirst($item->descripcion)}}
+                                            <option selected="selected" style="text-transform:capitalize;" value="{{$item->id}}">
+                                                {{strtoupper($item->descripcion)}}
                                             </option>
                                             @else
-                                            <option value="{{$item->id}}">
-                                                {{ucfirst($item->descripcion)}}
+                                            <option style="text-transform:capitalize;" value="{{$item->id}}">
+                                                {{strtoupper($item->descripcion)}}
                                             </option>
                                             @endif
                                     @endforeach
