@@ -110,7 +110,7 @@
                         Descripción
                     </label>
                     <div class="col-md-6">
-                        <textarea class="form-control" id="descripcion" name="descripcion" required="">
+                        <textarea class="textarea" id="descripcion" name="descripcion" required="">
                             {{$vacante->descripcion }}
                         </textarea>
                     </div>
