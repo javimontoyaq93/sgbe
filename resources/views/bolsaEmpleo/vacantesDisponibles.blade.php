@@ -103,7 +103,9 @@ echo $diff->
                                     Descipción
                                 </th>
                                 <td>
-                                    {{ $vd->descripcion}}
+                                    <span style="display: block;/home/jorgemalla/Descargas/iconojm1.jpg">
+                                        {{ $vd->descripcion}}
+                                    </span>
                                 </td>
                             </tr>
                         </table>

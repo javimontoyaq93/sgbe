@@ -67,12 +67,12 @@
                                         <select class="form-control" name="actividad_economica">
                                             @foreach($actividades_economicas as $item)
                                    @if($item->id==$empleador->actividad_economica)
-                                            <option selected="selected" value="{{$item->id}}">
-                                                {{ucfirst($item->descripcion)}}
+                                            <option selected="selected" style="text-transform:capitalize;" value="{{$item->id}}">
+                                                {{strtoupper($item->descripcion)}}
                                             </option>
                                             @else
-                                            <option value="{{$item->id}}">
-                                                {{ucfirst($item->descripcion)}}
+                                            <option style="text-transform:capitalize;" value="{{$item->id}}">
+                                                {{strtoupper($item->descripcion)}}
                                             </option>
                                             @endif
                                     @endforeach
@@ -86,6 +86,7 @@
                                     <div class="col-md-6">
                                         <select class="form-control" name="tipo_identificacion">
                                             @foreach($tipos_documentos as $item)
+                                         @if($item->nombre!="PASAPORTE")    
                                        @if($item->id==$empleador->tipo_identificacion)
                                             <option selected="selected" value="{{$item->id}}">
                                                 {{$item->descripcion}}
@@ -94,6 +95,7 @@
                                             <option value="{{$item->id}}">
                                                 {{$item->descripcion}}
                                             </option>
+                                            @endif
                                             @endif
                                         @endforeach
                                         </select>
@@ -104,7 +106,7 @@
                                         Número de Identificación*
                                     </label>
                                     <div class="col-md-6">
-                                        <input autofocus="" class="form-control" id="numero_identificacion" name="numero_identificacion" required="" type="text" value="{{$empleador->numero_identificacion }}">
+                                        <input autofocus="" class="form-control" id="numero_identificacion" name="numero_identificacion" required="" type="number" value="{{$empleador->numero_identificacion }}">
                                             @if ($errors->has('numero_identificacion'))
                                             <span class="help-block">
                                                 <strong>

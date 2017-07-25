@@ -34,7 +34,7 @@
         </meta>
     </head>
 </html>
-<body>
+<body style="background-color: #F2F3F4">
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
@@ -98,6 +98,16 @@
                 </div>
             </div>
         </nav>
+        <div id="page-header" style="border-color: #ddd">
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="pull-left">
+                        <img height="20px" src="/images/iconojm1.jpg" width="150px">
+                        </img>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 @endif
