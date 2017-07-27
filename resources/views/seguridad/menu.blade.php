@@ -1,6 +1,6 @@
 <ul class="nav nav-pills nav-stacked well">
-    <li class="active">
-        <a href="#">
+    <li>
+        <a class="active" href="#">
             Home
         </a>
     </li>

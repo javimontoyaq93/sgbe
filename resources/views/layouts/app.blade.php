@@ -18,15 +18,15 @@
         ]) !!};
                             </script>
                         </link>
-                        <link href="{{ asset('bootstrap/css/bootstrap.css') }}" media="screen" rel="stylesheet">
-                        </link>
-                        <link href="{{ asset('css/bootstrap-datetimepicker.css') }}" media="screen" rel="stylesheet">
-                        </link>
-                        <link href="{{ asset('css/prettify.css') }}" media="screen" rel="stylesheet">
-                        </link>
-                        <link href="{{ asset('css/wysiwyg-color.css') }}" media="screen" rel="stylesheet">
-                        </link>
-                        <link href="{{ asset('css/bootstrap-wysihtml5.css') }}" media="screen" rel="stylesheet">
+                        <link href="{{ asset('css/style.css') }}" media="screen" rel="stylesheet">
+                            <link href="{{ asset('css/bootstrap-datetimepicker.css') }}" media="screen" rel="stylesheet">
+                            </link>
+                            <link href="{{ asset('css/prettify.css') }}" media="screen" rel="stylesheet">
+                            </link>
+                            <link href="{{ asset('css/wysiwyg-color.css') }}" media="screen" rel="stylesheet">
+                            </link>
+                            <link href="{{ asset('css/bootstrap-wysihtml5.css') }}" media="screen" rel="stylesheet">
+                            </link>
                         </link>
                     </meta>
                 </meta>
@@ -61,7 +61,7 @@
                     <ul class="nav navbar-nav">
                     </ul>
                     <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
+                    <ul class="nav navbar-nav pull-right">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
                         <li class="dropdown">
@@ -94,27 +94,28 @@
                                 </form>
                             </li>
                         </li>
+                        @endif
                     </ul>
                 </div>
             </div>
         </nav>
-        <div id="page-header" style="border-color: #ddd">
+        <div class="header" id="page-header">
             <div class="container-fluid">
                 <div class="row-fluid">
                     <div class="pull-left">
-                        <img height="20px" src="/images/iconojm1.jpg" width="150px">
+                        <img height="120px" src="/images/iconojm1.jpg" width="200px">
                         </img>
                     </div>
                 </div>
             </div>
         </div>
+        <br>
+            <div>
+                @yield('content')
+            </div>
+        </br>
     </div>
 </body>
-@endif
-<br/>
-<div>
-    @yield('content')
-</div>
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}">
 </script>
