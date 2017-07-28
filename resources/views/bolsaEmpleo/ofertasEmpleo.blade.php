@@ -33,7 +33,13 @@
                             @foreach($ofertasEmpleo as $ofertaEmpleo )
                             <tr>
                                 <td>
-                                    {{ $ofertaEmpleo->descripcion }}
+                                    <?php
+                                  $descripcion = strip_tags($ofertaEmpleo->
+                                    descripcion, "
+                                    <br/>
+                                    ");
+echo $descripcion;                                        
+                                        ?>
                                 </td>
                                 <td>
                                     {{ $ofertaEmpleo->fecha_inicio }}

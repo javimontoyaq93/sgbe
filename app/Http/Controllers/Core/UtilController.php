@@ -24,7 +24,7 @@ class UtilController extends Controller
 
     public function crearGruposUsuario()
     {
-        $handle = fopen('/home/jorgemalla/Documentos/SGBE/grupos.csv', "r");
+        $handle = fopen('/home/jorgemalla/Documentos/Proyectos/SGBE/grupos.csv', "r");
         $header = true;
 
         while ($csvLine = fgetcsv($handle, 1000, ";")) {
@@ -75,7 +75,7 @@ class UtilController extends Controller
 
     public function crearMenu()
     {
-        $handle = fopen('/home/jorgemalla/Documentos/SGBE/menus.csv', "r");
+        $handle = fopen('/home/jorgemalla/Documentos/Proyectos/SGBE/menus.csv', "r");
         $header = true;
 
         while ($csvLine = fgetcsv($handle, 1000, ";")) {
@@ -98,7 +98,7 @@ class UtilController extends Controller
     }
     public function crearCatalogos()
     {
-        $handle = fopen('/home/jorgemalla/Documentos/SGBE/catalogos.csv', "r");
+        $handle = fopen('/home/jorgemalla/Documentos/Proyectos/SGBE/catalogos.csv', "r");
         $header = true;
 
         while ($csvLine = fgetcsv($handle, 1000, ";")) {
