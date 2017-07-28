@@ -10,22 +10,24 @@
                             sgbe
                         </title>
                         <!-- Styles -->
-                        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-                            <!-- Scripts -->
-                            <script>
-                                window.Laravel = {!! json_encode([
+                        <link href="{{ asset('bootstrap/css/bootstrap.css') }}" rel="stylesheet">
+                            <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+                                <!-- Scripts -->
+                                <script>
+                                    window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
         ]) !!};
-                            </script>
-                        </link>
-                        <link href="{{ asset('css/style.css') }}" media="screen" rel="stylesheet">
-                            <link href="{{ asset('css/bootstrap-datetimepicker.css') }}" media="screen" rel="stylesheet">
+                                </script>
                             </link>
-                            <link href="{{ asset('css/prettify.css') }}" media="screen" rel="stylesheet">
-                            </link>
-                            <link href="{{ asset('css/wysiwyg-color.css') }}" media="screen" rel="stylesheet">
-                            </link>
-                            <link href="{{ asset('css/bootstrap-wysihtml5.css') }}" media="screen" rel="stylesheet">
+                            <link href="{{ asset('css/style.css') }}" media="screen" rel="stylesheet">
+                                <link href="{{ asset('css/bootstrap-datetimepicker.css') }}" media="screen" rel="stylesheet">
+                                </link>
+                                <link href="{{ asset('css/prettify.css') }}" media="screen" rel="stylesheet">
+                                </link>
+                                <link href="{{ asset('css/wysiwyg-color.css') }}" media="screen" rel="stylesheet">
+                                </link>
+                                <link href="{{ asset('css/bootstrap-wysihtml5.css') }}" media="screen" rel="stylesheet">
+                                </link>
                             </link>
                         </link>
                     </meta>
@@ -34,7 +36,7 @@
         </meta>
     </head>
 </html>
-<body style="background-color: #F2F3F4">
+<body>
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
@@ -100,7 +102,7 @@
             </div>
         </nav>
         <div class="header" id="page-header">
-            <div class="container-fluid">
+            <div class="container">
                 <div class="row-fluid">
                     <div class="pull-left">
                         <img height="120px" src="/images/iconojm1.jpg" width="200px">
@@ -110,7 +112,7 @@
             </div>
         </div>
         <br>
-            <div>
+            <div class="container-fluid">
                 @yield('content')
             </div>
         </br>
