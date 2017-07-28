@@ -105,12 +105,58 @@
             <div class="container">
                 <div class="row-fluid">
                     <div class="pull-left">
-                        <img height="120px" src="/images/iconojm1.jpg" width="200px">
+                        <img height="100px" src="/imagenes/principal.jpg" width="160px">
                         </img>
                     </div>
+                    <h2 style="color: #7A0303">
+                        Bolsa de Empleo
+                    </h2>
                 </div>
             </div>
         </div>
+        <center>
+            <div class="carousel slide" data-ride="carousel" id="myCarousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li class="active" data-slide-to="0" data-target="#myCarousel">
+                    </li>
+                    <li data-slide-to="1" data-target="#myCarousel">
+                    </li>
+                    <li data-slide-to="2" data-target="#myCarousel">
+                    </li>
+                </ol>
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img height="100px" src="/imagenes/turismo.jpg" width="500px">
+                        </img>
+                    </div>
+                    <div class="item">
+                        <img height="100px" src="/imagenes/agroecologia.jpg" width="500px">
+                        </img>
+                    </div>
+                    <div class="item">
+                        <img height="100px" src="/imagenes/informatica.jpg" width="500px">
+                        </img>
+                    </div>
+                </div>
+                <!-- Left and right controls -->
+                <a class="left carousel-control" data-slide="prev" href="#myCarousel">
+                    <span class="glyphicon glyphicon-chevron-left">
+                    </span>
+                    <span class="sr-only">
+                        Previous
+                    </span>
+                </a>
+                <a class="right carousel-control" data-slide="next" href="#myCarousel">
+                    <span class="glyphicon glyphicon-chevron-right">
+                    </span>
+                    <span class="sr-only">
+                        Next
+                    </span>
+                </a>
+            </div>
+        </center>
         <br>
             <div class="container-fluid">
                 @yield('content')
