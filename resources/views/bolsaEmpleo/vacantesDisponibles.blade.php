@@ -103,9 +103,13 @@ echo $diff->
                                     Descipción
                                 </th>
                                 <td>
-                                    <span style="display: block;/home/jorgemalla/Descargas/iconojm1.jpg">
-                                        {{ $vd->descripcion}}
-                                    </span>
+                                    <?php
+                                  $descripcion = strip_tags($vd->
+                                    descripcion, "
+                                    <br/>
+                                    ");
+echo $descripcion;                                        
+                                        ?>
                                 </td>
                             </tr>
                         </table>

@@ -10,23 +10,25 @@
                             sgbe
                         </title>
                         <!-- Styles -->
-                        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-                            <!-- Scripts -->
-                            <script>
-                                window.Laravel = {!! json_encode([
+                        <link href="{{ asset('bootstrap/css/bootstrap.css') }}" rel="stylesheet">
+                            <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+                                <!-- Scripts -->
+                                <script>
+                                    window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
         ]) !!};
-                            </script>
-                        </link>
-                        <link href="{{ asset('bootstrap/css/bootstrap.css') }}" media="screen" rel="stylesheet">
-                        </link>
-                        <link href="{{ asset('css/bootstrap-datetimepicker.css') }}" media="screen" rel="stylesheet">
-                        </link>
-                        <link href="{{ asset('css/prettify.css') }}" media="screen" rel="stylesheet">
-                        </link>
-                        <link href="{{ asset('css/wysiwyg-color.css') }}" media="screen" rel="stylesheet">
-                        </link>
-                        <link href="{{ asset('css/bootstrap-wysihtml5.css') }}" media="screen" rel="stylesheet">
+                                </script>
+                            </link>
+                            <link href="{{ asset('css/style.css') }}" media="screen" rel="stylesheet">
+                                <link href="{{ asset('css/bootstrap-datetimepicker.css') }}" media="screen" rel="stylesheet">
+                                </link>
+                                <link href="{{ asset('css/prettify.css') }}" media="screen" rel="stylesheet">
+                                </link>
+                                <link href="{{ asset('css/wysiwyg-color.css') }}" media="screen" rel="stylesheet">
+                                </link>
+                                <link href="{{ asset('css/bootstrap-wysihtml5.css') }}" media="screen" rel="stylesheet">
+                                </link>
+                            </link>
                         </link>
                     </meta>
                 </meta>
@@ -34,7 +36,7 @@
         </meta>
     </head>
 </html>
-<body style="background-color: #F2F3F4">
+<body>
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
@@ -61,7 +63,7 @@
                     <ul class="nav navbar-nav">
                     </ul>
                     <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
+                    <ul class="nav navbar-nav pull-right">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
                         <li class="dropdown">
@@ -94,27 +96,28 @@
                                 </form>
                             </li>
                         </li>
+                        @endif
                     </ul>
                 </div>
             </div>
         </nav>
-        <div id="page-header" style="border-color: #ddd">
-            <div class="container-fluid">
+        <div class="header" id="page-header">
+            <div class="container">
                 <div class="row-fluid">
                     <div class="pull-left">
-                        <img height="20px" src="/images/iconojm1.jpg" width="150px">
+                        <img height="120px" src="/images/iconojm1.jpg" width="200px">
                         </img>
                     </div>
                 </div>
             </div>
         </div>
+        <br>
+            <div class="container-fluid">
+                @yield('content')
+            </div>
+        </br>
     </div>
 </body>
-@endif
-<br/>
-<div>
-    @yield('content')
-</div>
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}">
 </script>
