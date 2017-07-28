@@ -122,6 +122,8 @@
                     </li>
                     <li data-slide-to="1" data-target="#myCarousel">
                     </li>
+                    <li data-slide-to="2" data-target="#myCarousel">
+                    </li>
                 </ol>
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner">
@@ -131,6 +133,10 @@
                     </div>
                     <div class="item">
                         <img height="100px" src="/imagenes/agroecologia.jpg" width="500px">
+                        </img>
+                    </div>
+                    <div class="item">
+                        <img height="100px" src="/imagenes/informatica.jpg" width="500px">
                         </img>
                     </div>
                 </div>
