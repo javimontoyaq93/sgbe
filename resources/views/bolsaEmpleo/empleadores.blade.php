@@ -10,6 +10,15 @@
                     </h3>
                 </div>
                 <div class="panel-body">
+                    <div class="form-group">
+                        <form action="{{ route('buscar-empleador') }}" class="form-horizontal" method="POST" role="form">
+                            {{ csrf_field() }}
+                            <input id="filtro" name="filtro" type="text">
+                            </input>
+                            <input class="btn btn-primary" name="btn-buscar" type="submit" value="Buscar">
+                            </input>
+                        </form>
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover" id="table-empleadores">
                             <thead>

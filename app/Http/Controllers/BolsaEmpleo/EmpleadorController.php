@@ -32,6 +32,11 @@ class EmpleadorController extends Controller
      * Permite mostrar los empleadores creados
      *
      */
+    public function buscar(Request $request)
+    {
+        $empleadores = Empleador::where('eliminado', false)->where('razon_social', 'like', '%' . $request->filtro . '%')->orWhere('numero_identificacion', 'like', '%' . $request->filtro . '%')->orWhere('email', 'like', '%' . $request->filtro . '%')->paginate(DataType::PAGINATE);
+        return view('bolsaEmpleo.empleadores')->with('empleadores', $empleadores);
+    }
 
     public function index()
     {

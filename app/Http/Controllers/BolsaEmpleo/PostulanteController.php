@@ -26,6 +26,11 @@ class PostulanteController extends Controller
     {
         $this->middleware('auth');
     }
+    public function buscar(Request $request)
+    {
+        $postulantes = Postulante::where('eliminado', false)->where('nombres', 'like', '%' . $request->filtro . '%')->orWhere('numero_identificacion', 'like', '%' . $request->filtro . '%')->orWhere('apellidos', 'like', '%' . $request->filtro . '%')->orWhere('email', 'like', '%' . $request->filtro . '%')->paginate(DataType::PAGINATE);
+        return view('bolsaEmpleo.postulantes')->with('postulantes', $postulantes);
+    }
     public function index()
     {
         $usuario          = Session::get(Auth::user()->name);
